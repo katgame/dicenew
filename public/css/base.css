@@ -1,0 +1,12 @@
+
+.ui-controls {
+	position: absolute;
+	width: 100%;
+	max-width: 500px;
+	font-family: inherit;
+	user-select: none;
+	line-height: 1.5;
+	padding: 10px;
+
+	top: 0rem;
+}

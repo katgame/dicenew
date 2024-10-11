@@ -1,0 +1,8 @@
+{
+    "connectionString": "mongodb://localhost:27017/dice",
+    "secret": "CODEWITHMICKEY",
+    "redishost":"localhost",
+    "redishostprod":"redis.codewithmickey.com",
+    "redisport":6379
+}
+
