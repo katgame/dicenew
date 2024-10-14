@@ -7,11 +7,13 @@ class Communication {
   io;
   redisClient;
   aGames;
+  sharedContent;
   constructor() {
     // pickup values from Singleton Model class
     this.io = oModel.io;
     this.redisClient = oModel.redisClient;
     this.aGames = oModel.games;
+    this.sharedContent = null;
     //console.log(this.redisClient,"From Communicator")
   }
 
@@ -30,6 +32,14 @@ class Communication {
           this.io.to(data.gameId).emit("lobbyupdated", gameData.players);
         });
       });
+
+      if (!this.sharedContent) {
+        this.sharedContent = this.generateSharedContent();
+      }
+    
+      // Emit the shared content to all clients
+      socket.emit('updateContent', this.sharedContent);
+    
 
       socket.on("lobbyupdated", (data) => {
         var oGame = this.findAndGetGame(data.gameId);
@@ -192,6 +202,10 @@ class Communication {
       }
     }
     return null;
+  }
+
+  generateSharedContent() {
+    return 'This is the shared content';
   }
 
   // rolldice(gameId) {

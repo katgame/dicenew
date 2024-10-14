@@ -9,15 +9,6 @@ const socket = io();
 
 
 let renderer, scene, camera, diceMesh, physicsWorld;
-class DiceObject {
-    constructor(position, rotation1,rotation2,quaternion,forceNumber ) {
-      this.position = position;
-      this.rotation1 = rotation1;
-      this.rotation2 = rotation2;
-      this.quaternion = quaternion;
-      this.forceNumber = forceNumber;
-    }
-  }
 
 const params = {
     numberOfDice: 2,
@@ -316,82 +307,32 @@ function updateSceneSize() {
 
 function throwDice() {
     scoreResult.innerHTML = '';
-    socket.emit('scoreResult', '');
-    let diceDataObject = [];
-    let dicedata = new DiceObject();
+
     diceArray.forEach((d, dIdx) => {
 
         d.body.velocity.setZero();
         d.body.angularVelocity.setZero();
+
         d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
-        dicedata.position =  d.body.position;
         d.mesh.position.copy(d.body.position);
-        const rotation1 =Math.random();
-        dicedata.rotation1 = rotation1;
-        const rotation2  =Math.random();
-        dicedata.rotation2 =  rotation2;
-        d.mesh.rotation.set(5, 0, 7)
+
+        d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
         d.body.quaternion.copy(d.mesh.quaternion);
-        dicedata.quaternion = d.mesh.quaternion;
-        const forceNumber = Math.random();
-        dicedata.forceNumber = forceNumber;
-        const force = 3 + 5 * forceNumber;
+
+        const force = 3 + 5 * Math.random();
         d.body.applyImpulse(
             new CANNON.Vec3(-force, force, 0),
             new CANNON.Vec3(0, 0, .2)
         );
-        diceDataObject.push(dicedata);
-     
-        dicedata = new DiceObject(); 
+
         d.body.allowSleep = true;
     });
-    socket.emit('diceroll', diceDataObject);
    
 }
 
 
 
-//Listen
-
- // Listen for drawing data from the server
- socket.on('diceroll', (data) => {
-    // console.log('data recieved', data);
-    scoreResult.innerHTML = '';
-    
-    diceArray.forEach((d, dIdx) => {
-
-        d.body.velocity.setZero();
-        d.body.angularVelocity.setZero();
-        d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
-        d.mesh.position.copy(d.body.position);
-        // console.log('d.body.position : ', d.body.position)
-        // console.log('d.mesh.position : ', d.mesh.position )
-        // const rotation1 =Math.random();
-        // //dicedata.rotation1 = rotation1;
-        // const rotation2  =Math.random();
-        // //dicedata.rotation2 =  rotation2;
-        d.mesh.rotation.set(5, 0, 7)
-        d.body.quaternion.copy(d.mesh.quaternion);
-      //  dicedata.quaternion = d.mesh.quaternion;
-        const forceNumber = data[dIdx].forceNumber;
-      //  dicedata.forceNumber = forceNumber;
-        const force = 3 + 5 * forceNumber;
-        d.body.applyImpulse(
-            new CANNON.Vec3(-force, force, 0),
-            new CANNON.Vec3(0, 0, .2)
-        );
-        //diceDataObject.push(dicedata);
-       // dicedata = new DiceObject(); 
-        d.body.allowSleep = true;
-    });
-});
-
-
-
-
 function initSocketIO(){
-   
-
    
     socket.on("throwdice",function (data) {
         console.log('throwDice  hit from main js');
@@ -399,15 +340,13 @@ function initSocketIO(){
     });
 
     socket.on('scoreResult', (data) => {
-        // console.log('scoreResult : ' , data);
-        // console.log('scoreResult.innerHTML : ' , scoreResult.innerHTML + 'length:', scoreResult.innerHTML.length);
-       // if(scoreResult.innerHTML.length > 3)
         if (scoreResult.innerHTML === '') {
             scoreResult.innerHTML += data;
         } else {
             scoreResult.innerHTML += ('+' + data);
         }
     });
+
 }
 
 initSocketIO();

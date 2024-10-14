@@ -45,6 +45,7 @@ console.log('views path' +  + app.get("views"))
 
 // Add middlewares
 //app.use('/', routes);
+
 app.get("/throwdice/:gameId", (req, res) => {
   const gameId = req.params.gameId;
   io.emit('throwdice',{'gameID':gameId})
@@ -55,18 +56,10 @@ app.get("/throwdice/:gameId", (req, res) => {
 
 app.get('/room/:roomId', (req, res) => {
   const roomId = req.params.roomId;
-  // Example data, replace this with the actual sessions from your aGames array
-  // const games = oModel.games.map(game => {
-  //   return {
-  //     id: game.id,
-  //     players: game.instance.players || [],
-  //     status: game.instance.status || 'Active' // Or whatever status field you have
-  //   };
-  // });
-
-  // Render the sessions.ejs view and pass the games data
   res.render('room', { roomId });
 });
+
+
 
 app.use("/user", userRoutes);
 // app.use(errorHandlers.error);
