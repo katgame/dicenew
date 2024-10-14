@@ -5,8 +5,8 @@ import * as THREE from 'three';
 const canvasEl = document.querySelector('#canvas');
 const scoreResult = document.querySelector('#score-result');
 const rollBtn = document.querySelector('#roll-btn');
+const socket = io();
 
-initSocketIO();
 
 let renderer, scene, camera, diceMesh, physicsWorld;
 class DiceObject {
@@ -20,7 +20,7 @@ class DiceObject {
   }
 
 const params = {
-    numberOfDice: 3,
+    numberOfDice: 2,
     segments: 40,
     edgeRadius: .07,
     notchRadius: .12,
@@ -390,13 +390,11 @@ function throwDice() {
 
 
 function initSocketIO(){
-    socket = io.connect('http://localhost:8082/', {
-        
-        transports: ['websocket']
-    });
+   
 
    
-    socket.on('throwDice', (data) => {
+    socket.on("throwdice",function (data) {
+        console.log('throwDice  hit from main js');
         throwDice();
     });
 
@@ -411,3 +409,5 @@ function initSocketIO(){
         }
     });
 }
+
+initSocketIO();

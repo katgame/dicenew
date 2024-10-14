@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="css/base.css" />
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
-    <script>
+    <!-- <script>
         document.documentElement.className = "js";
         var supportsCssVars = function () {
             var e, t = document.createElement("style");
@@ -37,10 +37,12 @@
          }
        </script>
      <script src="https://tympanus.net/codrops/adpacks/cda_sponsor.js"></script>
-     <script type="module" src="js/main.js"></script>
+     <script type="module" src="js/main.js"></script> -->
      <!-- <script>
-         const socket = io();
- 
+         const socket = io.connect('http://localhost:8082/', {
+            
+            transports: ['websocket']
+        });
  
          // Listen for the "throwDice" event from the server
          socket.on('throwDice', () => {
@@ -125,7 +127,9 @@
             </div>
         </div>
     </div>
-    <div id="dicecanvas" class="col-sm-12" style="display: none;">
+
+    <iframe src="http://localhost:8082/room/799bxg20Z" title="W3Schools Free Online Web Tutorials"></iframe>
+    <!-- <div id="dicecanvas" class="col-sm-12" >
         <div class="content">
             <canvas id="canvas"></canvas>
             <div class="ui-controls">
@@ -133,7 +137,7 @@
                 <button id="roll-btn">Throw the dice</button>
             </div>
         </div>
-    </div>
+    </div> -->
    
 </body>
 

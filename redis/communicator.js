@@ -171,10 +171,11 @@ class Communication {
       });
 
       socket.on("rolldice", (data) => {
+        console.log("rolldice hit");
         var oGame = this.findAndGetGame(data.gameID);
-        this.io.to(data.gameId).emit("throwDice");
+        this.io.socket.emit('throwdice',{'gameID':gameId})
         oGame.playTurn();
-        
+        console.log("rolldice completed");
       });
 
       socket.on("disconnect", function () {
@@ -193,6 +194,14 @@ class Communication {
     return null;
   }
 
+  // rolldice(gameId) {
+  //   console.log('roll dice hit with : ' , gameId)
+  //   this.io.on("connection", (socket) => {
+  //     console.log('connection entered: ')
+  //   //  this.io.to(gameId).emit("rolldice", gameId);
+  //     socket.emit('rolldice',{'gameID':gameId})
+  //   });
+  // }
 }
 
 module.exports = Communication;

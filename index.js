@@ -12,6 +12,8 @@ var oModel = require("./model");
 var Game = require("./redis/creategame");
 var aGames = [];
 var redis = require("redis");
+const { fileURLToPath } = require("url");
+
 //var routes = require('./routes/templateroutes');
 var userRoutes = require("./routes/users.controller");
 var redisClient = redis.createClient(config.redisport, config.redishost);
@@ -32,13 +34,43 @@ oModel.games = aGames;
 // Add middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Set EJS as the template engine
+
+
 app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "public/views"));
+app.set("view engine", "ejs");
+console.log('views path' +  + app.get("views"))
 
 // Add middlewares
 //app.use('/', routes);
+app.get("/throwdice/:gameId", (req, res) => {
+  const gameId = req.params.gameId;
+  io.emit('throwdice',{'gameID':gameId})
+  res.json({
+    message: "Dice thrown successfully!",
+  });
+});
+
+app.get('/room/:roomId', (req, res) => {
+  const roomId = req.params.roomId;
+  // Example data, replace this with the actual sessions from your aGames array
+  // const games = oModel.games.map(game => {
+  //   return {
+  //     id: game.id,
+  //     players: game.instance.players || [],
+  //     status: game.instance.status || 'Active' // Or whatever status field you have
+  //   };
+  // });
+
+  // Render the sessions.ejs view and pass the games data
+  res.render('room', { roomId });
+});
+
 app.use("/user", userRoutes);
-app.use(errorHandlers.error);
-app.use(errorHandlers.notFound);
+// app.use(errorHandlers.error);
+// app.use(errorHandlers.notFound);
 
 
 

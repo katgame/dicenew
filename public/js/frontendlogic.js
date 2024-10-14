@@ -223,6 +223,8 @@
     function onRollDice() {
         $('#playertimer').text("0");
         socket.emit('rolldice',{'gameID':GameRoom})
+        //socket.emit('throwdice',{'gameID':GameRoom})
+       //document.getElementById('roll-btn').click();
     }
 
     function onGameStart(obj, evtName, data){
@@ -311,6 +313,13 @@
             oLobby.updateLobby(data);
         })
 
+        // socket.on('throwDice', (data) => {
+
+        //     console.log('throwDice  hit from front end logic js ');
+          
+        // });
+    
+
         // gameplay sockets
 
         socket.on('rejoingameroom',function(data) {
@@ -319,7 +328,7 @@
 
         socket.on('startgame',function(data){
             // show gameplay screen and hide all other screens
-
+            console.log('startgame  hit just for testing');
             
             $("#start,#joinroomcontrols,#lobby,#gameroom,#loginFormContainer,#lobby").hide();
             $("#gameroom").show();
