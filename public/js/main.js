@@ -5,7 +5,10 @@ import * as THREE from 'three';
 const canvasEl = document.querySelector('#canvas');
 const scoreResult = document.querySelector('#score-result');
 const rollBtn = document.querySelector('#roll-btn');
-const socket = io();
+const socket = io.connect('http://localhost:8082/', {
+            
+    transports: ['websocket']
+});
 
 
 let renderer, scene, camera, diceMesh, physicsWorld;
@@ -22,12 +25,29 @@ const diceArray = [];
 
 initPhysics();
 initScene();
+function emitRollDice() {
+    console.log('emitRollDice hit');
+    const rotation1 = Math.random();
+    console.log('rotation1 :' , rotation1 );
+    const rotation2 = Math.random();
+    console.log('rotation2 :' , rotation2 );
+    const force = Math.random();
+    console.log('force :' , force );
 
+    const userAction = async () => {
+        const response = await fetch('http://localhost:8082/throwdice/5klnoZEYi');
+        const myJson = await response.json(); //extract JSON from the http response
+        // do something with myJson
+      }
+ 
+  //  socket.emit("emitdice",{rotation1:rotation1,rotation2 :rotation2,force: force});
+    //socket.emit('emitdice',{'rotation1':rotation1,'rotation2':rotation2,'force':force})
+}
 window.addEventListener('resize', updateSceneSize);
 window.addEventListener('dblclick', throwDice);
 rollBtn.addEventListener('click', ()=>{
-    throwDice();
-   
+    //throwDice();
+     emitRollDice();
 } );
 
 function initScene() {
@@ -273,16 +293,22 @@ function addDiceEvents(dice) {
 }
 
 function showRollResults(score) {
+    console.log('showRollResults ' )
     let first, second;
     if (scoreResult.innerHTML === '') {
         scoreResult.innerHTML += score;
         first = score;
     } else {
+       
         scoreResult.innerHTML += ('+' + score);
+        console.log('showRollResults else score : ' +   scoreResult.innerHTML )
+        socket.emit("scoreResult",{score: scoreResult.innerHTML});
         second = score;
     }
 
     if (first && second) {
+        console.log('first second entered : ' )
+      
         window.parent.postMessage({ type: 'READY', data: 'Iframe is loaded', first: first, second:second }, '*');
     }
 }
@@ -305,7 +331,7 @@ function updateSceneSize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function throwDice() {
+function throwDice(rotation1, rotation2,forceMath) {
     scoreResult.innerHTML = '';
 
     diceArray.forEach((d, dIdx) => {
@@ -316,10 +342,10 @@ function throwDice() {
         d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
         d.mesh.position.copy(d.body.position);
 
-        d.mesh.rotation.set(2 * Math.PI * Math.random(), 0, 2 * Math.PI * Math.random())
+        d.mesh.rotation.set(2 * Math.PI * rotation1, 0, 2 * Math.PI * rotation2)
         d.body.quaternion.copy(d.mesh.quaternion);
 
-        const force = 3 + 5 * Math.random();
+        const force = 3 + 5 * forceMath;
         d.body.applyImpulse(
             new CANNON.Vec3(-force, force, 0),
             new CANNON.Vec3(0, 0, .2)
@@ -335,17 +361,20 @@ function throwDice() {
 function initSocketIO(){
    
     socket.on("throwdice",function (data) {
+
+    
         console.log('throwDice  hit from main js');
-        throwDice();
+        console.log('data :' , data) ;
+        throwDice(data.rotation1,data.rotation2, data.force);
     });
 
-    socket.on('scoreResult', (data) => {
-        if (scoreResult.innerHTML === '') {
-            scoreResult.innerHTML += data;
-        } else {
-            scoreResult.innerHTML += ('+' + data);
-        }
-    });
+    // socket.on('scoreResult', (data) => {
+    //     if (scoreResult.innerHTML === '') {
+    //         scoreResult.innerHTML += data;
+    //     } else {
+    //         scoreResult.innerHTML += ('+' + data);
+    //     }
+    // });
 
 }
 

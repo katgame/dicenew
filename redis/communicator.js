@@ -1,19 +1,18 @@
 var oModel = require("../model");
 var shortid = require("shortid");
 var userService = require("../services/user.service");
+var validationService = require("../services/validation-service");
 var Game = require("./creategame");
 
 class Communication {
   io;
   redisClient;
   aGames;
-  sharedContent;
   constructor() {
     // pickup values from Singleton Model class
     this.io = oModel.io;
     this.redisClient = oModel.redisClient;
     this.aGames = oModel.games;
-    this.sharedContent = null;
     //console.log(this.redisClient,"From Communicator")
   }
 
@@ -32,14 +31,6 @@ class Communication {
           this.io.to(data.gameId).emit("lobbyupdated", gameData.players);
         });
       });
-
-      if (!this.sharedContent) {
-        this.sharedContent = this.generateSharedContent();
-      }
-    
-      // Emit the shared content to all clients
-      socket.emit('updateContent', this.sharedContent);
-    
 
       socket.on("lobbyupdated", (data) => {
         var oGame = this.findAndGetGame(data.gameId);
@@ -79,6 +70,7 @@ class Communication {
             inroom: gameID,
             myID: data.id,
             isAdmin: true,
+            activeRound: false,
           });
           //socket.emit('roomcreated', { 'room': gameID })
           socket.to(gameID).emit("playerjoined", data);
@@ -101,6 +93,7 @@ class Communication {
         data.all.id = myID;
         data.all.currentScore = 0;
         data.all.turn = "";
+        data.all.activeRound = false;
 
         socket.join(data.gameID);
         //  add player to game data
@@ -155,10 +148,10 @@ class Communication {
       socket.on("rejoingameplay", (data) => {
         console.log("join game in gameplay", data);
         var oGame = this.findAndGetGame(data.gameId);
-        //oGame.startGame();
-        //userService.updateGameStatsToGamePlay(data.gameID);
+        // oGame.startGame();
+        // userService.updateGameStatsToGamePlay(data.gameID);
 
-        //this.io.to(data.gameID).emit("startgame",oGame.getGameData().players)
+        // this.io.to(data.gameID).emit("startgame",oGame.getGameData().players)
         socket.join(data.gameId);
         oGame.getGameData((gameData) => {
           socket.emit("startgame", gameData.players);
@@ -181,13 +174,17 @@ class Communication {
       });
 
       socket.on("rolldice", (data) => {
-        console.log("rolldice hit");
         var oGame = this.findAndGetGame(data.gameID);
-        this.io.socket.emit('throwdice',{'gameID':gameId})
         oGame.playTurn();
-        console.log("rolldice completed");
       });
 
+      socket.on("scoreResult", (data) => {
+        console.log("scoreResult : ", data);
+      });
+
+      socket.on("emitdice", (data) => {
+        console.log("emitdice hit communication:", data);
+      });
       socket.on("disconnect", function () {
         console.log("user disconnected ");
       });
@@ -203,19 +200,6 @@ class Communication {
     }
     return null;
   }
-
-  generateSharedContent() {
-    return 'This is the shared content';
-  }
-
-  // rolldice(gameId) {
-  //   console.log('roll dice hit with : ' , gameId)
-  //   this.io.on("connection", (socket) => {
-  //     console.log('connection entered: ')
-  //   //  this.io.to(gameId).emit("rolldice", gameId);
-  //     socket.emit('rolldice',{'gameID':gameId})
-  //   });
-  // }
 }
 
 module.exports = Communication;

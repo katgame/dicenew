@@ -47,8 +47,16 @@ console.log('views path' +  + app.get("views"))
 //app.use('/', routes);
 
 app.get("/throwdice/:gameId", (req, res) => {
+  console.log('throwdice hit api');
   const gameId = req.params.gameId;
-  io.emit('throwdice',{'gameID':gameId})
+  console.log('emitRollDice hit');
+  const rotation1 = Math.random();
+  console.log('rotation1 :' , rotation1 );
+  const rotation2 = Math.random();
+  console.log('rotation2 :' , rotation2 );
+  const force = Math.random();
+  console.log('force :' , force );
+  io.emit('throwdice',{'rotation1':rotation1, 'rotation2' : rotation2, 'force' :force})
   res.json({
     message: "Dice thrown successfully!",
   });
@@ -58,6 +66,11 @@ app.get('/room/:roomId', (req, res) => {
   const roomId = req.params.roomId;
   res.render('room', { roomId });
 });
+
+app.get('/rooms', (req, res) => {
+  return  oModel;
+});
+
 
 
 

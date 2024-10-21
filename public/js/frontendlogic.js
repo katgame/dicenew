@@ -160,7 +160,7 @@
         $('#joinroomcontrols').hide();
         $("#leaveGameBtn").show();
         var userData = JSON.parse(sessionStorage.getItem('userData'));
-        socket.emit('joingame',{'all':{'name':userData.userName,'score':0,'state':'idle','type':'member'},'gameID':$('#roomid').val(),'_id':userData._id});
+        socket.emit('joingame',{'all':{'name':userData.userName,'score':0,'state':'idle','type':'member', 'activeRound' : 'false'},'gameID':$('#roomid').val(),'_id':userData._id});
     }
 
     function onJoinRoom(){
@@ -174,7 +174,7 @@
         $("#leaveGameBtn").show();
         var userData = JSON.parse(sessionStorage.getItem('userData'));
         console.log("adgadg userData",userData)
-        socket.emit('creategame',{'name':userData.userName,'score':0,'state':'ready','type':'room-admin','_id':userData._id})
+        socket.emit('creategame',{'name':userData.userName,'score':0,'state':'ready','type':'room-admin','_id':userData._id, 'activeRound' : 'false'})
 
     }
 
@@ -223,8 +223,28 @@
     function onRollDice() {
         $('#playertimer').text("0");
         socket.emit('rolldice',{'gameID':GameRoom})
+        makeDiceCall();
         //socket.emit('throwdice',{'gameID':GameRoom})
        //document.getElementById('roll-btn').click();
+    }
+
+    function makeDiceCall () {
+     const apiUrl = 'http://localhost:8082/throwdice/5klnoZEYi';
+
+// Make a GET request
+fetch(apiUrl)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
     }
 
     function onGameStart(obj, evtName, data){
@@ -293,6 +313,8 @@
         //socket.emit("checkroom",{'user':'amit123'})
         
         socket.on('joinroom',function(playerdata){
+
+            console.log('oGamePlay : ' , oGamePlay)
             console.log(playerdata,"join room");
             all = playerdata.all
             myID = playerdata.myID
@@ -313,11 +335,11 @@
             oLobby.updateLobby(data);
         })
 
-        // socket.on('throwDice', (data) => {
+        socket.on('throwdice', (data) => {
 
-        //     console.log('throwDice  hit from front end logic js ');
+            console.log('throwDice  hit from front end logic js ');
           
-        // });
+        });
     
 
         // gameplay sockets
@@ -345,7 +367,7 @@
 
         socket.on('turntimer',function(data){
             // as soon as the turn comes of a player and 00:30 sec timer starts ... the time will be displayed through this socket
-            console.log("turn timer",data)
+           // console.log("turn timer",data)
             if(data.playerID == myID)
             {
                 $('#playertimer').text(data.timer);

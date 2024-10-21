@@ -140,7 +140,9 @@ class Game{
             "players":this.aPlayers,
             "gameState":"TOSTART", // "ACTIVE" , "ENDED"
             "gameRoom":gameID,
-            "currentPlayer":this.nCurrentPlayer
+            "currentPlayer":this.nCurrentPlayer,
+            "wager": 100
+           
         }
         this.setGameData(this.oGameData)
     }
