@@ -18,6 +18,7 @@ class Game{
     nTimerCountdown = this.nMaxTime
     nTimer;
     winScore = 61;
+ 
 
     constructor(redis){
         this.oRedis = oModel.redisClient;
@@ -46,6 +47,23 @@ class Game{
         this.setGameData(this.oGameData)
     }
 
+    updatePlayerBet(id,bet){
+        this.updatePotTotal(bet);
+        for(var i=0;i<this.oGameData.players.length;i++){
+            if(this.oGameData.players[i].id == id){
+                this.oGameData.players[i].activeRound = bet;
+            }
+        }
+        this.setGameData(this.oGameData)
+    }
+
+    updatePotTotal(bet) {
+        const wager = this.oGameData.wager;
+        if(bet) {
+            this.oGameData.total += wager;
+        }
+    }
+
     computeNextTurn(){
         console.log("Computing next turn ... ")
         this.nCurrentPlayer++
@@ -67,16 +85,21 @@ class Game{
     }
     startTurnCountDown(){
         console.log("Starting Countdown Timer... ")
-        this.setPlayerTurn();
-        this.nTimer = setInterval(()=>{
-            //console.log("Running Timer... ",this.nTimerCountdown)
-            this.oIO.to(this.oGameID).emit('turntimer', {'timer':this.nTimerCountdown,'playerID':this.oGameData.players[this.nCurrentPlayer].id});
-            this.nTimerCountdown--
-            if (this.nTimerCountdown === 0) {
-                this.playTurn();
-                //clearInterval(this.nTimer);
-            }
-          }, 1000);
+        if(this.oGameData.gameState === "BETTING") {
+            console.log('please place bets');
+        } else {
+            this.setPlayerTurn();
+            this.nTimer = setInterval(()=>{
+                //console.log("Running Timer... ",this.nTimerCountdown)
+                this.oIO.to(this.oGameID).emit('turntimer', {'timer':this.nTimerCountdown,'playerID':this.oGameData.players[this.nCurrentPlayer].id});
+                this.nTimerCountdown--
+                if (this.nTimerCountdown === 0) {
+                    this.playTurn();
+                    //clearInterval(this.nTimer);
+                }
+              }, 1000);
+        }
+      
     }
 
     computePlayerScore(min, max) { // min and max included 
@@ -141,7 +164,8 @@ class Game{
             "gameState":"TOSTART", // "ACTIVE" , "ENDED"
             "gameRoom":gameID,
             "currentPlayer":this.nCurrentPlayer,
-            "wager": 100
+            "wager": 1000,
+            "total": 0
            
         }
         this.setGameData(this.oGameData)
@@ -149,7 +173,15 @@ class Game{
     
     startGame(){
         this.nMaxPlayer = this.oGameData.players.length;
-        this.oGameData.gameState = "ACTIVE"
+        //this.oGameData.gameState = "ACTIVE"
+         this.oGameData.gameState = "BETTING"
+        // start player turn timer
+        this.startTurnCountDown()
+    }
+
+    bettingRound(){
+        this.nMaxPlayer = this.oGameData.players.length;
+        this.oGameData.gameState = "BETTING"
         // start player turn timer
         this.startTurnCountDown()
     }

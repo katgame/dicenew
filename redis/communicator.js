@@ -40,6 +40,14 @@ class Communication {
         });
       });
 
+      socket.on("placebet", (data) => {
+        var oGame = this.findAndGetGame(data.gameId);
+        oGame.updatePlayerBet(data.myID, data.bet);
+        oGame.getGameData((gameData) => {
+          this.io.to(data.gameId).emit("placebet",  { 'players' : gameData.players, 'bet' :  data.bet, 'total' : data.total });
+        });
+      });
+
       socket.on("creategame", (data) => {
         console.log("create new game SSS ", data);
         // add user to DB and create new game instance

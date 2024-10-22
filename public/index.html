@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="css/base.css" />
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
- 
+
 </head>
 
 <body>
@@ -80,24 +80,20 @@
             <div id="gameroom" class="col-sm-12" style="display: none;">
                 <label>Timer: </label>
                 <div id="playertimer">00:00</div>
-                <div class="rolldice mt-4"><a id="rollbutton"><Button class="btn-primary btn-lg">Roll
-                            Dice</Button></a></div>
-                <iframe id="shared-iframe" src="http://localhost:8082/room/5klnoZEYi" width="100%"
-                    height="400"></iframe>
+                <div id="totalBet">R0</div>
+                <div class="rolldice mt-4"><a id="rollbutton">
+                        <Button class="btn-primary btn-lg">Roll
+                            Dice</Button></a>
+
+                </div>
+                <div class="rolldice mt-4">
+                    <a id="placebet"> <Button class="btn-primary btn-lg">Bet</Button></a>
+                    <a id="skip"> <Button class="btn-primary btn-lg">Skip</Button></a>
+                </div>
+                <iframe id="gameframe" width="100%" height="400"></iframe>
             </div>
         </div>
     </div>
-
-    <!-- <iframe src="http://localhost:8082/room/799bxg20Z" title="W3Schools Free Online Web Tutorials"></iframe> -->
-    <!-- <div id="dicecanvas" class="col-sm-12" >
-        <div class="content">
-            <canvas id="canvas"></canvas>
-            <div class="ui-controls">
-                <div class="score graffiti-text"> <span id="score-result"></span></div>
-                <button id="roll-btn">Throw the dice</button>
-            </div>
-        </div>
-    </div> -->
 
 </body>
 
