@@ -46,27 +46,95 @@ console.log('views path' +  + app.get("views"))
 // Add middlewares
 //app.use('/', routes);
 
-app.get("/throwdice/:gameId", (req, res) => {
-  console.log('aGames: ', aGames);
+app.get('/throwdice/:gameId', async (req, res) => {
   const gameId = req.params.gameId;
-  console.log('gameId', gameId);
+
+  // Wait for Redis data to be fetched or initialized
+  // let gameData = await redisClient.get(`game:${gameId}`);
+  // console.log('game data :' , gameData)
+  // if (!gameData) {
+  //   return res.status(404).json({ error: 'Game not found' });
+  // }
+
+  // Emit the event only after data is ready
   const rotation1 = Math.random();
-  console.log('rotation1 :' , rotation1 );
   const rotation2 = Math.random();
-  console.log('rotation2 :' , rotation2 );
   const force = Math.random();
-  console.log('force :' , force );
-  //io.to('ASMQhMmZyI').emit('throwdice',{'rotation1':rotation1, 'rotation2' : rotation2, 'force' :force});
-  io.emit('throwdice',{'rotation1':rotation1, 'rotation2' : rotation2, 'force' :force})
-  res.json({
-    message: "Dice thrown successfully!",
+
+  io.emit('throwdice', {
+    gameID :  gameId,
+    rotation1: rotation1,
+    rotation2: rotation2,
+    force: force,
   });
+
+  res.json({ message: "Dice thrown successfully!" });
 });
+
+//orginal
 
 app.get('/room/:roomId', (req, res) => {
   const roomId = req.params.roomId;
   res.render('room', { roomId });
 });
+
+// app.get('/room/:roomId', async (req, res) => {
+//   const roomId = req.params.roomId;
+
+//   // Attempt to retrieve room data from Redis
+//   try {
+//     let roomData = await redisClient.get(`room:${roomId}`);
+    
+//     if (!roomData) {
+//       // If no data exists, initialize a new room with default state
+//       roomData = {
+//         roomId: roomId,
+//         players: [], // Initial empty list of players
+//         gameState: "Waiting for players", // Initial game state
+//         createdAt: new Date().toISOString(), // Track room creation time
+//       };
+
+//       // Store the initial state in Redis, with an optional expiration time
+//       await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData)); // Expire in 1 hour
+//     } else {
+//       // Parse the existing room data
+//       roomData = JSON.parse(roomData);
+//     }
+
+//     // Render the room view using the stored or initialized room data
+//     res.render('room', { roomData });
+//   } catch (err) {
+//     console.error('Error fetching or setting room data in Redis:', err);
+//     res.status(500).send('Error loading room');
+//   }
+// });
+
+app.post('/room/:roomId/join', async (req, res) => {
+  const roomId = req.params.roomId;
+  const playerName = req.body.playerName; // Assume playerName is passed in the request
+  console.log('roomId :' , roomId)
+  console.log('playerName :' , playerName)
+  try {
+    // Retrieve the current room data
+    let roomData = await redisClient.get(`room:${roomId}`);
+    if (!roomData) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    roomData = JSON.parse(roomData);
+    roomData.players.push(playerName); // Add new player to the room
+
+    // Update the room data in Redis
+    await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData));
+
+    res.json({ message: `Player ${playerName} joined room ${roomId}` });
+  } catch (err) {
+    console.error('Error updating room data in Redis:', err);
+    res.status(500).send('Error joining room');
+  }
+});
+
+
 
 app.get('/rooms', (req, res) => {
   return  oModel;
@@ -89,7 +157,7 @@ function initServer() {
     for (var i = 0, len = keys.length; i < len; i++) {
       redisClient.get(keys[i], (err, res) => {
         var oGameData = JSON.parse(res);
-        console.log(oGameData);
+        console.log('oGameData : ', oGameData);
         console.log(oGameData.players.length);
         var oGame = new Game(this.redisClient);
         oGame.setGameDataForInit(oGameData, oGameData.gameID);

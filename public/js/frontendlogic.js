@@ -191,6 +191,7 @@
       type: "room-admin",
       _id: userData._id,
       activeRound: "false",
+      roundCount: 0,
     });
   }
   function initApplication() {
@@ -229,7 +230,7 @@
 
   function onRollDice() {
     $("#playertimer").text("0");
-    socket.emit("rolldice", { gameID: GameRoom });
+   // socket.emit("rolldice", { gameID: GameRoom });
     makeDiceCall(GameRoom);
   }
 
@@ -253,7 +254,7 @@
 
   function makeDiceCall(GameRoom) {
     const apiUrl = "http://localhost:8082/throwdice/" + GameRoom;
-    console.error("apiUrl:", apiUrl);
+    console.log("apiUrl:", apiUrl);
 
     // Make a GET request
     fetch(apiUrl)
@@ -363,7 +364,16 @@
       console.log("placebet updated, player is ready", data);
     //   $("#rollbutton").find("button").prop("disabled", false);
     //   $("#placebet").find("button").prop("disabled", true);
-      $("#totalBet").text(data.total);
+
+      if(data !== null) {
+        $("#totalBet").text(data.total);
+        if(data.gameState === 'ACTIVE') {
+        
+          $("#placebet").find("button").prop("disabled", true);
+          $("#skip").find("button").prop("disabled", true);
+        }
+      }
+    
     });
 
     

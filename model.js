@@ -14,7 +14,6 @@ class Singleton {
     set io(value) {
         this.ioInstance = value;
     }
-
     get games() {
         return this.#gamesarray;
     }

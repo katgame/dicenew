@@ -44,8 +44,12 @@ class Communication {
         var oGame = this.findAndGetGame(data.gameId);
         oGame.updatePlayerBet(data.myID, data.bet);
         oGame.getGameData((gameData) => {
-          this.io.to(data.gameId).emit("placebet",  { 'players' : gameData.players, 'bet' :  data.bet, 'total' : data.total });
+          this.io.to(data.gameId).emit("placebet",  { 'players' : gameData.players, 'total' :  gameData.total, 'gameState' : gameData.gameState });
         });
+        console.log("data.gameID." , data.gameID);
+       // var oGame = this.findAndGetGame(data.gameID);
+        console.log("oGame" , oGame);
+        oGame.playTurn('');
       });
 
       socket.on("creategame", (data) => {
@@ -79,6 +83,7 @@ class Communication {
             myID: data.id,
             isAdmin: true,
             activeRound: false,
+            roundCount: 0,
           });
           //socket.emit('roomcreated', { 'room': gameID })
           socket.to(gameID).emit("playerjoined", data);
@@ -102,6 +107,8 @@ class Communication {
         data.all.currentScore = 0;
         data.all.turn = "";
         data.all.activeRound = false;
+        data.all.roundCount = 0;
+
 
         socket.join(data.gameID);
         //  add player to game data
@@ -183,11 +190,21 @@ class Communication {
 
       socket.on("rolldice", (data) => {
         var oGame = this.findAndGetGame(data.gameID);
-        oGame.playTurn();
+        oGame.playTurn('');
       });
 
+
+
       socket.on("scoreResult", (data) => {
-        console.log("scoreResult : ", data);
+        console.log("scoreResult and ID : ", data);
+        var oGame = this.findAndGetGame(data.gameID);
+        console.log("oGame from scoreResult : ", oGame);
+        console.log("oGame.gameState : ", oGame.gameState);
+       // if(oGame.gameState === 'ACTIVE') {
+          console.log("gameState entered on active : ");
+          oGame.playTurn(data.score);
+        //}
+       
       });
 
       socket.on("emitdice", (data) => {
