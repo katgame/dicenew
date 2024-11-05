@@ -3,6 +3,10 @@ var shortid = require("shortid");
 var userService = require("../services/user.service");
 var validationService = require("../services/validation-service");
 var Game = require("./creategame");
+const https = require("https");
+const url = "http://localhost:8082/throwdice/";
+const fetch = require("node-fetch");
+
 
 class Communication {
   io;
@@ -44,12 +48,18 @@ class Communication {
         var oGame = this.findAndGetGame(data.gameId);
         oGame.updatePlayerBet(data.myID, data.bet);
         oGame.getGameData((gameData) => {
-          this.io.to(data.gameId).emit("placebet",  { 'players' : gameData.players, 'total' :  gameData.total, 'gameState' : gameData.gameState });
+          this.io
+            .to(data.gameId)
+            .emit("placebet", {
+              players: gameData.players,
+              total: gameData.total,
+              gameState: gameData.gameState,
+            });
         });
-        console.log("data.gameID." , data.gameID);
-       // var oGame = this.findAndGetGame(data.gameID);
-        console.log("oGame" , oGame);
-        oGame.playTurn('');
+        console.log("data.gameID.", data.gameID);
+        // var oGame = this.findAndGetGame(data.gameID);
+        console.log("oGame", oGame);
+        oGame.playTurn("");
       });
 
       socket.on("creategame", (data) => {
@@ -108,7 +118,6 @@ class Communication {
         data.all.turn = "";
         data.all.activeRound = false;
         data.all.roundCount = 0;
-
 
         socket.join(data.gameID);
         //  add player to game data
@@ -190,21 +199,25 @@ class Communication {
 
       socket.on("rolldice", (data) => {
         var oGame = this.findAndGetGame(data.gameID);
-        oGame.playTurn('');
+        // var oGame = this.findAndGetGame(data.gameID);
+        // oGame.playTurn('');
+        console.log("roll dice oGame: ", oGame.oGameData);
+        if (oGame.oGameData.gameState === "BETTING") {
+          console.log(" cant roll dice, betting still busy");
+        } else {
+          this.makeDiceCall(data.gameID);
+        }
       });
-
-
 
       socket.on("scoreResult", (data) => {
         console.log("scoreResult and ID : ", data);
         var oGame = this.findAndGetGame(data.gameID);
         console.log("oGame from scoreResult : ", oGame);
         console.log("oGame.gameState : ", oGame.gameState);
-       // if(oGame.gameState === 'ACTIVE') {
-          console.log("gameState entered on active : ");
-          oGame.playTurn(data.score);
+        // if(oGame.gameState === 'ACTIVE') {
+        console.log("gameState entered on active : ");
+        oGame.playTurn(data.score);
         //}
-       
       });
 
       socket.on("emitdice", (data) => {
@@ -225,6 +238,28 @@ class Communication {
     }
     return null;
   }
+
+  makeDiceCall(GameRoom) {
+    console.log("oGame play : ", this.oGamePlay);
+    const apiUrl = url + GameRoom;
+    console.log("apiUrl:", apiUrl);
+  
+    // Make a GET request
+    fetch(apiUrl)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
 }
 
+ 
 module.exports = Communication;

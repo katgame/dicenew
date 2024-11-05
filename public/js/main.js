@@ -400,11 +400,15 @@ function initSocketIO(){
     socket.on("throwdice",function (data) {
 
     
-   //     console.log('throwDice  hit from main js');
+        console.log('throwDice  hit from main js');
         console.log(' throwdice data :' , data) ;
         gameID = data.gameID;
         throwDicefromAPI(data.rotation1,data.rotation2, data.force);
     });
+
+    socket.on("throwdice", function (data) {
+        console.log('throwDice  hit from main js 1');
+      });
 
 
 }
@@ -412,4 +416,8 @@ function initSocketIO(){
 initSocketIO();
 socket.on('html_update', (data) => {
     contentDiv.innerHTML = data;
+  });
+
+  socket.on("throwdice", function (data) {
+    console.log('throwDice  hit from main js 2');
   });

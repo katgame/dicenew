@@ -1,3 +1,4 @@
+
 (function (app) {
   var socket;
   var myID;
@@ -6,6 +7,7 @@
   var myState = "idle";
   var oGamePlay;
   var iframe;
+
 
   ("use strict");
   window.addEventListener(
@@ -230,8 +232,8 @@
 
   function onRollDice() {
     $("#playertimer").text("0");
-   // socket.emit("rolldice", { gameID: GameRoom });
-    makeDiceCall(GameRoom);
+    socket.emit("rolldice", { gameID: GameRoom });
+    //makeDiceCall(GameRoom);
   }
 
   function onPlaceBet() {
@@ -253,6 +255,7 @@
   }
 
   function makeDiceCall(GameRoom) {
+    console.log( 'oGame play : ', oGamePlay)
     const apiUrl = "http://localhost:8082/throwdice/" + GameRoom;
     console.log("apiUrl:", apiUrl);
 
@@ -377,12 +380,11 @@
     });
 
     
-
-    socket.on("throwdice", (data) => {
-      console.log("throwDice  hit from front end logic js ");
-    });
-
     // gameplay sockets
+
+    socket.on("throwdice", function (data) {
+      console.log('throwDice  hit from front end js');
+    });
 
     socket.on("rejoingameroom", function (data) {
       // setup rejoin game room

@@ -151,10 +151,10 @@ class Game{
         // var score = this.computePlayerScore(1,6)
 
         // // add score to player array
-        // this.oGameData.players[this.nCurrentPlayer].currentScore = score
+         this.oGameData.players[this.nCurrentPlayer].currentScore = diceScore
         // this.oGameData.players[this.nCurrentPlayer].score += score
-        // this.setGameData(this.oGameData)
-        // this.oIO.to(this.oGameID).emit('gameplayupdate', this.oGameData.players);
+         this.setGameData(this.oGameData)
+         this.oIO.to(this.oGameID).emit('gameplayupdate', this.oGameData.players);
         // // send updated data to socket
         // // check results for win
         
@@ -190,7 +190,8 @@ class Game{
             "gameRoom":gameID,
             "currentPlayer":this.nCurrentPlayer,
             "wager": 1000,
-            "total": 0
+            "total": 0,
+            "gameType" : 3
            
         }
         this.setGameData(this.oGameData)

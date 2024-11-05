@@ -14,6 +14,7 @@ var aGames = [];
 var redis = require("redis");
 const { fileURLToPath } = require("url");
 
+
 //var routes = require('./routes/templateroutes');
 var userRoutes = require("./routes/users.controller");
 var redisClient = redis.createClient(config.redisport, config.redishost);
