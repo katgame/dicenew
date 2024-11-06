@@ -47,9 +47,9 @@ console.log('views path' +  + app.get("views"))
 // Add middlewares
 //app.use('/', routes);
 
-app.get('/throwdice/:gameId', async (req, res) => {
+app.get('/throwdice/:gameId/:clientId', async (req, res) => {
   const gameId = req.params.gameId;
-
+  const clientId = req.params.clientId;
   // Wait for Redis data to be fetched or initialized
   // let gameData = await redisClient.get(`game:${gameId}`);
   // console.log('game data :' , gameData)
@@ -67,6 +67,7 @@ app.get('/throwdice/:gameId', async (req, res) => {
     rotation1: rotation1,
     rotation2: rotation2,
     force: force,
+    clientId : clientId
   });
 
   res.json({ message: "Dice thrown successfully!" });

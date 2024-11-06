@@ -80,7 +80,7 @@ class Game{
             this.oGameData.players[i].turn = "";
         }
         this.oGameData.players[this.nCurrentPlayer].turn = " >> ";
-
+        this.oGameData.currentPlayer = this.oGameData.players[this.nCurrentPlayer]._id;
         this.oGameData.players[this.nCurrentPlayer].roundCount = this.oGameData.players[this.nCurrentPlayer].roundCount + 1;
        // console.log("Current Player is :: ",this.oGameData.players[this.nCurrentPlayer] + " and the count is :" + this.oGameData.players[this.nCurrentPlayer].roundCount )
         this.oIO.to(this.oGameID).emit('playerturn', this.oGameData.players);
@@ -133,28 +133,44 @@ class Game{
              this.validateBets() 
         } else {
             console.log('diceScore from paly turn : ' , diceScore)
-            if(this.oGameData.players[this.nCurrentPlayer].score >= this.winScore)
-                {
+            if(this.oGameData.gameType === 3) {
+                var roundEnd = this.canCalculateScore();
+                if(roundEnd) {
+                    console.log('round ended');
+                    console.log(' winner is : ' , this.getWinner() )
                     console.log("Won >>> ")
-                    this.oIO.to(this.oGameID).emit('GameWon',this.oGameData.players[this.nCurrentPlayer])
-                    // destry redis key
+                    this.oIO.to(this.oGameID).emit('GameWon',this.getWinner())
+                    //     // destry redis key
                     this.oRedis.del(this.oGameID);
                     userService.gameComplete(this.oGameID);
-                }
-                else{
+                } else {
                     console.log("Start Next Turn >>> ")
                     this.computeNextTurn();
                     this.startTurnCountDown()
+                    this.oGameData.players[this.nCurrentPlayer].currentScore = diceScore
+                    this.oGameData.players[this.nCurrentPlayer].Total = diceScore
+                     this.oGameData.players[this.nCurrentPlayer].score = eval(diceScore.split('+').join('+'))
+                     this.setGameData(this.oGameData)
+                     this.oIO.to(this.oGameID).emit('gameplayupdate', this.oGameData.players);
                 }
+            }
+           // if(this.oGameData.players[this.nCurrentPlayer].score >= this.winScore)
+            //    {
+                //     console.log("Won >>> ")
+                //     this.oIO.to(this.oGameID).emit('GameWon',this.oGameData.players[this.nCurrentPlayer])
+                //     // destry redis key
+                //     this.oRedis.del(this.oGameID);
+                //     userService.gameComplete(this.oGameID);
+                // }
+                // else{
+                
+             //   }
         }
         // play turn for a player
         // var score = this.computePlayerScore(1,6)
 
         // // add score to player array
-         this.oGameData.players[this.nCurrentPlayer].currentScore = diceScore
-        // this.oGameData.players[this.nCurrentPlayer].score += score
-         this.setGameData(this.oGameData)
-         this.oIO.to(this.oGameID).emit('gameplayupdate', this.oGameData.players);
+
         // // send updated data to socket
         // // check results for win
         
@@ -165,9 +181,28 @@ class Game{
         // start timer for the next player
     }
 
+    canCalculateScore() {
+        var scoreReady = false;
+        this.oGameData.players.forEach(player => {
+            if(player.score > 0) {
+                scoreReady = true;
+            } 
+        });
+        return scoreReady;
+    }
+    getWinner() {
+        return this.oGameData.players.reduce((maxUser, user) => 
+            user.score > maxUser.score ? user : maxUser
+          );
+           
+    }
+
+
     checkWin(){
+        var highestNumber = 0;
         for(var i=0;i<this.oGameData.players.length;i++)
         {
+            highestNumber = this.oGameData.players[i].score;
             if(this.oGameData.players[i].score >= this.winScore)
             {
                 return this.oGameData.players[i].id

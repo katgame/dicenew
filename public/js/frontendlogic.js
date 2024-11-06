@@ -7,6 +7,7 @@
   var myState = "idle";
   var oGamePlay;
   var iframe;
+  var _myID;
 
 
   ("use strict");
@@ -130,6 +131,7 @@
       $("#leaveGameBtn").show();
       // Load lobby
       myID = data.userUniqueId;
+    
       GameRoom = data.gameId;
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       socket.emit("getplayerdata", { gameId: GameRoom, userUniqueId: myID });
@@ -170,6 +172,7 @@
         state: "idle",
         type: "member",
         activeRound: "false",
+        _id: userData._id,
       },
       gameID: $("#roomid").val(),
       _id: userData._id,
@@ -232,7 +235,9 @@
 
   function onRollDice() {
     $("#playertimer").text("0");
-    socket.emit("rolldice", { gameID: GameRoom });
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    console.log('userData :' , userData)
+    socket.emit("rolldice", { gameID: GameRoom, clientID: userData._id });
     //makeDiceCall(GameRoom);
   }
 
@@ -332,6 +337,8 @@
         alert(data.name + " won the match");
       }
     });
+
+
 
     socket.on("playerjoined", function (data) {
       console.log("new player joined", data);

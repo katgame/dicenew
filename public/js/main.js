@@ -25,6 +25,7 @@ const params = {
 
 const diceArray = [];
 var gameID = '0';
+var userID = '';
 
 initPhysics();
 initScene();
@@ -302,7 +303,7 @@ function showRollResults(score) {
     
         if ((scoreResult.innerHTML.split('+').length - 1) === 1 ) {
             console.log('two dice finished  : ' +   scoreResult.innerHTML )
-            socket.emit("scoreResult",{score: scoreResult.innerHTML, gameID : gameID});
+            socket.emit("scoreResult",{score: scoreResult.innerHTML, gameID : gameID, clientId : userID});
             window.parent.postMessage({ type: 'READY', data: 'Iframe is loaded', first: first, second:second }, '*');
         }
     } else {
@@ -318,7 +319,7 @@ function showRollResults(score) {
     
         if ((scoreResult.innerHTML.split('+').length - 1) === 2 ) {
             console.log('three dice finished  : ' +   scoreResult.innerHTML )
-            socket.emit("scoreResult",{score: scoreResult.innerHTML, gameID : gameID});
+            socket.emit("scoreResult",{score: scoreResult.innerHTML, gameID : gameID, clientId : userID});
             window.parent.postMessage({ type: 'READY', data: 'Iframe is loaded', first: first, second:second }, '*');
         }
     }
@@ -398,17 +399,10 @@ function throwDicefromAPI(rotation1, rotation2,forceMath) {
 function initSocketIO(){
    
     socket.on("throwdice",function (data) {
-
-    
-        console.log('throwDice  hit from main js');
-        console.log(' throwdice data :' , data) ;
         gameID = data.gameID;
         throwDicefromAPI(data.rotation1,data.rotation2, data.force);
+        userID = data.clientId;
     });
-
-    socket.on("throwdice", function (data) {
-        console.log('throwDice  hit from main js 1');
-      });
 
 
 }
@@ -416,8 +410,4 @@ function initSocketIO(){
 initSocketIO();
 socket.on('html_update', (data) => {
     contentDiv.innerHTML = data;
-  });
-
-  socket.on("throwdice", function (data) {
-    console.log('throwDice  hit from main js 2');
   });

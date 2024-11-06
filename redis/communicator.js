@@ -23,6 +23,8 @@ class Communication {
   initSockets() {
     this.io.on("connection", (socket) => {
       console.log("a user connected .");
+
+      //socket.emit('client_id',  socket.id);
       socket.on("getplayerdata", (data) => {
         var oGame = this.findAndGetGame(data.gameId);
         oGame.getGameData((gameData) => {
@@ -33,6 +35,8 @@ class Communication {
             }
           }
           this.io.to(data.gameId).emit("lobbyupdated", gameData.players);
+      
+         // this.io.to(data.gameId).emit("client_id", data.userUniqueId);
         });
       });
 
@@ -42,6 +46,10 @@ class Communication {
         oGame.getGameData((gameData) => {
           this.io.to(data.gameId).emit("lobbyupdated", gameData.players);
         });
+      });
+
+      socket.on("client_id", (data) => {
+        socket.emit('client_id',  data);
       });
 
       socket.on("placebet", (data) => {
@@ -205,7 +213,7 @@ class Communication {
         if (oGame.oGameData.gameState === "BETTING") {
           console.log(" cant roll dice, betting still busy");
         } else {
-          this.makeDiceCall(data.gameID);
+          this.makeDiceCall(data.gameID, data.clientID);
         }
       });
 
@@ -216,8 +224,10 @@ class Communication {
         console.log("oGame.gameState : ", oGame.gameState);
         // if(oGame.gameState === 'ACTIVE') {
         console.log("gameState entered on active : ");
-        oGame.playTurn(data.score);
-        //}
+        var clientId = data.clientId;
+        if(oGame.oGameData.currentPlayer === clientId) {
+          oGame.playTurn(data.score);
+        }
       });
 
       socket.on("emitdice", (data) => {
@@ -239,9 +249,9 @@ class Communication {
     return null;
   }
 
-  makeDiceCall(GameRoom) {
+  makeDiceCall(GameRoom, ClientId) {
     console.log("oGame play : ", this.oGamePlay);
-    const apiUrl = url + GameRoom;
+    const apiUrl = url + GameRoom + '/' + ClientId;
     console.log("apiUrl:", apiUrl);
   
     // Make a GET request
