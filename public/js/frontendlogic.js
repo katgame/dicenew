@@ -287,7 +287,7 @@
     $("#leaveGameBtn").show();
     socket.emit("startgame", { gameID: GameRoom });
     $("#rollbutton").find("button").prop("disabled", true);
-    $("#placebet").find("button").prop("disabled", false);
+  //  $("#placebet").find("button").prop("disabled", false);
   }
 
   function onDispatchState(obj, evtName, data) {
@@ -400,6 +400,8 @@
     socket.on("startgame", function (data) {
       // show gameplay screen and hide all other screens
       console.log("startgame  hit just for testing");
+      $("#totalBet").text("0");
+      $("#playertimer").text("0.00");
 
       $(
         "#start,#joinroomcontrols,#lobby,#gameroom,#loginFormContainer,#lobby"
@@ -437,8 +439,15 @@
 
     socket.on("gameplayupdate", function (data) {
       // as soon as any change in the scores
+    
       oGamePlay.update(data);
     });
+
+    socket.on("roundResult", function (data) {
+      $("#roundResult").text(data);
+    });
+
+
   }
 })((myApp = myApp || {}));
 

@@ -16,7 +16,7 @@ const socket = io.connect('http://localhost:8082/', {
 let renderer, scene, camera, diceMesh, physicsWorld;
 
 const params = {
-    numberOfDice: 3,
+    numberOfDice: 2,
     segments: 40,
     edgeRadius: .07,
     notchRadius: .12,
@@ -289,7 +289,11 @@ function addDiceEvents(dice) {
 
 function showRollResults(score) {
     if(gameID === '0') return;
-    let first, second, third;
+
+    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    console.log('userData from main:' , userData)
+    userID = userData._id;
+    let first, second;
     console.log('params.numberOfDice : '  + params.numberOfDice)
     if(params.numberOfDice === 2) {
         if (scoreResult.innerHTML === '') {
@@ -401,10 +405,9 @@ function initSocketIO(){
     socket.on("throwdice",function (data) {
         gameID = data.gameID;
         throwDicefromAPI(data.rotation1,data.rotation2, data.force);
-        userID = data.clientId;
+        
     });
-
-
+  
 }
 
 initSocketIO();

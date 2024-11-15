@@ -111,35 +111,35 @@ app.get('/room/:roomId', (req, res) => {
 //   }
 // });
 
-app.post('/room/:roomId/join', async (req, res) => {
-  const roomId = req.params.roomId;
-  const playerName = req.body.playerName; // Assume playerName is passed in the request
-  console.log('roomId :' , roomId)
-  console.log('playerName :' , playerName)
-  try {
-    // Retrieve the current room data
-    let roomData = await redisClient.get(`room:${roomId}`);
-    if (!roomData) {
-      return res.status(404).json({ message: "Room not found" });
-    }
+// app.post('/room/:roomId/join', async (req, res) => {
+//   const roomId = req.params.roomId;
+//   const playerName = req.body.playerName; // Assume playerName is passed in the request
+//   console.log('roomId :' , roomId)
+//   console.log('playerName :' , playerName)
+//   try {
+//     // Retrieve the current room data
+//     let roomData = await redisClient.get(`room:${roomId}`);
+//     if (!roomData) {
+//       return res.status(404).json({ message: "Room not found" });
+//     }
 
-    roomData = JSON.parse(roomData);
-    roomData.players.push(playerName); // Add new player to the room
+//     roomData = JSON.parse(roomData);
+//     roomData.players.push(playerName); // Add new player to the room
 
-    // Update the room data in Redis
-    await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData));
+//     // Update the room data in Redis
+//     await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData));
 
-    res.json({ message: `Player ${playerName} joined room ${roomId}` });
-  } catch (err) {
-    console.error('Error updating room data in Redis:', err);
-    res.status(500).send('Error joining room');
-  }
-});
+//     res.json({ message: `Player ${playerName} joined room ${roomId}` });
+//   } catch (err) {
+//     console.error('Error updating room data in Redis:', err);
+//     res.status(500).send('Error joining room');
+//   }
+// });
 
 
 
 app.get('/rooms', (req, res) => {
-  return  oModel;
+  return  JSON.parse(oModel);
 });
 
 

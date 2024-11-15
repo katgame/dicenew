@@ -1,7 +1,6 @@
 var oModel = require("../model");
 var shortid = require("shortid");
 var userService = require("../services/user.service");
-var validationService = require("../services/validation-service");
 var Game = require("./creategame");
 const https = require("https");
 const url = "http://localhost:8082/throwdice/";
