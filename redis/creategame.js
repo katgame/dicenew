@@ -86,10 +86,10 @@ class Game {
     this.oGameData.currentPlayer =
       this.oGameData.players[this.nCurrentPlayer]._id;
     if (!isRestart) {
-      this.oGameData.players[this.nCurrentPlayer].roundCount =
-        this.oGameData.players[this.nCurrentPlayer].roundCount + 1;
-        
-
+        if(this.oGameData.gameState === "ACTIVE") {
+            this.oGameData.players[this.nCurrentPlayer].roundCount =
+            this.oGameData.players[this.nCurrentPlayer].roundCount + 1;
+        }
     } else {
       this.oGameData.players[this.nCurrentPlayer].currentScore = 0;
       this.oGameData.players[this.nCurrentPlayer].roundCount = 1;
@@ -99,7 +99,17 @@ class Game {
   }
   startTurnCountDown() {
     console.log("Starting Countdown Timer... ");
-    this.setPlayerTurn(true);
+    if (this.oGameData.roundState === "RESTARTWIN") {
+      this.setPlayerTurn(true);
+    } else if (
+      this.oGameData.roundState === "NEWGAME" ||
+      this.oGameData.roundState === "RETRY"
+    ) {
+      this.setPlayerTurn(true);
+    } else if (this.oGameData.roundState === "RESTARTLOSE") {
+      this.setPlayerTurn(true);
+    }
+
     this.nTimer = setInterval(() => {
       //console.log("Running Timer... ",this.nTimerCountdown)
       this.oIO.to(this.oGameID).emit("turntimer", {
@@ -151,13 +161,13 @@ class Game {
         // this.oGameData.players.forEach(element => {
         //     element.roundCount = 0;
         // });
-      } else if (
-        this.nMaxPlayer < 2 &&
-        player.roundCount === 1 &&
-        player.activeRound === false
-      ) {
-        console.log("two player validation failed on betting, start new round");
-      }
+    //   } else if (
+    //     this.nMaxPlayer < 2 &&
+    //     player.roundCount === 1 &&
+    //     player.activeRound === false
+    //   ) {
+    //     console.log("two player validation failed on betting, start new round");
+       }
     });
   }
 
@@ -214,6 +224,7 @@ class Game {
             var firstRound = false;
             if (this.oGameData.players[this.nCurrentPlayer].roundCount === 1) {
               firstRound = true;
+
               this.oGameData.players[this.nCurrentPlayer].currentScore =
                 diceScore;
             }
@@ -228,35 +239,46 @@ class Game {
                   .join("+")
               );
             } else {
-                currentRollNumber = 0;
+              currentRollNumber = 0;
               return;
             }
-            if(currentRollNumber === 0 ) {return; }
+            if (currentRollNumber === 0) {
+              return;
+            }
             var result = this.validateRoll(
               rolledNumbers,
               firstRound,
               currentRollNumber
             );
-            
-            if(result === "WIN") {
-              
-                this.restartCountDown();
-                this.resetRound();
-            } else if(result === "LOSE") {
-               
-                this.computeNextTurn();
-                this.startTurnCountDown();
-                this.oIO
-                  .to(this.oGameID)
-                  .emit("gameplayupdate", this.oGameData.players);
-                  this.oIO
-                  .to(this.oGameID)
-                  .emit("roundResult", "Please roll dice,new game started");
+
+            if (result === "WIN") {
+              this.oGameData.roundState = "RESTARTWIN";
+              this.oGameData.gameState = "BETTING";
+              this.setGameData(this.oGameData);
+              this.restartCountDown();
+              this.resetRound();
+              const winner = this.oGameData.players.find(player => player._id === this.oGameData.currentPlayer);
+              console.log("winner : ", winner)
+              this.oIO.to(this.oGameID).emit("GameWon",  { player : winner, result : 'win'});
+            } else if (result === "LOSE") {
+              this.oGameData.roundState = "RESTARTLOSE";
+              this.oGameData.gameState = "BETTING";
+              this.setGameData(this.oGameData);
+              this.computeNextTurn();
+             // this.startTurnCountDown();
+              this.oIO
+                .to(this.oGameID)
+                .emit("gameplayupdate", this.oGameData.players);
+            this.resetRound();
+            const loser = this.oGameData.players.find(player => player._id !== this.oGameData.currentPlayer);
+            console.log("loser : ", winner)
+            this.oIO.to(this.oGameID).emit("GameWon",  { player : loser, result : 'lost'});
             } else {
-                this.restartCountDown();
+              this.oGameData.roundState = "RETRY";
+              this.restartCountDown();
             }
           } else {
-            this.computeNextTurn();
+       //     this.computeNextTurn();
             this.startTurnCountDown();
 
             this.oIO
@@ -272,25 +294,34 @@ class Game {
     }
   }
 
+  getWinner(id) {
+      return  this.oGameData.players.find(player => player._id === id);
+  }
+
   resetRound() {
     this.oGameData.total = 0;
     this.oGameData.gameState = "BETTING";
     this.oGameData.roundResult = "Please place bets, to start new round";
-    this.oIO
-    .to(this.oGameID)
-    .emit("roundResult", this.oGameData.roundResult );
+    this.oIO.to(this.oGameID).emit("roundResult", this.oGameData.roundResult);
     this.oGameData.players.forEach((player) => {
-        player.currentScore = 0;
-        player.roundCount = 0;
-    })
+      player.currentScore = 0;
+      player.roundCount = 1;
+    });
+    clearInterval(this.nTimer);
+    this.oIO.to(this.oGameID).emit("turntimer", {
+      timer: this.nMaxTime,
+      playerID: this.oGameData.players[this.nCurrentPlayer].id,
+    });
     this.setGameData(this.oGameData);
-
+    this.oIO.to(this.oGameID).emit("placebet", {
+      players: this.oGameData.players,
+      total: this.oGameData.total,
+      gameState: this.oGameData.gameState,
+    });
     //TODO: CALL API TO UPDATE ACCOUNT
 
-    
-    this.computeNextTurn();
-    this.startTurnCountDown();
-
+    // this.computeNextTurn();
+    // this.startTurnCountDown();
   }
   endGame() {
     this.oIO.to(this.oGameID).emit("GameWon", this.getWinner());
@@ -342,6 +373,7 @@ class Game {
       total: 0,
       gameType: 2,
       roundResult: "Please roll",
+      roundState: "NEWGAME",
     };
     this.setGameData(this.oGameData);
   }
@@ -422,20 +454,37 @@ class Game {
               "you lose on first try with 2 and 1 try again , new round started place bets"
             );
           return "LOSE";
+        case 12:
+          this.oIO
+            .to(this.oGameID)
+            .emit(
+              "roundResult",
+              "you lose on first try with 6 and 6 try again , new round started place bets"
+            );
+          return "LOSE";
         case 11:
           this.oIO
             .to(this.oGameID)
-            .emit("roundResult", "you win on first try with 11 , new round started place bets");
+            .emit(
+              "roundResult",
+              "you win on first try with 11 , new round started place bets"
+            );
           return "WIN";
         case 7:
           this.oIO
             .to(this.oGameID)
-            .emit("roundResult", "you win on first try with 7, new round started place bets");
+            .emit(
+              "roundResult",
+              "you win on first try with 7, new round started place bets"
+            );
           return "WIN";
         default:
           this.oIO
             .to(this.oGameID)
-            .emit("roundResult", "Roll " + rolledNumbers + " to win, roll again");
+            .emit(
+              "roundResult",
+              "Roll " + rolledNumbers + " to win, roll again"
+            );
           return "RETRY";
       }
     } else {
@@ -444,11 +493,17 @@ class Game {
           "you hit the correct numbers " +
           rolledNumbers +
           " and " +
-          currentRollNumber + ", new round started place bets";
+          currentRollNumber +
+          ", new round started place bets";
         this.oIO.to(this.oGameID).emit("roundResult", response);
         return "WIN";
       } else if (rolledNumbers === 7) {
-        this.oIO.to(this.oGameID).emit("roundResult", "You lose by rolling 7, needed : " + rolledNumbers );
+        this.oIO
+          .to(this.oGameID)
+          .emit(
+            "roundResult",
+            "You lose by rolling 7, needed : " + rolledNumbers
+          );
         return "LOSE";
       } else {
         this.oIO

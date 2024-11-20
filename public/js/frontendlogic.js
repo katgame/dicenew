@@ -331,10 +331,18 @@
     });
 
     socket.on("GameWon", function (data) {
-      if (myID == data.id) {
-        alert("you won the match");
+      if(data.result === 'win') {
+        if (myID == data.player.id) {
+          $("#winnerResult").text("YOU WON");
+        } else {
+          $("#winnerResult").text("YOU LOST BUDDY");
+        }
       } else {
-        alert(data.name + " won the match");
+        if (myID != data.player.id) {
+          $("#winnerResult").text("YOU WON");
+        } else {
+          $("#winnerResult").text("YOU LOST BUDDY");
+        }
       }
     });
 
@@ -372,6 +380,7 @@
 
     socket.on("placebet", function (data) {
       console.log("placebet updated, player is ready", data);
+      $("#winnerResult").text("Waiting for match results....");
     //   $("#rollbutton").find("button").prop("disabled", false);
     //   $("#placebet").find("button").prop("disabled", true);
 
@@ -381,6 +390,11 @@
         
           $("#placebet").find("button").prop("disabled", true);
           $("#skip").find("button").prop("disabled", true);
+          $("#rollbutton").find("button").prop("disabled", false);
+        } else  if(data.gameState === 'BETTING'){
+          $("#placebet").find("button").prop("disabled", false);
+          $("#skip").find("button").prop("disabled", false);
+          $("#rollbutton").find("button").prop("disabled", true);
         }
       }
     

@@ -79,7 +79,7 @@ function initScene() {
         addDiceEvents(diceArray[i]);
     }
 
-    throwDice();
+    //throwDice();
 
     render();
 }
