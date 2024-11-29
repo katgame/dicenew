@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <script src='js/jquery.min.js'></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/gameroom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <script src="js/events.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lobby.js"></script>
+    <script src="js/frontendlogic.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+
+</head>
+
+<body>
+    <!-- Container -->
+    <div class="">
+
+        <div class="bg-zinc-800 text-zinc-100 shadow-md">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-2xl font-bold text-white">
+                        🎲 Dice Game
+                    </div>
+                    <span class="hidden md:block text-sm text-zinc-400">Play. Bet. Win!</span>
+                </div>
+        
+                <!-- Navigation Links -->
+                <div class="hidden md:flex space-x-8 text-sm font-medium">
+                    <a href="#" class="hover:text-gray-300">Dashboard</a>
+                    <a href="#" class="hover:text-gray-300">Profile</a>
+                    <a href="#" class="hover:text-gray-300">Rules</a>
+                    <a id="logoutBtn" class="hover:text-gray-300">Logout</a>
+                </div>
+        
+                <!-- User Actions -->
+                <div class="flex items-center space-x-4">
+                    <!-- Leave Game Button -->
+                    <button id="leaveGameBtn" type="button"
+                        style="display: none;"
+                        class="px-4 py-2 text-sm font-medium bg-gray-700 hover:bg-gray-600 rounded-md">
+                        Leave Game
+                    </button>
+                    <!-- User Dropdown -->
+                    <div class="relative group">
+                        <button id="userMenuBtn"
+                            class="flex items-center space-x-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-md">
+                            <img src="https://avatar.iran.liara.run/public/boy" alt="User Avatar"
+                                class="w-8 h-8 rounded-full border border-gray-500" />
+                            <span>John Doe</span>
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-zinc-700 rounded-md shadow-lg text-sm hidden group-hover:block">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Profile</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-600">Settings</a>
+                            <button id="logoutBtn" class="w-full text-left px-4 py-2 hover:bg-gray-600">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Login Form -->
+        <div id="loginFormContainer" class="-mt-20">
+            <section class="bg-gray-900 dark:bg-gray-900">
+            
+                <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                    <!-- <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                        🎲 Dice Game
+                    </a> -->
+                    <div
+                        class="w-full bg-gray-800 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                Sign in to your account
+                            </h1>
+                            <form class="space-y-4 md:space-y-6">
+                                <div>
+                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                        email</label>
+                                    <input type="email" name="email" id="emailId"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="name@company.com" required=""  />
+                                </div>
+                                <div>
+                                    <label for="password"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                                    <input type="password" name="password" id="password" placeholder="••••••••"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required="" />
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input id="remember" aria-describedby="remember" type="checkbox"
+                                                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                                                required="" />
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+                                        </div>
+                                    </div>
+                                    <a href="/reset-password"
+                                        class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
+                                        password?</a>
+                                </div>
+                                <button 
+                                    id="loginBtn"
+                                    class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Sign in
+                                </button>
+                                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Don’t have an account yet?
+                                    <a href="/signup" class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign
+                                        up</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
+            </section>
+        </div>
+
+        <div class="">
+
+            <!-- Start Section -->
+            <div id="start" class="hidden flex flex-col items-center space-y-6 py-8 px-8 bg-zinc-800 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-white">Get Started</h2>
+                <p class="text-sm text-zinc-400">Create or join a game room to start playing!</p>
+                <div class="flex space-x-4">
+                    <!-- Create Room Button -->
+                    <button id="creategame"
+                        class="px-6 py-3 text-lg font-semibold text-white bg-green-600 hover:bg-green-500 rounded-lg shadow-md transition duration-300">
+                        Create Room
+                    </button>
+                    <!-- Join Room Button -->
+                    <button id="joinroom"
+                        class="px-6 py-3 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow-md transition duration-300">
+                        Join Room
+                    </button>
+                </div>
+            </div>
+            <!-- Join Room Section -->
+            <div id="joinroomcontrols"
+                class="hidden flex flex-col items-center space-y-4 py-8 px-8 bg-zinc-800 rounded-lg shadow-lg mt-6">
+                <h2 class="text-xl font-bold text-white">Join a Room</h2>
+                <p class="text-sm text-zinc-400">Enter the room name to join an existing game.</p>
+                <!-- Room Input -->
+                <input id="roomid" type="text" placeholder="Enter Room Name" required autofocus
+                    class="w- px-4 py-2 text-zinc-100 bg-zinc-900 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                <!-- Join Button -->
+                <button id="joinbutton"
+                    class="w-20 px-6 py-2 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-500 rounded-lg shadow-md transition duration-300">
+                    Join
+                </button>
+            </div>
+            <!-- Lobby section  -->
+            <div id="lobby" class=""></div>
+            <!-- Game Room Section -->
+            <div id="gameroom" style="display: none;" class="flex flex-col space-y-6 bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6">
+                <!-- Timer and Total Bet -->
+                <div class="flex justify-between items-center">
+                    <div class="text-lg font-bold">Timer: <span id="playertimer" class="text-blue-500">00:00</span></div>
+                    <div class="text-lg font-bold">Total Bet: <span id="totalBet" class="text-green-500">R0</span></div>
+                </div>
+            
+                <!-- Roll Dice and Bet Actions -->
+                <div class="flex space-x-4 justify-center">
+                    <button id="rollbutton"
+                        class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-md transition duration-300">
+                        Roll Dice
+                    </button>
+                    <button id="placebet"
+                        class="px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-semibold rounded-lg shadow-md transition duration-300">
+                        Bet
+                    </button>
+                    <button id="skip"
+                        class="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white font-semibold rounded-lg shadow-md transition duration-300">
+                        Skip
+                    </button>
+                </div>
+            
+                <!-- Scoreboard Table -->
+                <div id="scoreboard-container" class="overflow-x-auto bg-zinc-900 rounded-lg shadow-md">
+                    <!-- Table will be dynamically injected here -->
+                </div>
+            
+                <!-- Game Frame -->
+                <iframe id="gameframe" class="w-full h-96 bg-zinc-900 border border-gray-700 rounded-lg"></iframe>
+            </div>
+
+            <!-- <div id="gameroom" class="col-sm-12" style="display: none;">
+                <label>Timer: </label>
+                <div id="playertimer">00:00</div>
+                <div id="totalBet">R0</div>
+                <div class="rolldice mt-4"><a id="rollbutton">
+                        <Button class="btn-primary btn-lg">Roll
+                            Dice</Button></a>
+
+                </div>
+                <div class="rolldice mt-4">
+                    <a id="placebet"> <Button class="btn-primary btn-lg">Bet</Button></a>
+                    <a id="skip"> <Button class="btn-primary btn-lg">Skip</Button></a>
+                </div>
+                <iframe id="gameframe" width="100%" height="400"></iframe>
+            </div> -->
+
+        </div>
+    </div>
+
+</body>
+
+</html>

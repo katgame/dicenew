@@ -6,15 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dice Game</title>
     <script src='js/jquery.min.js'></script>
-    <script src="js/socket.io.js"></script>
-    <script src="js/gameroom.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-    <script src="js/events.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/lobby.js"></script>
-    <script src="js/frontendlogic.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script src='js/components.js'></script>
+    <!-- <script src='js/app.js'></script> -->
+    
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="css/base.css" />
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
@@ -22,78 +16,63 @@
 
 </head>
 
-<body>
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Multi-Player Dice Game</h1>
-            <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button>
-            <button class="btn btn-primary btn-lg" style="display: none;" id="leaveGameBtn" type="button">Leave
-                Game</button>
+<body class="bg-gray-900">
+    <!-- Header -->
+     <section id="section-header"></section>
+    <!-- Login Page -->
+    <section id="section-login"></section>
+    <!-- Dashboard -->
+    <section id="section-dashboard"></section>
+    <!-- schools-->
+    <section id="section-schools">
+        <!-- 3 Dice -->
+         <section id="schools-3-dice"></section>
+        <!-- 2 Dice -->
+         <section id="schools-2-dice"></section>
+    </section>
+    <!-- Game -->
+    <section id="section-game">
+        <!-- 3 Dice -->
+         <section id="section-dice-2-game"></section>
+        <!-- 2 Dice -->
+         <section id="section-dice-3-game">
+            <section id="game-3-dice-lobby"></section>
+            <section id="game-3-dice-start-game"></section>
+            <section id="game-3-dice-join-room"></section>
+         </section>
+    </section>
+    <!--  Game Room -->
+    <section  id="gameroom" class="col-sm-12" style="display: none;">
+        <label>Timer: </label>
+        <div id="playertimer">00:00</div>
+        <div id="totalBet">R0</div>
+        <div class="rolldice mt-4"><a id="rollbutton">
+                <Button class="btn-primary btn-lg">Roll
+                    Dice</Button></a>
+        
         </div>
-        <div id="loginFormContainer" class="row">
-            <div class="col-sm-12">
-                <h2>Login to application</h2>
-                <form id="loginForm" class="needs-validation" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-4 mb-3">
-                            <label for="emailId">Email:</label>
-                            <input id="emailId" type="email" class="form-control" placeholder="Email" value="" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Looks incorrect.
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-lg" id="loginBtn" type="button">Login</button>
-                </form>
-            </div>
+        <div class="rolldice mt-4">
+            <a id="placebet"> <Button class="btn-primary btn-lg">Bet</Button></a>
+            <a id="skip"> <Button class="btn-primary btn-lg">Skip</Button></a>
         </div>
-
-        <div class="row">
-
-            <div id="start" class="col-sm-12" style="display: none;">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <span id="creategame"> <button class="btn btn-primary btn-lg">Create Room</button> </span>
-                    </div>
-                    <div class="col-sm-3">
-                        <span id="joinroom"> <button class="btn btn-primary btn-lg">Join Room</button></span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="joinroomcontrols" class="col-sm-12" style="display: none;">
-                <div>
-                    <label for="roomid">Room:</label>
-                    <input id="roomid" class="form-control" placeholder="Enter Room name" required="" autofocus="">
-                    <a href="#" id="joinbutton"><button class="btn btn-primary btn-lg mt-3">Join</button></a>
-                </div>
-            </div>
+        <iframe id="gameframe" width="100%" height="400"></iframe>
+    </section>
+    <!-- Footer -->
+    <section id="section-footer"></section>
 
 
 
-            <div id="lobby" class="col-sm-12">
-
-            </div>
-            <div id="gameroom" class="col-sm-12" style="display: none;">
-                <label>Timer: </label>
-                <div id="playertimer">00:00</div>
-                <div id="totalBet">R0</div>
-                <div class="rolldice mt-4"><a id="rollbutton">
-                        <Button class="btn-primary btn-lg">Roll
-                            Dice</Button></a>
-
-                </div>
-                <div class="rolldice mt-4">
-                    <a id="placebet"> <Button class="btn-primary btn-lg">Bet</Button></a>
-                    <a id="skip"> <Button class="btn-primary btn-lg">Skip</Button></a>
-                </div>
-                <iframe id="gameframe" width="100%" height="400"></iframe>
-            </div>
-        </div>
-    </div>
+    
+    <script src="js/socket.io.js"></script>
+    <script src="js/gameroom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+    <script src="js/events.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lobby.js"></script>
+    <script src="js/frontendlogic.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
 </body>
 

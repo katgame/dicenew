@@ -1,17 +1,21 @@
 var gameroom = function(){
 
-    var _html = $(`<table id="scoreboard" class="display" cellspacing="0" width="100%">
-    <thead>
+    var _html = $(` <table
+      id="scoreboard"
+      class="min-w-full text-sm text-left text-gray-400 bg-zinc-900 border border-gray-700 rounded-lg"
+    >
+      <thead class="bg-zinc-700 text-gray-200">
         <tr>
-            <th data-field="turn">Turn</th>
-            <th data-field="name">Player Name</th>
-            <th data-field="id">Player Unique ID</th>
-            <th data-field="type">Player Type</th>
-            <th data-field="currentScore">Current Score</th>
-            <th data-field="score">Total Score</th>
+          <th data-field="turn" scope="col" class="px-6 py-3">Turn</th>
+          <th data-field="name" scope="col" class="px-6 py-3">Player Name</th>
+          <th data-field="id" scope="col" class="px-6 py-3">Player Unique ID</th>
+          <th data-field="type" scope="col" class="px-6 py-3">Player Type</th>
+          <th data-field="currentScore" scope="col" class="px-6 py-3">Current Score</th>
+          <th data-field="score" scope="col" class="px-6 py-3">Total Score</th>
         </tr>
-    </thead>
-</table>`)
+      </thead>
+      <tbody></tbody>
+    </table>`)
 
     function create(playerData)
     {

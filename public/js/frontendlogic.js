@@ -177,7 +177,7 @@
   }
 
   function onJoinRoom() {
-    $("#start").hide();
+    // $("#start").hide();
     $("#joinroomcontrols").show();
   }
 
