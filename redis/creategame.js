@@ -86,10 +86,10 @@ class Game {
     this.oGameData.currentPlayer =
       this.oGameData.players[this.nCurrentPlayer]._id;
     if (!isRestart) {
-        if(this.oGameData.gameState === "ACTIVE") {
-            this.oGameData.players[this.nCurrentPlayer].roundCount =
-            this.oGameData.players[this.nCurrentPlayer].roundCount + 1;
-        }
+      if (this.oGameData.gameState === "ACTIVE") {
+        this.oGameData.players[this.nCurrentPlayer].roundCount =
+          this.oGameData.players[this.nCurrentPlayer].roundCount + 1;
+      }
     } else {
       this.oGameData.players[this.nCurrentPlayer].currentScore = 0;
       this.oGameData.players[this.nCurrentPlayer].roundCount = 1;
@@ -149,26 +149,10 @@ class Game {
   }
 
   validateBets() {
-    var gameReady = false;
-
-    this.oGameData.players.forEach((player) => {
-      console.log("player info : ", player);
-      if (player.roundCount === 1 && player.activeRound === true) {
-        gameReady = true;
-        this.oGameData.gameState = "ACTIVE";
-
-        //player.roundCount = 0;
-        // this.oGameData.players.forEach(element => {
-        //     element.roundCount = 0;
-        // });
-    //   } else if (
-    //     this.nMaxPlayer < 2 &&
-    //     player.roundCount === 1 &&
-    //     player.activeRound === false
-    //   ) {
-    //     console.log("two player validation failed on betting, start new round");
-       }
-    });
+    const allPlayersActive = this.oGameData.players.every(
+      (player) => player.activeRound === true && player.roundCount === 1
+    );
+    return allPlayersActive;
   }
 
   playTurn(diceScore) {
@@ -176,7 +160,19 @@ class Game {
     console.log("playTurn ...  >>");
     clearInterval(this.nTimer);
     if (this.oGameData.gameState === "BETTING") {
-      this.validateBets();
+      var gameReady = this.validateBets();
+      if (gameReady) {
+        // Change gameState to 'ACTIVE'
+        this.oGameData.gameState = "ACTIVE";
+        this.setGameData(this.oGameData);
+        this.computeNextTurn();
+        this.startTurnCountDown();
+        console.log("Game state changed to ACTIVE");
+      } else {
+        this.computeNextTurn();
+        this.startTurnCountDown();
+        console.log("Not all players are active or in round 1 yet.");
+      }
       //   this.computeNextTurn();
       //   this.startTurnCountDown();
       //   this.setGameData(this.oGameData);
@@ -257,28 +253,36 @@ class Game {
               this.setGameData(this.oGameData);
               this.restartCountDown();
               this.resetRound();
-              const winner = this.oGameData.players.find(player => player._id === this.oGameData.currentPlayer);
-              console.log("winner : ", winner)
-              this.oIO.to(this.oGameID).emit("GameWon",  { player : winner, result : 'win'});
+              const winner = this.oGameData.players.find(
+                (player) => player._id === this.oGameData.currentPlayer
+              );
+            //  console.log("winner : ", winner);
+              this.oIO
+                .to(this.oGameID)
+                .emit("GameWon", { player: winner, result: "win" });
             } else if (result === "LOSE") {
               this.oGameData.roundState = "RESTARTLOSE";
               this.oGameData.gameState = "BETTING";
               this.setGameData(this.oGameData);
               this.computeNextTurn();
-             // this.startTurnCountDown();
+              // this.startTurnCountDown();
               this.oIO
                 .to(this.oGameID)
                 .emit("gameplayupdate", this.oGameData.players);
-            this.resetRound();
-            const loser = this.oGameData.players.find(player => player._id !== this.oGameData.currentPlayer);
-            console.log("loser : ", winner)
-            this.oIO.to(this.oGameID).emit("GameWon",  { player : loser, result : 'lost'});
+              this.resetRound();
+              const loser = this.oGameData.players.find(
+                (player) => player._id !== this.oGameData.currentPlayer
+              );
+          //    console.log("loser : ", winner);
+              this.oIO
+                .to(this.oGameID)
+                .emit("GameWon", { player: loser, result: "lost" });
             } else {
               this.oGameData.roundState = "RETRY";
               this.restartCountDown();
             }
           } else {
-       //     this.computeNextTurn();
+            //     this.computeNextTurn();
             this.startTurnCountDown();
 
             this.oIO
@@ -295,7 +299,7 @@ class Game {
   }
 
   getWinner(id) {
-      return  this.oGameData.players.find(player => player._id === id);
+    return this.oGameData.players.find((player) => player._id === id);
   }
 
   resetRound() {
@@ -306,6 +310,7 @@ class Game {
     this.oGameData.players.forEach((player) => {
       player.currentScore = 0;
       player.roundCount = 1;
+      player.activeRound = false;
     });
     clearInterval(this.nTimer);
     this.oIO.to(this.oGameID).emit("turntimer", {
