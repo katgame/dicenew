@@ -1,7 +1,6 @@
 $(document).ready(function () {
     loadComponents();
     loadScripts();
-    hideComponents();
 });
 
 function loadComponents() {
@@ -14,6 +13,7 @@ function loadComponents() {
     $("#game-3-dice-join-room").load("../components/game/join-room.html");
     // 2 Dice
     $("#schools-2-dice").load("../components/sections/schools/2-dice/component.html");
+    hideComponents();
 }
 
 function loadScripts() {
@@ -27,6 +27,9 @@ function loadScripts() {
 }
 
 function hideComponents() {
-    // hide all sections
-    $("#section-dashboard").hide()
+    // hide a#dashboard
+    $("#section-dashboard").hide();
+    // hide game-3-dice-lobby
+    $("#game-3-dice-lobby").hide();
+
 }

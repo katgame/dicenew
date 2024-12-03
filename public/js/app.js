@@ -16,6 +16,7 @@ function loadConstants() {
         buttons: {
             play3Dice: document.getElementById("btn-play-3-dice"),
             rules3Dice: document.getElementById("btn-rules-3-dice"),
+            createRoom3Dice: document.getElementById("creategame"),
             play2Dice: document.getElementById("btn-play-2-dice"),
             rules2Dice: document.getElementById("btn-rules-2-dice"),
             closeJoinRoom: document.getElementById("close-join-room"),
@@ -87,7 +88,7 @@ function loadGameEvents() {
         // Show the schools section
         GAME.actions.hideAllSections();
         GAME.actions.showSection("schools");
-        GAME.actions.showSection("game3DiceLobby");
+        // GAME.actions.showSection("game3DiceLobby");
         GAME.actions.showSection("school3Dice");
         GAME.actions.showSection("game");
         GAME.actions.showSection("game3DiceStartGame");
@@ -100,12 +101,17 @@ function loadGameEvents() {
         console.log("Rules 3 Dice clicked");
     });
 
-    GAME.buttons.play2Dice?.addEventListener("click", function () {
+    GAME.buttons.play3Dice?.addEventListener("click", function () {
         console.log("Play 2 Dice clicked");
     });
 
-    GAME.buttons.rules2Dice?.addEventListener("click", function () {
+    GAME.buttons.rules3Dice?.addEventListener("click", function () {
         console.log("Rules 2 Dice clicked");
+    });
+
+    GAME.buttons.createRoom3Dice?.addEventListener("click", function () {
+        console.log("Create Game clicked");
+        GAME.actions.showSection("game3DiceLobby");
     });
 
     GAME.buttons.join?.addEventListener("click", function () {
@@ -140,5 +146,5 @@ function loadGameEvents() {
     //  Hide all sections
     GAME.actions.hideAllSections();
     // Show Dashboard section
-    GAME.actions.showSection("dashboard");
+    // GAME.actions.showSection("dashboard");
 } 

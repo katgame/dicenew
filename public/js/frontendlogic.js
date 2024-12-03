@@ -15,7 +15,7 @@
     function () {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       var forms = document.getElementsByClassName("needs-validation");
-      iframe = document.getElementById("gameframe");
+      
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function (form) {
         form.addEventListener(
@@ -90,6 +90,8 @@
 
   function loginToApplication() {
     var userName = $("#emailId").val();
+    const dashboard = $("#section-dashboard")
+    
 
     if (!userName || userName.indexOf("@") == -1) {
       return;
@@ -100,7 +102,8 @@
       { userName: userName },
       function (data) {
         console.log("Response data on Successful login: ", data);
-
+        // show dashboard
+        dashboard.show();
         if (sessionStorage) {
           let sessionData = {
             _id: data._id,
@@ -398,10 +401,12 @@
         "#start,#joinroomcontrols,#lobby,#gameroom,#loginFormContainer,#lobby"
       ).hide();
       $("#gameroom").show();
+      console.log("gameroom", GameRoom, data), $("#gameroom");
       oGamePlay = new gameroom();
       $("#gameroom").prepend(oGamePlay.getHtml()).show();
       $("#dicecanvas").show();
       oGamePlay.create(data);
+      iframe = document.getElementById("gameframe");
       iframe.src = "http://localhost:8082/room/" + GameRoom;
       console.log("iframe", iframe.src);
     });
