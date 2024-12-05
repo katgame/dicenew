@@ -1,6 +1,6 @@
 var oModel = require("../model");
 var userService = require("../services/user.service");
-
+var diceService = require("../services/dice-api.service");
 class Game {
   sName = "";
   oRedis;
@@ -248,6 +248,7 @@ class Game {
             );
 
             if (result === "WIN") {
+              this.updateUserAccounts(true,this.oGameData.currentPlayer, this.oGameData.players)
               this.oGameData.roundState = "RESTARTWIN";
               this.oGameData.gameState = "BETTING";
               this.setGameData(this.oGameData);
@@ -256,11 +257,13 @@ class Game {
               const winner = this.oGameData.players.find(
                 (player) => player._id === this.oGameData.currentPlayer
               );
-            //  console.log("winner : ", winner);
+              //  console.log("winner : ", winner);
               this.oIO
                 .to(this.oGameID)
                 .emit("GameWon", { player: winner, result: "win" });
+             
             } else if (result === "LOSE") {
+              this.updateUserAccounts(false,this.oGameData.currentPlayer, this.oGameData.players)
               this.oGameData.roundState = "RESTARTLOSE";
               this.oGameData.gameState = "BETTING";
               this.setGameData(this.oGameData);
@@ -273,10 +276,11 @@ class Game {
               const loser = this.oGameData.players.find(
                 (player) => player._id !== this.oGameData.currentPlayer
               );
-          //    console.log("loser : ", winner);
+              //    console.log("loser : ", winner);
               this.oIO
                 .to(this.oGameID)
                 .emit("GameWon", { player: loser, result: "lost" });
+               
             } else {
               this.oGameData.roundState = "RETRY";
               this.restartCountDown();
@@ -297,7 +301,64 @@ class Game {
       }
     }
   }
+  
+  updateUserAccounts(currentPlayerWin, currentPlayer, players) {
 
+    const transactions = [];
+   
+    if(currentPlayerWin) {
+      const transaction = {
+        userId: currentPlayer,
+        price: this.oGameData.total,
+        gameSessionResult: "Win",
+      };
+      transactions.push(transaction);
+
+      const losers = this.oGameData.players.filter(
+        p => p._id !== this.oGameData.currentPlayer
+      );
+
+      losers.forEach(element => {
+        const transaction = {
+          userId: element._id,
+          price: this.oGameData.wager,
+          gameSessionResult: "Lose",
+        };
+        transactions.push(transaction);
+
+      });
+      diceService.updateRoundAccount(transactions);
+
+      console.log('transactions : ' , transactions)
+    } else {
+      const transaction = {
+        userId: currentPlayer,
+        price: this.oGameData.wager,
+        gameSessionResult: "Lose",
+      };
+      transactions.push(transaction);
+
+      const winners = this.oGameData.players.filter(
+        p => p._id !== this.oGameData.currentPlayer
+      );
+
+      winners.forEach(element => {
+        const transaction = {
+          userId: element._id,
+          price: this.oGameData.wager,
+          gameSessionResult: "Win",
+        };
+        transactions.push(transaction);
+
+      });
+
+      diceService.updateRoundAccount(transactions);
+    }
+
+
+
+   
+  }
   getWinner(id) {
     return this.oGameData.players.find((player) => player._id === id);
   }
@@ -493,7 +554,15 @@ class Game {
           return "RETRY";
       }
     } else {
-      if (rolledNumbers === currentRollNumber) {
+      if (rolledNumbers === 7) {
+        this.oIO
+          .to(this.oGameID)
+          .emit(
+            "roundResult",
+            "You lose by rolling 7, needed : " + rolledNumbers
+          );
+        return "LOSE";
+      } else if (rolledNumbers === currentRollNumber) {
         var response =
           "you hit the correct numbers " +
           rolledNumbers +
@@ -502,14 +571,6 @@ class Game {
           ", new round started place bets";
         this.oIO.to(this.oGameID).emit("roundResult", response);
         return "WIN";
-      } else if (rolledNumbers === 7) {
-        this.oIO
-          .to(this.oGameID)
-          .emit(
-            "roundResult",
-            "You lose by rolling 7, needed : " + rolledNumbers
-          );
-        return "LOSE";
       } else {
         this.oIO
           .to(this.oGameID)

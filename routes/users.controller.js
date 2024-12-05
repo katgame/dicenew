@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/user.service');
-
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
@@ -11,7 +10,7 @@ router.post('/leaveGame/:id', leaveGame);
 router.get('/', getAll);
 router.get('/:id', getById);
 
-
+//const diceAPIService = new DiceAPIService(baseURL);
 
 function getAll(req, res, next) {
     userService.getAll()
@@ -25,6 +24,8 @@ function authenticate(req, res, next) {
         .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
         .catch(err => next(err));
 }
+
+
 
 function register(req, res, next) {
     userService.register(req.body)

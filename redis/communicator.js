@@ -1,6 +1,7 @@
 var oModel = require("../model");
 var shortid = require("shortid");
 var userService = require("../services/user.service");
+var diceService = require("../services/dice-api.service");
 var Game = require("./creategame");
 const https = require("https");
 const url = "http://localhost:8082/throwdice/";
@@ -112,7 +113,8 @@ class Communication {
             gameState: "lobby",
             userUniqueId: data.id,
           };
-          userService.updateGameStats(userObj);
+          //userService.updateGameStats(userObj);
+          diceService.updateGameStats(userObj);
         });
       });
 
@@ -139,6 +141,7 @@ class Communication {
             myID: myID,
             isAdmin: false,
           });
+          console.log('data.gameID :', data.gameID )
           socket.to(data.gameID).emit("playerjoined", data);
 
           let userObj = {
@@ -147,7 +150,8 @@ class Communication {
             gameState: "lobby",
             userUniqueId: data.all.id,
           };
-          userService.updateGameStats(userObj);
+         // userService.updateGameStats(userObj);
+          diceService.updateGameStats(userObj);
         });
 
         //
@@ -197,12 +201,15 @@ class Communication {
         var oGame = this.findAndGetGame(data.gameID);
         oGame.startGame();
 
-        userService.updateGameStatsToGamePlay(data.gameID);
+        //userService.updateGameStatsToGamePlay(data.gameID);
+        diceService.updateGameStatsToGamePlay(data.gameID);
 
         oGame.getGameData((gameData) => {
           this.io.to(data.gameID).emit("startgame", gameData.players);
         });
       });
+
+
 
       socket.on("rolldice", (data) => {
         var oGame = this.findAndGetGame(data.gameID);

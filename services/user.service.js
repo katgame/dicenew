@@ -23,6 +23,7 @@ async function authenticate1({ userName }) {
     }else if (user) {
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({ sub: user.id }, config.secret);
+       // console.log('token : ' , token)
         // var resFromRedis;
         // if(user.gameId){
         //     oModel.redisClient.getAsync(user.gameId).then(function(data) {
@@ -31,6 +32,7 @@ async function authenticate1({ userName }) {
         //         console.error(e.stack);
         //     });
         // }
+
 
         return {
             ...userWithoutHash,
@@ -43,6 +45,8 @@ async function authenticate1({ userName }) {
         throw "User doesn't exist."
     }
 }
+
+
 
 async function getAll() {
     return await User.find().select('-hash');

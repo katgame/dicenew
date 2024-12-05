@@ -52,7 +52,7 @@ app.get('/throwdice/:gameId/:clientId', async (req, res) => {
   const clientId = req.params.clientId;
   // Wait for Redis data to be fetched or initialized
   // let gameData = await redisClient.get(`game:${gameId}`);
-  // console.log('game data :' , gameData)
+   console.log('gameId:' , gameId)
   // if (!gameData) {
   //   return res.status(404).json({ error: 'Game not found' });
   // }

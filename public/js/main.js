@@ -25,6 +25,7 @@ const params = {
 
 const diceArray = [];
 var gameID = '0';
+var RoomId = ''; 
 var userID = '';
 
 initPhysics();
@@ -401,11 +402,12 @@ function throwDicefromAPI(rotation1, rotation2,forceMath) {
 
 
 function initSocketIO(){
-   
+    RoomId = JSON.parse(sessionStorage.getItem("gameroom"));
     socket.on("throwdice",function (data) {
         gameID = data.gameID;
-        throwDicefromAPI(data.rotation1,data.rotation2, data.force);
-        
+        if(RoomId === gameID) {
+            throwDicefromAPI(data.rotation1,data.rotation2, data.force);
+        }
     });
   
 }

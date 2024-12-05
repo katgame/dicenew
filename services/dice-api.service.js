@@ -1,115 +1,251 @@
-import axios from 'axios';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-class DiceAPIService {
-  constructor(baseURL) {
-    this.api = axios.create({
-      baseURL,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+const fetch = require('node-fetch');
+const crypto = require('crypto');
+var apiUrl = 'https://localhost:44382/api/';
+
+const ENCRYPTION_KEY = 'abcdefghijklmnopqrstuvwx'; // 24 chars
+const IV_LENGTH = 16; // Initialization vector length
+
+module.exports = {
+    getAll,
+    getById,
+    updateGameStats,
+    leaveGame,
+    updateGameStatsToGamePlay,
+    creditFunds,
+    updateRoundAccount
+
+};
+
+const encrypt = (text) => {
+  const iv = crypto.randomBytes(IV_LENGTH);
+  const cipher = crypto.createCipheriv('aes-192-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return `${iv.toString('hex')}:${encrypted}`;
+};
+
+async function updateGameStatsToGamePlay(gameID) {
+  url = apiUrl + 'Authentication/update-game-stats-to-play?gameId=' + gameID;
+  fetch(url, {
+    method: 'POST', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    },
+   // body: JSON.stringify(data), // Convert the data to JSON string
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
-  }
-
-  // Account Endpoints
-  creditFunds(data) {
-    return this.api.post('/api/Account/credit-funds', data);
-  }
-
-  debitFunds(data) {
-    return this.api.post('/api/Account/debit-funds', data);
-  }
-
-  getAccount(userId) {
-    return this.api.get(`/api/Account/get-account/${userId}`);
-  }
-
-  getAccountBalance(userId) {
-    return this.api.get(`/api/Account/get-account-balance/${userId}`);
-  }
-
-  getAdminAccountBalance() {
-    return this.api.get('/api/Account/get-admin-account-balance');
-  }
-
-  getAdminAccountTransactions() {
-    return this.api.get('/api/Account/get-admin-account-transactions');
-  }
-
-  updateAccount(data) {
-    return this.api.post('/api/Account/update-account', data);
-  }
-
-  // Authentication Endpoints
-  registerUser(data) {
-    return this.api.post('/api/Authentication/register-user', data);
-  }
-
-  getAllUsers() {
-    return this.api.get('/api/Authentication/all-user');
-  }
-
-  getUserRoles() {
-    return this.api.get('/api/Authentication/get-user-roles');
-  }
-
-  enableUser(userId) {
-    return this.api.put(`/api/Authentication/enable-user/${userId}`);
-  }
-
-  deleteUser(userId) {
-    return this.api.delete(`/api/Authentication/delete-user/${userId}`);
-  }
-
-  loginUser(data) {
-    return this.api.post('/api/Authentication/login-user', data);
-  }
-
-  // Dashboard Endpoints
-  getDashboard() {
-    return this.api.get('/api/Dashboard/get-dashboard');
-  }
-
-  updateSchool(data) {
-    return this.api.put('/api/Dashboard/update-school', data);
-  }
-
-  // Game Endpoints
-  requestSession(data) {
-    return this.api.post('/api/Game/request-session', data);
-  }
-
-  startGameManagement() {
-    return this.api.get('/api/Game/start-game-management');
-  }
-
-  pingEvent(data) {
-    return this.api.post('/api/Game/ping-event', data);
-  }
-
-  getSessionInformation() {
-    return this.api.get('/api/Game/session-information');
-  }
-
-  getSessionInformationById(sessionId) {
-    return this.api.get(`/api/Game/session-information-by-id/${sessionId}`);
-  }
-
-  // Logs Endpoints
-  getAllLogsFromDB() {
-    return this.api.get('/api/Logs/get-all-logs-from-db');
-  }
-
-  // Profile Endpoints
-  createProfile(userId) {
-    return this.api.post('/api/Profile/create-profile', null, {
-      params: { UserId: userId },
-    });
-  }
-
-  // Test Endpoints
-  getTestData() {
-    return this.api.get('/api/Test/get-test-data');
-  }
 }
 
-export default DiceAPIService;
+async function updateGameStats(data) {
+  url = apiUrl + 'Authentication/update-game-stats';
+  fetch(url, {
+    method: 'POST', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    },
+    body: JSON.stringify(data), // Convert the data to JSON string
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+async function creditFunds(data) {
+  const payload = { sensitiveData: data };
+  const encryptedPayload = encrypt(JSON.stringify(payload));
+
+  url = apiUrl + 'Account/credit-funds';
+  fetch(url, {
+    method: 'POST', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    },
+    body: JSON.stringify({ encryptedData: encryptedPayload }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+async function updateRoundAccount(data) {
+  const payload = { sensitiveData: data, transactionTime :  new Date().toLocaleString()};
+  const encryptedPayload = encrypt(JSON.stringify(payload));
+
+  url = apiUrl + 'Account/update-account';
+  fetch(url, {
+    method: 'POST', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    },
+    body: JSON.stringify({ encryptedData: encryptedPayload }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+
+async function getAll() {
+  url = apiUrl + 'Authentication/all-user';
+  fetch(url, {
+    method: 'GET', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    }
+   // body: JSON.stringify(data), // Convert the data to JSON string
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+async function getById(id) {
+  url = apiUrl + 'Authentication/get-user?userId=' + id;
+  fetch(url, {
+    method: 'GET', // Specify the HTTP method
+    headers: {
+      'Content-Type': 'application/json', // Set the content type
+    }
+   // body: JSON.stringify(data), // Convert the data to JSON string
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json(); // Parse the JSON response
+    })
+    .then(result => {
+      console.log('Success:', result);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+function findAndGetGame(gameID) {
+    for (var i = 0; i < oModel.games.length; i++) {
+      if (oModel.games[i].id == gameID) {
+        return oModel.games[i].instance
+      }
+    }
+    return null
+  }
+
+// async function updateGameStats(obj) {
+//     let user = await User.findById(obj._id);
+//     user.gameId = obj.gameId;
+//     user.gameState = obj.gameState;
+//     user.userUniqueId = obj.userUniqueId;
+//     await user.save();
+// }
+
+async function leaveGame(userId) {
+    var oGame = findAndGetGame(user.gameId);
+    oGame.removePlayer(user.userUniqueId);
+
+    url = apiUrl + 'Authentication/leave-game?userId=' + userId;
+    fetch(url, {
+      method: 'POST', // Specify the HTTP method
+      headers: {
+        'Content-Type': 'application/json', // Set the content type
+      },
+     // body: JSON.stringify(data), // Convert the data to JSON string
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then(result => {
+        console.log('Success:', result);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+
+
+}
+
+// async function gameComplete(gameId) {
+//     console.log("gameComplete service called")
+//     let users = await User.find({gameId:gameId});
+//     for(let i=0;i<users.length;i++){
+//         users[i].gameId = undefined;
+//         users[i].gameState = undefined;
+//         users[i].userUniqueId = undefined;
+//         await users[i].save();
+//     }
+// }
+
+// async function updateGameStatsToGamePlay(gameId) {
+//     let users = await User.find({gameId:gameId});
+//     for(let i=0;i<users.length;i++){
+//         users[i].gameState = "gamePlay";
+//         await users[i].save();
+//     }
+// }
+
+// async function register(userParam) {
+//     console.log(userParam)
+    
+//     // validate
+//     if (await User.findOne({ userName: userParam.userName })) {
+//         throw 'Username "' + userParam.userName + '" is already taken';
+//     }
+
+//     const user = new User(userParam);
+
+//     // save user
+//     await user.save();
+// }
