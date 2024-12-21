@@ -9,28 +9,35 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/tokens.js" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <style>
+        svg path {
+            fill: #fff;
+        }
+    </style>
   </head>
 
-  <body class="bg-gray-900 flex items-center justify-center min-h-screen">
-    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16"
+  <body class="bg-gray-900 flex items-center justify-center min-h-screen" style="background-image: url('../../images/room5.jpg'); background-size: cover; background-position: center;">
+    <section class="bg-white py-8 antialiased dark:bg-transparent md:py-16"
       style="width: 100%; max-width: 1280px; padding: 20px;">
-      <section class="bg-gray-50 dark:bg-gray-900">
+      <section class="bg-transparent dark:bg-transparent">
         <div id="loginFormContainer" class="-mt-20">
-            <section class="bg-gray-900 dark:bg-gray-900">
+            <section class="bg-transparent dark:bg-transparent">
                 <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                    <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                    <!-- <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                         🎲 Dice Game
-                    </a>
+                    </a> -->
                     <div
-                        class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                        class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+                    style="background-image: url('../../images/room5.jpg'); background-size: cover; background-position: center;"    
+                    >
                         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                             <h1
                                 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
                             <form class="space-y-4 md:space-y-6">
-                                <div>
+                                <!-- <div>
                                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                         email</label>
                                     <input type="email" name="email" id="emailId"
@@ -57,27 +64,56 @@
                                     <a href="/reset-password"
                                         class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
                                         password?</a>
-                                </div>
-                                <button id="loginBtn"
+                                </div> -->
+                                <!-- <button id="loginBtn"
                                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Sign in
-                                </button>
+                                </button> -->
                                 <div class="flex items-center justify-center space-x-4 mt-4">
+                                
                                     <button
                                         class="flex items-center justify-center w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                d="M21.6 10.22h-9.6v3.56h5.56c-.31 1.48-1.68 2.22-3.31 2.22-1.79 0-3.23-1.48-3.23-3.29s1.44-3.29 3.23-3.29c.92 0 1.69.31 2.37.79l2.61-2.66c-1.28-1.09-3.08-1.79-4.97-1.79-4.44 0-7.79 3.53-7.79 7.79 0 4.26 3.42 7.79 7.79 7.79 3.92 0 7.22-2.93 7.22-7.79 0-.31-.02-.61-.05-.92z" />
+                                        <svg class="w-8" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            fill="#000000">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>google [#178]</title>
+                                                <desc>Created with Sketch.</desc>
+                                                <defs> </defs>
+                                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <g id="Dribbble-Light-Preview" transform="translate(-300.000000, -7399.000000)" fill="#000000">
+                                                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                            <path
+                                                                d="M263.821537,7247.00386 L254.211298,7247.00386 C254.211298,7248.0033 254.211298,7250.00218 254.205172,7251.00161 L259.774046,7251.00161 C259.560644,7252.00105 258.804036,7253.40026 257.734984,7254.10487 C257.733963,7254.10387 257.732942,7254.11086 257.7309,7254.10986 C256.309581,7255.04834 254.43389,7255.26122 253.041161,7254.98137 C250.85813,7254.54762 249.130492,7252.96451 248.429023,7250.95364 C248.433107,7250.95064 248.43617,7250.92266 248.439233,7250.92066 C248.000176,7249.67336 248.000176,7248.0033 248.439233,7247.00386 L248.438212,7247.00386 C249.003881,7245.1669 250.783592,7243.49084 252.969687,7243.0321 C254.727956,7242.65931 256.71188,7243.06308 258.170978,7244.42831 C258.36498,7244.23842 260.856372,7241.80579 261.043226,7241.6079 C256.0584,7237.09344 248.076756,7238.68155 245.090149,7244.51127 L245.089128,7244.51127 C245.089128,7244.51127 245.090149,7244.51127 245.084023,7244.52226 L245.084023,7244.52226 C243.606545,7247.38565 243.667809,7250.75975 245.094233,7253.48622 C245.090149,7253.48921 245.087086,7253.49121 245.084023,7253.49421 C246.376687,7256.0028 248.729215,7257.92672 251.563684,7258.6593 C254.574796,7259.44886 258.406843,7258.90916 260.973794,7256.58747 C260.974815,7256.58847 260.975836,7256.58947 260.976857,7256.59047 C263.15172,7254.63157 264.505648,7251.29445 263.821537,7247.00386"
+                                                                id="google-[#178]"> </path>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
                                         </svg>
                                         Continue with Google
                                     </button>
                                     <button
-                                        class="flex items-center justify-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
-                                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                d="M12 2.04c5.46 0 9.94 4.48 9.94 9.94 0 4.4-2.86 8.13-6.84 9.45-.5.1-.7-.22-.7-.5v-1.77c0-.9-.03-2.03-.04-3.2h1.54l.25-1.96H14.3c.02-2.44.3-3.44 1.46-4.17.88-.54 1.12-.47 2.02-.5.25-.02.52-.03.8-.03.62 0 1.16-.1 1.62-.27-.36-.54-.78-1-1.26-1.35-.68-.5-1.68-.82-2.68-.88-.3-.02-.63-.03-.98-.03-1.03 0-2.24.23-3.2.73-.95.5-1.83 1.43-2.32 2.62-.7 1.57-1 4.03-.9 6.45H9v1.95h1.96v3.1c.1.3.3.5.6.5h.07c2.34-.4 4.38-1.45 6-2.86 1.58-1.35 2.83-3.16 3.52-5.3.6-1.87.91-4 .91-6.18 0-5.46-4.48-9.94-9.94-9.94z" />
+                                        class="facebook-login flex items-center justify-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
+                                        <svg class="w-8" viewBox="-5 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            fill="#000000">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>facebook [#176]</title>
+                                                <desc>Created with Sketch.</desc>
+                                                <defs> </defs>
+                                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <g id="Dribbble-Light-Preview" transform="translate(-385.000000, -7399.000000)" fill="#000000">
+                                                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                            <path
+                                                                d="M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z"
+                                                                id="facebook-[#176]"> </path>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
                                         </svg>
                                         Continue with Facebook
                                     </button>
@@ -97,48 +133,83 @@
       </section>
     </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <!-- GOOGLE LOGIN -->
 
+    <!-- FACEBOOK LOGIN -->
     <script>
+
         document.addEventListener("DOMContentLoaded", () => {
-                const clientId = "YOUR_GOOGLE_CLIENT_ID"; // Replace with your Google Client ID
+                const appId = "1795552171255237"; // Replace with your Facebook App ID
 
-                google.accounts.id.initialize({
-                    client_id: clientId,
-                    callback: handleGoogleResponse,
-                });
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        appId: appId,
+                        cookie: true,
+                        xfbml: true,
+                        version: "v13.0",
+                    });
 
-                google.accounts.id.renderButton(
-                    document.querySelector(".google-login"), // Target your Google login button
-                    {
-                        theme: "outline",
-                        size: "large",
-                    }
-                );
+                    FB.AppEvents.logPageView();
+                };
 
-                function handleGoogleResponse(response) {
-                    const token = response.credential;
-                    console.log("Google token:", token);
+                document.querySelector(".facebook-login").addEventListener("click", () => {
+                    FB.login(
+                        (response) => {
+                            if (response.authResponse) {
+                                console.log("Facebook token:", response.authResponse.accessToken);
 
-                    // Send the token to your server for verification
-                    fetch("/api/google-login", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
+                                // Send the token to your server for verification
+                                fetch("/api/facebook-login", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ token: response.authResponse.accessToken }),
+                                })
+                                    .then((res) => res.json())
+                                    .then((data) => {
+                                        console.log("User authenticated:", data);
+                                        // Redirect or update UI based on successful login
+                                    })
+                                    .catch((error) => console.error("Error:", error));
+                            } else {
+                                console.error("User cancelled login or did not fully authorize.");
+                            }
                         },
-                        body: JSON.stringify({ token }),
-                    })
-                        .then((res) => res.json())
-                        .then((data) => {
-                            console.log("User authenticated:", data);
-                            // Redirect or update UI based on successful login
-                        })
-                        .catch((error) => console.error("Error:", error));
-                }
+                        { scope: "email,public_profile" }
+                    );
+                });
             });
+
 
     </script>
 
+   
+
   </body>
+
+
+  <script>
+    // check if document is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const totalImages = 16; // Set the total number of images
+        const images = Array.from({ length: totalImages }, (_, i) => `room-${i + 1}.jpg`);
+        let currentIndex = 8;
+
+        function changeBackground() {
+            const body = document.querySelector('body');
+            body.style.backgroundImage = `url('../../images/${images[currentIndex]}')`;
+
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        changeBackground();
+        setInterval(changeBackground, 10000); // Change background every 5 seconds
+    });
+    
+
+    
+  </script>
 
 </html>
