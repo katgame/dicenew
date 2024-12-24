@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <script src="https://pay.google.com/gp/p/js/pay.js" async></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/tokens.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+    
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+    
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: url('https://via.placeholder.com/120') no-repeat center;
+            background-size: cover;
+        }
+    
+        .timer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#4caf50 0%, #4caf50 var(--progress), #e0e0e0 var(--progress));
+            mask-image: radial-gradient(circle, transparent 60%, black 50.5%);
+            -webkit-mask-image: radial-gradient(circle, transparent 60%, black 50.5%);
+        }
+    </style>
+  </head>
+
+  <body class="flex items-center justify-center min-h-screen" style="background-image: url('../../images/room5.jpg'); background-size: cover; background-position: center;">
+    
+   
+    <div class="avatar-container">
+        <div class="avatar" style="background-image: url('../../images/2.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="timer" id="timer"></div>
+    </div>
+    
+    <script>
+        const timerElement = document.getElementById('timer');
+        const totalTime = 10; // Total time in seconds
+        let elapsedTime = 0;
+
+        function updateTimer() {
+            elapsedTime += 0.1; // Increment time in tenths of a second
+            const progress = (elapsedTime / totalTime) * 100;
+
+            // Update the CSS variable for the circular timer
+            timerElement.style.setProperty('--progress', `${progress}%`);
+
+            if (elapsedTime >= totalTime) {
+                clearInterval(timerInterval);
+                timerElement.style.background = 'conic-gradient(#ffff00 0%, #ffff00 var(--progress), #e0e0e0 var(--progress))';
+                // if skip button is clicked, set background to  red
+                // timerElement.style.background = 'conic-gradient(#ff0000 0%, #ff0000 var(--progress), #e0e0e0 var(--progress))';
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 100); // Update every 100ms
+    </script>
+
+   
+
+  </body>
+
+
+  <script>
+    // check if document is loaded
+    document.addEventListener("DOMContentLoaded", () => {
+
+        const totalImages = 15; // Set the total number of images
+        const images = Array.from({ length: totalImages }, (_, i) => `game-${i + 1}.jpg`);
+        let currentIndex = 0;
+
+        function changeBackground() {
+            const body = document.querySelector('body');
+            body.style.backgroundImage = `url('../../images/${images[currentIndex]}')`;
+
+            currentIndex = (currentIndex + 1) % images.length;
+        }
+
+        changeBackground();
+        setInterval(changeBackground, 10000); // Change background every 5 seconds
+    });
+    
+
+    
+  </script>
+
+</html>
