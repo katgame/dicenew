@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Token Top-Up</title>
+        <script src="https://pay.google.com/gp/p/js/pay.js" async></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="js/tokens.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-gray-900 flex items-center justify-center min-h-screen">
+    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16" style="width: 100%; max-width: 1280px; padding: 20px;">
+        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <div class="mx-auto max-w-5xl">
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Buy Tokens</h2>
+                <!-- <p class="text-gray-500 text-sm">Check your billing address below</p> -->
+                <div class="mt-6 mb-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
+                    <form 
+                        id="topUpForm"
+                        action="#"
+                        class="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:max-w-xl lg:p-8">
+                        <div class="mb-6 grid grid-cols-2 gap-4">
+                           
+                            <div>
+                                <label for="tokens" class="mb-2 block text-sm font-medium text-blue-200 dark:text-blue-200">
+                                    Tokens </label>
+                                <input type="text" id="tokenAmount"
+                                    class="block w-full rounded-lg border border-gray-300 bg-blue-200 font-bold p-2.5 text-sm text-blue-900 focus:border-blue-500 focus:ring-blue-500 dark:border-blue-600 dark:bg-blue-200 dark:text-blue-900 dark:placeholder:text-blue-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    placeholder="0" value="0" required />
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-center">
+                            <button id="googlePayButton" type="submit"
+                                class="flex w-full items-center justify-center rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-900 focus:outline-none focus:ring-4  focus:ring-gray-300 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Pay
+                                now</button>
+
+                                <!-- Apple Pay Button -->
+                                <button id="applePayButton" type="button"
+                                    class="px-6 py-3 bg-black text-white font-medium rounded-lg shadow-md hover:bg-gray-800 transition duration-300 w-full">
+                                    Pay with Apple Pay
+                                </button>
+                        </div>
+                        
+                    </form>
+    
+                    <div class="mt-6 grow sm:mt-8 lg:mt-0">
+                        <div
+                            class="space-y-4 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
+                            <div class="space-y-2">
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tokens</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white"><span id="tokenBalance">0</span></dd>
+                                </dl>
+    
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Purchase price</dt>
+                                    <dd class="text-base font-medium text-green-500">R0</dd>
+                                </dl>
+<!--     
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Store Pickup</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">$99</dd>
+                                </dl> -->
+    
+                                <dl class="flex items-center justify-between gap-4">
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Tax</dt>
+                                    <dd class="text-base font-medium text-gray-900 dark:text-white">14%</dd>
+                                </dl>
+                            </div>
+    
+                            <dl
+                                class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                                <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
+                                <dd class="text-base font-bold text-gray-900 dark:text-white">R0</dd>
+                            </dl>
+                        </div>
+    
+                        <div class="mt-6 flex items-center justify-center gap-8">
+                            <img class="h-8 w-auto dark:hidden"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
+                            <img class="hidden h-8 w-auto dark:flex"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg"
+                                alt="" />
+                            <img class="h-8 w-auto dark:hidden"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
+                            <img class="hidden h-8 w-auto dark:flex"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg"
+                                alt="" />
+                            <img class="h-8 w-auto dark:hidden"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg"
+                                alt="" />
+                            <img class="hidden h-8 w-auto dark:flex"
+                                src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg"
+                                alt="" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-500 sm:mt-8 lg:text-left">
+                    Payment processed by
+                    <a href="#" title="" class="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500">Google
+                        Payments</a>
+                
+                </p>
+                
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script> -->
+        <!-- <script>
+            // Initialize the Google Pay API
+            document.addEventListener("DOMContentLoaded", function () {
+                    // Simulated user data
+                    const user = {
+                        name: "John Doe",
+                        email: "johndoe@example.com",
+                        tokenBalance: 50,
+                    };
+
+                    // Update token balance and user details
+                    $("#customerName").text(user.name);
+                    $("#customerEmail").text(user.email);
+                    $("#tokenBalance").text(user.tokenBalance);
+
+                    // Google Pay Configuration
+                    const googlePayConfig = {
+                        apiVersion: 2,
+                        apiVersionMinor: 0,
+                        allowedPaymentMethods: [
+                            {
+                                type: "CARD",
+                                parameters: {
+                                    allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                                    allowedCardNetworks: ["VISA", "MASTERCARD"],
+                                },
+                                tokenizationSpecification: {
+                                    type: "PAYMENT_GATEWAY",
+                                    parameters: {
+                                        gateway: "example",
+                                        gatewayMerchantId: "exampleMerchantId",
+                                    },
+                                },
+                            },
+                        ],
+                        merchantInfo: {
+                            merchantId: "12345678901234567890",
+                            merchantName: "Token Top-Up Store",
+                        },
+                        transactionInfo: {
+                            totalPriceStatus: "FINAL",
+                            totalPrice: "200",
+                            currencyCode: "ZAR",
+                        },
+                    };
+
+                    // Load Google Pay button
+                    const loadGooglePay = () => {
+                        const paymentsClient = new google.payments.api.PaymentsClient({
+                            environment: "TEST",
+                        });
+
+                        paymentsClient.isReadyToPay(googlePayConfig).then(function (response) {
+                            if (response.result) {
+                                const googlePayButton = paymentsClient.createButton({
+                                    onClick: onGooglePayButtonClicked,
+                                });
+                                document.getElementById("googlePayButton").replaceWith(googlePayButton);
+                            }
+                        });
+                    };
+
+                    const onGooglePayButtonClicked = () => {
+                        const tokenAmount = $("#tokenAmount").val();
+                        if (!tokenAmount || tokenAmount <= 0) {
+                            alert("Please enter a valid number of tokens.");
+                            return;
+                        }
+
+                        // Update transaction info based on tokenAmount
+                        googlePayConfig.transactionInfo.totalPrice = tokenAmount; // Example: $0.50 per token
+
+                        const paymentsClient = new google.payments.api.PaymentsClient({
+                            environment: "TEST",
+                        });
+
+                        paymentsClient
+                            .loadPaymentData(googlePayConfig)
+                            .then(function (paymentData) {
+                                // Handle successful payment response here
+                                console.log("Payment successful!", paymentData);
+                                user.tokenBalance += parseInt(tokenAmount);
+                                $("#tokenBalance").text(user.tokenBalance);
+                                alert(`Successfully purchased ${tokenAmount} tokens!`);
+                            })
+                            .catch(function (err) {
+                                console.error("Payment failed", err);
+                                alert("Payment failed. Please try again.");
+                            });
+                    };
+
+                    // Initialize Google Pay
+                    loadGooglePay();
+                });
+
+            </script> -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                        const user = {
+                            name: "John Doe",
+                            email: "johndoe@example.com",
+                            tokenBalance: 50,
+                        };
+
+                        // Update token balance and user details
+                        $("#customerName").text(user.name);
+                        $("#customerEmail").text(user.email);
+                        $("#tokenBalance").text(user.tokenBalance);
+
+                        // Google Pay Configuration (unchanged)
+                        const googlePayConfig = {
+                            // (Google Pay configuration remains the same as in the previous example)
+                             apiVersion: 2,
+                            apiVersionMinor: 0,
+                            allowedPaymentMethods: [
+                                {
+                                    type: "CARD",
+                                    parameters: {
+                                        allowedAuthMethods: ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+                                        allowedCardNetworks: ["VISA", "MASTERCARD"],
+                                    },
+                                    tokenizationSpecification: {
+                                        type: "PAYMENT_GATEWAY",
+                                        parameters: {
+                                            gateway: "example",
+                                            gatewayMerchantId: "exampleMerchantId",
+                                        },
+                                    },
+                                },
+                            ],
+                            merchantInfo: {
+                                merchantId: "12345678901234567890",
+                                merchantName: "Token Top-Up Store",
+                            },
+                            transactionInfo: {
+                                totalPriceStatus: "FINAL",
+                                totalPrice: "200",
+                                currencyCode: "ZAR",
+                            },
+                        };
+
+                        // Initialize Google Pay
+                        const loadGooglePay = () => {
+                            const paymentsClient = new google.payments.api.PaymentsClient({
+                                environment: "TEST",
+                            });
+
+                            paymentsClient.isReadyToPay(googlePayConfig).then(function (response) {
+                                if (response.result) {
+                                    const googlePayButton = paymentsClient.createButton({
+                                        onClick: onGooglePayButtonClicked,
+                                    });
+                                    document.getElementById("googlePayButton").replaceWith(googlePayButton);
+                                }
+                            });
+                        };
+
+                        const onGooglePayButtonClicked = () => {
+                            const tokenAmount = $("#tokenAmount").val();
+                            if (!tokenAmount || tokenAmount <= 0) {
+                                alert("Please enter a valid number of tokens.");
+                                return;
+                            }
+
+                            googlePayConfig.transactionInfo.totalPrice = (tokenAmount * 0.5).toFixed(2);
+                            const paymentsClient = new google.payments.api.PaymentsClient({
+                                environment: "TEST",
+                            });
+
+                            paymentsClient
+                                .loadPaymentData(googlePayConfig)
+                                .then(function (paymentData) {
+                                    console.log("Payment successful!", paymentData);
+                                    user.tokenBalance += parseInt(tokenAmount);
+                                    $("#tokenBalance").text(user.tokenBalance);
+                                    alert(`Successfully purchased ${tokenAmount} tokens!`);
+                                })
+                                .catch(function (err) {
+                                    console.error("Payment failed", err);
+                                    alert("Payment failed. Please try again.");
+                                });
+                        };
+
+                        // Apple Pay Integration
+                        const loadApplePay = () => {
+                            const tokenAmount = $("#tokenAmount").val();
+                            if (!tokenAmount || tokenAmount <= 0) {
+                                alert("Please enter a valid number of tokens.");
+                                return;
+                            }
+
+                            if (window.ApplePaySession && ApplePaySession.canMakePayments()) {
+                                const paymentRequest = {
+                                    countryCode: "US",
+                                    currencyCode: "USD",
+                                    total: {
+                                        label: "Token Purchase",
+                                        amount: (tokenAmount * 0.5).toFixed(2), // Example: $0.50 per token
+                                    },
+                                    supportedNetworks: ["visa", "masterCard", "amex"],
+                                    merchantCapabilities: ["supports3DS"],
+                                    merchantIdentifier: "merchant.com.example",
+                                };
+
+                                const session = new ApplePaySession(3, paymentRequest);
+
+                                session.onvalidatemerchant = function (event) {
+                                    // Call your server to validate the merchant session
+                                    fetch("/validate-apple-pay", {
+                                        method: "POST",
+                                        body: JSON.stringify({ validationURL: event.validationURL }),
+                                    })
+                                        .then((res) => res.json())
+                                        .then((merchantSession) => {
+                                            session.completeMerchantValidation(merchantSession);
+                                        });
+                                };
+
+                                session.onpaymentauthorized = function (event) {
+                                    // Handle payment authorization
+                                    console.log("Payment authorized", event.payment);
+                                    session.completePayment(ApplePaySession.STATUS_SUCCESS);
+
+                                    user.tokenBalance += parseInt(tokenAmount);
+                                    $("#tokenBalance").text(user.tokenBalance);
+                                    alert(`Successfully purchased ${tokenAmount} tokens!`);
+                                };
+
+                                session.oncancel = function () {
+                                    console.log("Apple Pay payment canceled");
+                                };
+
+                                session.begin();
+                            } else {
+                                alert("Apple Pay is not available on this device.");
+                            }
+                        };
+
+                        // Attach event listeners
+                        $("#googlePayButton").on("click", loadGooglePay);
+                        $("#applePayButton").on("click", loadApplePay);
+
+                        // Initialize Google Pay
+                        loadGooglePay();
+                    });
+
+            </script>
+    </body>
+
+</html>
