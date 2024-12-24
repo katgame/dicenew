@@ -1,0 +1,8 @@
+{
+    "connectionString": "mongodb://localhost:27017/dice",
+    "secret": "DICEAPP",
+    "redishost":"localhost",
+    "redishostprod":"redis.diceapp.com",
+    "redisport":6379
+}
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Game</title>
+    <script src='js/jquery.min.js'></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/gameroom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script src="js/events.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lobby.js"></script>
+    <script src="js/frontendlogic.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Multi-Player Dice Game</h1>
+            <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button>
+            <button class="btn btn-primary btn-lg" style="display: none;" id="leaveGameBtn" type="button">Leave
+                Game</button>
+        </div>
+        <div id="loginFormContainer" class="row">
+            <div class="col-sm-12">
+                <h2>Login to application</h2>
+                <form id="loginForm" class="needs-validation" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="emailId">Email:</label>
+                            <input id="emailId" type="email" class="form-control" placeholder="Email" value="" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Looks incorrect.
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg" id="loginBtn" type="button">Login</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div id="start" class="col-sm-12" style="display: none;">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <span id="creategame"> <button class="btn btn-primary btn-lg">Create Room</button> </span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span id="joinroom"> <button class="btn btn-primary btn-lg">Join Room</button></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="joinroomcontrols" class="col-sm-12" style="display: none;">
+                <div>
+                    <label for="roomid">Room:</label>
+                    <input id="roomid" class="form-control" placeholder="Enter Room name" required="" autofocus="">
+                    <a href="#" id="joinbutton"><button class="btn btn-primary btn-lg mt-3">Join</button></a>
+                </div>
+            </div>
+
+
+
+            <div id="lobby" class="col-sm-12">
+
+            </div>
+            <div id="gameroom" class="col-sm-12" style="display: none;">
+                <label>Timer: </label>
+                <div id="playertimer">00:00</div>
+                <div id="totalBet">R0</div>
+                <div class="rolldice mt-4"><a id="rollbutton">
+                        <Button class="btn-primary btn-lg">Roll
+                            Dice</Button></a>
+
+                </div>
+                <div class="rolldice mt-4">
+                    <a id="placebet"> <Button class="btn-primary btn-lg">Bet</Button></a>
+                    <a id="skip"> <Button class="btn-primary btn-lg">Skip</Button></a>
+                </div>
+                <div id="roundResult"></div>
+                <div id="winnerResult"></div>
+
+                <iframe id="gameframe" width="100%" height="400"></iframe>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
