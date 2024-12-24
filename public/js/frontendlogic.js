@@ -54,7 +54,7 @@
         // Get user game details
         //var jqxhr = $.get("/user/" + userData._id, function (data) {
         var jqxhr = $.get(
-          baseAPIUrl + "api/Authentication/get-user?userId=" + userData._id,
+          baseAPIUrl + "api/Authentication/get-user?userId=" + userData.userDetails.id, 
           function (data) {
             navigateTo(data);
           }
@@ -72,9 +72,9 @@
     $("#lobby,#gameroom").hide();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     var jqxhr = $.post(
-      baseAPIUrl + "api/Authentication/leave-game?userId=" + userData._id,
+      baseAPIUrl + "api/Authentication/leave-game?userId=" +  userData.userDetails.id,
       function (data) {
-        // var jqxhr = $.post("/user/leaveGame/" + userData._id, function (data) {
+        socket.emit("deletegame", { gameId: GameRoom });
         $("#lobby").empty();
         navigateTo(data);
       }
@@ -109,28 +109,6 @@
       password: "@Tester2",
     });
 
-    // var jqxhr = $.post(
-    //   "/user/authenticate",
-    //   { userName: userName },
-    //   function (data) {
-    //     console.log("Response data on Successful login: ", data);
-
-    //     if (sessionStorage) {
-    //       let sessionData = {
-    //         _id: data._id,
-    //         userName: data.userName,
-    //       };
-    //       sessionStorage.setItem("userData", JSON.stringify(sessionData));
-    //     }
-
-    //     navigateTo(data);
-    //   }
-    // ).fail(function (err) {
-    //   console.log("Fail data on Lofin: ", err);
-    //   if (err && err.responseText) {
-    //     alert(err.responseText);
-    //   }
-    // });
   }
 
   function navigateTo(data) {
@@ -146,8 +124,6 @@
       myID = data.userUniqueId;
 
       GameRoom = data.gameId;
-
-      var userData = JSON.parse(sessionStorage.getItem("userData"));
       socket.emit("getplayerdata", { gameId: GameRoom, userUniqueId: myID });
     } else if (data && data.gameState && data.gameState == "gamePlay") {
       // Load gamePlay
@@ -183,15 +159,15 @@
 
     socket.emit("joingame", {
       all: {
-        name: userData.userName,
+        name: userData.userDetails.email,
         score: 0,
         state: "idle",
         type: "member",
-        activeRound: "false",
-        _id: userData._id,
+        activeRound: false,
+        _id:  userData.userDetails.id,
       },
       gameID: $("#roomid").val(),
-      _id: userData._id,
+      _id:  userData.userDetails.id,
     });
   }
 
@@ -206,12 +182,13 @@
     var userData = JSON.parse(sessionStorage.getItem("userData"));
 
     socket.emit("creategame", {
-      name: userData.userName,
+      name:  userData.userDetails.email,
       score: 0,
       state: "ready",
       type: "room-admin",
-      _id: userData._id,
-      activeRound: "false",
+      betStatus : '',
+      _id:  userData.userDetails.id,
+      activeRound: false,
       roundCount: 0,
     });
   }
@@ -253,7 +230,7 @@
     $("#playertimer").text("0");
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     console.log("userData :", userData);
-    socket.emit("rolldice", { gameID: GameRoom, clientID: userData._id });
+    socket.emit("rolldice", { gameID: GameRoom, clientID:  userData.userDetails.id });
     //makeDiceCall(GameRoom);
   }
 
@@ -295,7 +272,7 @@
               _id: data.userDetails.id,
               userName: data.userDetails.email,
             };
-            sessionStorage.setItem("userData", JSON.stringify(sessionData));
+            sessionStorage.setItem("userData", JSON.stringify(data));
           }
 
           navigateTo(data);
@@ -344,7 +321,7 @@
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       socket.emit("rejoingamelobby", {
         all: {
-          name: userData.userName,
+          name:  userData.userDetails.email,
           score: 0,
           state: data.state,
           type: data.type,
@@ -362,6 +339,9 @@
     });
 
     socket.on("GameWon", function (data) {
+
+      console.log('data : ' , data)
+      console.log('myID : ' , myID)
       if (data.result === "win") {
         if (myID == data.player.id) {
           $("#winnerResult").text("YOU WON");
@@ -406,6 +386,32 @@
       console.log("Trigger in updateLobby");
       oLobby.updateLobby(data);
     });
+
+    socket.on("requestBetApproval", function (data) {
+      console.log("Trigger in requestBetApproval : ", data);
+    
+      const { approver, bettor, bet } = data;
+     // const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
+     // console.log("Trigger in requestBetApproval : ", data);
+      // Prompt the current player to approve or skip the bet
+      // const { approver, bettor, bet } = data;
+  
+      // // Example UI logic
+      console.log('myID :' , myID)
+      console.log('approver :' , approver)
+      if(approver === myID) {
+        console.log('approver entered')
+       
+        const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
+        socket.emit("approveBet", {
+            approverID: approver,
+            bettorID: bettor,
+            approve: approve,
+            gameId : GameRoom
+        });
+      }
+    
+  });
 
     socket.on("placebet", function (data) {
       console.log("placebet updated, player is ready", data);
@@ -473,9 +479,13 @@
         $("#playertimer").text(data.timer);
         $("#rollbutton").css("pointer-events", "all");
         $("#rollbutton").find("button").prop("disabled", false);
+        $("#placebet").find("button").prop("disabled", false);
+        $("#skip").find("button").prop("disabled", false);
       } else {
         $("#rollbutton").css("pointer-events", "none");
         $("#rollbutton").find("button").prop("disabled", true);
+        $("#placebet").find("button").prop("disabled", true);
+        $("#skip").find("button").prop("disabled", true);
       }
     });
 

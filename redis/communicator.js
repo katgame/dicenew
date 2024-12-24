@@ -22,7 +22,7 @@ class Communication {
 
   initSockets() {
     this.io.on("connection", (socket) => {
-      console.log("a user connected .");
+      console.log(`User connected with socket ID: ${socket.id}`);
 
       //socket.emit('client_id',  socket.id);
       socket.on("getplayerdata", (data) => {
@@ -55,15 +55,15 @@ class Communication {
       socket.on("placebet", (data) => {
         var oGame = this.findAndGetGame(data.gameId);
         oGame.updatePlayerBet(data.myID, data.bet);
-        oGame.getGameData((gameData) => {
-          this.io
-            .to(data.gameId)
-            .emit("placebet", {
-              players: gameData.players,
-              total: gameData.total,
-              gameState: gameData.gameState,
-            });
-        });
+        // oGame.getGameData((gameData) => {
+        //   this.io
+        //     .to(data.gameId)
+        //     .emit("placebet", {
+        //       players: gameData.players,
+        //       total: gameData.total,
+        //       gameState: gameData.gameState,
+        //     });
+        // });
         console.log("data.gameID.", data.gameID);
         // var oGame = this.findAndGetGame(data.gameID);
         console.log("oGame", oGame);
@@ -157,6 +157,8 @@ class Communication {
         //
       });
 
+
+
       socket.on("rejoingamelobby", (data) => {
         console.log("rejoin game", data);
         var myID = shortid.generate();
@@ -193,6 +195,12 @@ class Communication {
         });
       });
 
+      socket.on("approveBet", (data) => {
+        console.log("approveBet", data);
+        var oGame = this.findAndGetGame(data.gameId);
+          oGame.approveBet(data.approverID, data.bettorID, data.approve)
+      });
+
       //
 
       //gameplay sockets
@@ -207,6 +215,11 @@ class Communication {
         oGame.getGameData((gameData) => {
           this.io.to(data.gameID).emit("startgame", gameData.players);
         });
+      });
+
+      socket.on("deletegame", (data) => {
+        var oGame = this.findAndGetGame(data.gameId);
+        oGame.deleteGame();
       });
 
 

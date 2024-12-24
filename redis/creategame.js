@@ -48,20 +48,102 @@ class Game {
   }
 
   updatePlayerBet(id, bet) {
-    this.updatePotTotal(bet);
-    for (var i = 0; i < this.oGameData.players.length; i++) {
-      if (this.oGameData.players[i].id == id) {
-        this.oGameData.players[i].activeRound = bet;
+    //check first bet is the current player
+
+    var playerId = this.oGameData.players.find((p) => p.id === id)._id;
+    if (this.oGameData.mainPlayer === playerId) {
+      if (this.oGameData.players[this.nCurrentPlayer].roundCount === 1) {
+        if (bet) {
+          //accepted first bet
+          this.oGameData.players[this.nCurrentPlayer].activeRound = bet;
+          this.oGameData.players[this.nCurrentPlayer].betStatus = "ACCEPTED";
+          this.setGameData(this.oGameData);
+        } else {
+          //declined first bet
+          this.oGameData.players[this.nCurrentPlayer].activeRound = false;
+          this.oGameData.players[this.nCurrentPlayer].betStatus = "SKIPPED";
+          this.setGameData(this.oGameData);
+          this.computeNextTurn();
+          this.startTurnCountDown();
+        }
       }
+    } else {
+      for (let i = 0; i < this.oGameData.players.length; i++) {
+        if (this.oGameData.players[i].id === id) {
+          this.oGameData.players[i].activeRound = bet;
+          this.oGameData.players[i].betStatus = "PENDING"; // Mark bet as pending
+        }
+      }
+      this.promptBetApproval();
     }
-    this.setGameData(this.oGameData);
+  }
+
+  promptBetApproval() {
+    const nextPlayer = this.getNextPlayerWithPendingBet();
+
+    if (nextPlayer) {
+      var playerId = this.oGameData.players.find(
+        (p) => p._id === this.oGameData.mainPlayer
+      ).id;
+      // Notify the current player to approve the next player's bet
+      this.oIO.to(this.oGameID).emit("requestBetApproval", {
+        approver: playerId,
+        bettor: nextPlayer.id,
+        bet: this.oGameData.wager,
+      });
+    } else {
+      // All bets are approved, move to the next state
+      this.oGameData.gameState = "ACTIVE";
+      this.setGameData(this.oGameData);
+      //  this.computeNextTurn();
+      // this.startTurnCountDown();
+    }
+  }
+
+  getNextPlayerWithPendingBet() {
+    return this.oGameData.players.find(
+      (player) => player.betStatus === "PENDING"
+    );
   }
 
   updatePotTotal(bet) {
-    const wager = this.oGameData.wager;
+    const wager = this.oGameData.wager * 2;
     if (bet) {
       this.oGameData.total += wager;
+      this.setGameData(this.oGameData);
+      this.oIO.to(this.oGameID).emit("placebet", {
+        players: this.oGameData.players,
+        total: this.oGameData.total,
+        gameState: this.oGameData.gameState,
+      });
     }
+  }
+
+  approveBet(approverID, bettorID, approve) {
+    // if (this.oGameData.players[this.nCurrentPlayer].id !== approverID) {
+    //     throw new Error("Not your turn to approve a bet!");
+    // }
+
+    for (let i = 0; i < this.oGameData.players.length; i++) {
+      if (this.oGameData.players[i].id === bettorID) {
+        this.oGameData.players[i].betStatus = approve ? "ACCEPTED" : "SKIPPED";
+        if (this.oGameData.players[i].betStatus === "ACCEPTED") {
+          this.updatePotTotal(true);
+        }
+      }
+    }
+    const allAccepted = this.validateBets();
+    if (allAccepted) {
+      this.oGameData.gameState = "ACTIVE";
+      this.oGameData.roundResult = "Please place bets, to start new round";
+      this.setGameData(this.oGameData);
+      this.oIO.to(this.oGameID).emit("roundResult", this.oGameData.roundResult);
+    } else {
+      // this.computeNextTurn();
+      // this.startTurnCountDown();
+    }
+    // Continue prompting for approvals
+    // this.promptBetApproval();
   }
 
   computeNextTurn() {
@@ -70,11 +152,6 @@ class Game {
     if (this.nCurrentPlayer >= this.nMaxPlayer) {
       this.nCurrentPlayer = 0;
     }
-    // if(this.oGameData.gameType === 2) {
-    //     this.oGameData.players[this.nCurrentPlayer].currentScore = 0;
-    //     this.oGameData.players[this.nCurrentPlayer].roundCount = 1;
-    // }
-
     console.log("this.nCurrentPlayer >> ", this.nCurrentPlayer);
   }
 
@@ -148,18 +225,52 @@ class Game {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  validateBets() {
-    const allPlayersActive = this.oGameData.players.every(
-      (player) => player.activeRound === true && player.roundCount === 1
-    );
-    return allPlayersActive;
-  }
+  // validateBets() {
+  //   const allPlayersActive = this.oGameData.players.every(
+  //     (player) => player.activeRound === true && player.roundCount === 1
+  //   );
+  //   return allPlayersActive;
+  // }
 
+  validateBets() {
+    let allValid = true;
+
+    for (let i = 0; i < this.oGameData.players.length; i++) {
+      const player = this.oGameData.players[i];
+      if (player.betStatus !== "ACCEPTED" || player.activeRound !== true) {
+        allValid = false;
+        break;
+      }
+    }
+    return allValid;
+  }
+  // validateBets() {
+  //   // Ensure all players have placed a bet except the current player
+  //   const allPlayersActive = this.oGameData.players.every((player, index) => {
+  //       if (index === this.nCurrentPlayer) {
+  //           // Skip validating the current player for acceptance
+  //           return true;
+  //       }
+  //       // Validate other players' bets
+  //       return player.activeRound === true;
+  //   });
+  //   return allPlayersActive;
+  // }
   playTurn(diceScore) {
     this.nTimerCountdown = this.nMaxTime;
     console.log("playTurn ...  >>");
     clearInterval(this.nTimer);
     if (this.oGameData.gameState === "BETTING") {
+      const currentPlayerID = this.oGameData.players[this.nCurrentPlayer].id;
+
+      this.oGameData.players.forEach((player, index) => {
+        if (index !== this.nCurrentPlayer) {
+          this.oIO.to(this.oGameID).emit("promptBet", {
+            playerID: player.id,
+            currentPlayerID: currentPlayerID,
+          });
+        }
+      });
       var gameReady = this.validateBets();
       if (gameReady) {
         // Change gameState to 'ACTIVE'
@@ -173,10 +284,10 @@ class Game {
         this.startTurnCountDown();
         console.log("Not all players are active or in round 1 yet.");
       }
-      //   this.computeNextTurn();
-      //   this.startTurnCountDown();
-      //   this.setGameData(this.oGameData);
-      //   this.oIO.to(this.oGameID).emit("gameplayupdate", this.oGameData.players);
+      // this.computeNextTurn();
+      // this.startTurnCountDown();
+      // this.setGameData(this.oGameData);
+      // this.oIO.to(this.oGameID).emit("gameplayupdate", this.oGameData.players);
     } else {
       console.log("diceScore from paly turn : ", diceScore);
       if (this.oGameData.gameType === 3) {
@@ -248,39 +359,52 @@ class Game {
             );
 
             if (result === "WIN") {
-              this.updateUserAccounts(true,this.oGameData.currentPlayer, this.oGameData.players)
+              this.updateUserAccounts(
+                true,
+                this.oGameData.currentPlayer,
+                this.oGameData.players
+              );
               this.oGameData.roundState = "RESTARTWIN";
               this.oGameData.gameState = "BETTING";
               this.setGameData(this.oGameData);
-              this.restartCountDown();
+              //this.restartCountDown();
               this.resetRound();
-              const winner = this.oGameData.players.find(
-                (player) => player._id === this.oGameData.currentPlayer
+              const winner = this.oGameData.players.filter(
+                (player) => player._id === this.oGameData.mainPlayer
               );
               //  console.log("winner : ", winner);
               this.oIO
                 .to(this.oGameID)
-                .emit("GameWon", { player: winner, result: "win" });
-             
+                .emit("GameWon", { player: winner[0], result: "win" });
+              this.startTurnCountDown();
             } else if (result === "LOSE") {
-              this.updateUserAccounts(false,this.oGameData.currentPlayer, this.oGameData.players)
+              this.updateUserAccounts(
+                false,
+                this.oGameData.currentPlayer,
+                this.oGameData.players
+              );
               this.oGameData.roundState = "RESTARTLOSE";
               this.oGameData.gameState = "BETTING";
               this.setGameData(this.oGameData);
-              this.computeNextTurn();
-              // this.startTurnCountDown();
-              this.oIO
-                .to(this.oGameID)
-                .emit("gameplayupdate", this.oGameData.players);
+
+              // this.oIO
+              //   .to(this.oGameID)
+              //   .emit("gameplayupdate", this.oGameData.players);
+
               this.resetRound();
-              const loser = this.oGameData.players.find(
-                (player) => player._id !== this.oGameData.currentPlayer
+              const loser = this.oGameData.players.filter(
+                (player) => player._id === this.oGameData.mainPlayer
               );
               //    console.log("loser : ", winner);
               this.oIO
                 .to(this.oGameID)
-                .emit("GameWon", { player: loser, result: "lost" });
-               
+                .emit("GameWon", { player: loser[0], result: "lost" });
+          
+              this.computeNextTurn();
+              this.restartCountDown();
+
+              this.oGameData.mainPlayer =
+              this.oGameData.players[this.nCurrentPlayer]._id;
             } else {
               this.oGameData.roundState = "RETRY";
               this.restartCountDown();
@@ -301,12 +425,11 @@ class Game {
       }
     }
   }
-  
-  updateUserAccounts(currentPlayerWin, currentPlayer, players) {
 
+  updateUserAccounts(currentPlayerWin, currentPlayer, players) {
     const transactions = [];
-   
-    if(currentPlayerWin) {
+
+    if (currentPlayerWin) {
       const transaction = {
         userId: currentPlayer,
         price: this.oGameData.total,
@@ -315,49 +438,43 @@ class Game {
       transactions.push(transaction);
 
       const losers = this.oGameData.players.filter(
-        p => p._id !== this.oGameData.currentPlayer
+        (p) => p._id !== this.oGameData.currentPlayer
       );
 
-      losers.forEach(element => {
+      losers.forEach((element) => {
         const transaction = {
           userId: element._id,
           price: this.oGameData.wager,
           gameSessionResult: "Lose",
         };
         transactions.push(transaction);
-
       });
       diceService.updateRoundAccount(transactions);
 
-      console.log('transactions : ' , transactions)
+      console.log("transactions : ", transactions);
     } else {
+      const winners = this.oGameData.players.filter(
+        (p) => p._id !== this.oGameData.currentPlayer
+      );
+
       const transaction = {
         userId: currentPlayer,
-        price: this.oGameData.wager,
+        price: this.oGameData.wager * winners.length,
         gameSessionResult: "Lose",
       };
       transactions.push(transaction);
 
-      const winners = this.oGameData.players.filter(
-        p => p._id !== this.oGameData.currentPlayer
-      );
-
-      winners.forEach(element => {
+      winners.forEach((element) => {
         const transaction = {
           userId: element._id,
           price: this.oGameData.wager,
           gameSessionResult: "Win",
         };
         transactions.push(transaction);
-
       });
 
       diceService.updateRoundAccount(transactions);
     }
-
-
-
-   
   }
   getWinner(id) {
     return this.oGameData.players.find((player) => player._id === id);
@@ -372,6 +489,7 @@ class Game {
       player.currentScore = 0;
       player.roundCount = 1;
       player.activeRound = false;
+      player.betStatus = "PENDING";
     });
     clearInterval(this.nTimer);
     this.oIO.to(this.oGameID).emit("turntimer", {
@@ -393,9 +511,12 @@ class Game {
     this.oIO.to(this.oGameID).emit("GameWon", this.getWinner());
     //     // destry redis key
     //this.oRedis.del(this.oGameID);
-    // userService.gameComplete(this.oGameID);
+    //userService.gameComplete(this.oGameID);
   }
 
+  deleteGame() {
+    this.oRedis.del(this.oGameID);
+  }
   canCalculateScore() {
     var scoreReady = false;
     this.oGameData.players.forEach((player) => {
@@ -435,6 +556,7 @@ class Game {
       gameState: "TOSTART", // "ACTIVE" , "ENDED"
       gameRoom: gameID,
       currentPlayer: this.nCurrentPlayer,
+      mainPlayer: "",
       wager: 1000,
       total: 0,
       gameType: 2,
@@ -446,11 +568,16 @@ class Game {
 
   startGame() {
     this.nMaxPlayer = this.oGameData.players.length;
-    //this.oGameData.gameState = "ACTIVE"
-    this.oGameData.gameState = "BETTING";
     // start player turn timer
     this.computeNextTurn();
     this.startTurnCountDown();
+    this.oGameData.players[this.nCurrentPlayer].turn = " >> ";
+    this.oGameData.currentPlayer =
+      this.oGameData.players[this.nCurrentPlayer]._id;
+    if (this.oGameData.gameState === "TOSTART") {
+      this.oGameData.mainPlayer = this.oGameData.currentPlayer;
+    }
+    this.oGameData.gameState = "BETTING";
   }
 
   removePlayer(id) {

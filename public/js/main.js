@@ -293,7 +293,7 @@ function showRollResults(score) {
 
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     console.log('userData from main:' , userData)
-    userID = userData._id;
+    userID =  userData.userDetails.id;
     let first, second;
     console.log('params.numberOfDice : '  + params.numberOfDice)
     if(params.numberOfDice === 2) {
@@ -380,6 +380,7 @@ function throwDicefromAPI(rotation1, rotation2,forceMath) {
 
         d.body.velocity.setZero();
         d.body.angularVelocity.setZero();
+        
 
         d.body.position = new CANNON.Vec3(6, dIdx * 1.5, 0);
         d.mesh.position.copy(d.body.position);
