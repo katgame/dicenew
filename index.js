@@ -80,63 +80,6 @@ app.get('/room/:roomId', (req, res) => {
   res.render('room', { roomId });
 });
 
-// app.get('/room/:roomId', async (req, res) => {
-//   const roomId = req.params.roomId;
-
-//   // Attempt to retrieve room data from Redis
-//   try {
-//     let roomData = await redisClient.get(`room:${roomId}`);
-    
-//     if (!roomData) {
-//       // If no data exists, initialize a new room with default state
-//       roomData = {
-//         roomId: roomId,
-//         players: [], // Initial empty list of players
-//         gameState: "Waiting for players", // Initial game state
-//         createdAt: new Date().toISOString(), // Track room creation time
-//       };
-
-//       // Store the initial state in Redis, with an optional expiration time
-//       await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData)); // Expire in 1 hour
-//     } else {
-//       // Parse the existing room data
-//       roomData = JSON.parse(roomData);
-//     }
-
-//     // Render the room view using the stored or initialized room data
-//     res.render('room', { roomData });
-//   } catch (err) {
-//     console.error('Error fetching or setting room data in Redis:', err);
-//     res.status(500).send('Error loading room');
-//   }
-// });
-
-// app.post('/room/:roomId/join', async (req, res) => {
-//   const roomId = req.params.roomId;
-//   const playerName = req.body.playerName; // Assume playerName is passed in the request
-//   console.log('roomId :' , roomId)
-//   console.log('playerName :' , playerName)
-//   try {
-//     // Retrieve the current room data
-//     let roomData = await redisClient.get(`room:${roomId}`);
-//     if (!roomData) {
-//       return res.status(404).json({ message: "Room not found" });
-//     }
-
-//     roomData = JSON.parse(roomData);
-//     roomData.players.push(playerName); // Add new player to the room
-
-//     // Update the room data in Redis
-//     await redisClient.setEx(`room:${roomId}`, 3600, JSON.stringify(roomData));
-
-//     res.json({ message: `Player ${playerName} joined room ${roomId}` });
-//   } catch (err) {
-//     console.error('Error updating room data in Redis:', err);
-//     res.status(500).send('Error joining room');
-//   }
-// });
-
-
 
 app.get('/rooms', (req, res) => {
   return  JSON.parse(oModel);
