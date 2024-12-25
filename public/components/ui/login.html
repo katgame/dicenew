@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an Account</title>
-    <script src="https://pay.google.com/gp/p/js/pay.js" async></script>
+    <!-- <script src="https://pay.google.com/gp/p/js/pay.js" async></script> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/tokens.js" defer></script>
+    <!-- <script src="js/tokens.js" defer></script> -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='../../js/jquery.min.js'></script>
+    <script src="../../js/socket.io.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../js/frontendlogic.js"></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <style>
         svg path {
@@ -36,7 +40,7 @@
                                 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
-                            <form class="space-y-4 md:space-y-6">
+                            <form  method="POST" class="space-y-4 md:space-y-6" id="loginForm" class="needs-validation" novalidate>
                                  <div>
                                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                                         email</label>
@@ -65,10 +69,10 @@
                                         class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
                                         password?</a>
                                 </div> 
-                                <!-- <button id="loginBtn"
+                                <button id="loginBtn" type="button"
                                     class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Sign in
-                                </button> -->
+                                </button>
                                 <div class="flex items-center justify-center space-x-4 mt-4">
                                 
                                     <button

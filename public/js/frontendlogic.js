@@ -7,6 +7,7 @@
   var oGamePlay;
   var iframe;
   var _myID;
+  var schools;
   var baseAPIUrl = "https://localhost:44382/";
 
   ("use strict");
@@ -39,7 +40,8 @@
     $("#loginBtn").bind("click", loginToApplication);
     $("#logoutBtn").bind("click", logOutFromApplication);
     $("#leaveGameBtn").bind("click", leaveGame);
-
+ //   $("#actionButton").bind("click", setGameType);
+    
     if (sessionStorage) {
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       if (userData) {
@@ -69,6 +71,7 @@
   });
 
   function leaveGame() {
+    $("#dashboard").hide();
     $("#lobby,#gameroom").hide();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     var jqxhr = $.post(
@@ -93,12 +96,36 @@
     }
     $("#loginFormContainer").show();
     $(
-      "#start,#joinroomcontrols,#lobby,#gameroom,#logoutBtn,#leaveGameBtn"
+      "#start,#dashboard,#joinroomcontrols,#lobby,#gameroom,#logoutBtn,#leaveGameBtn"
     ).hide();
   }
 
   function loginToApplication() {
     var userName = $("#emailId").val();
+    var password = $("#password").val();
+    if (!userName || userName.indexOf("@") == -1) {
+      return;
+    }
+
+    login({
+      email: userName,
+      password: password,
+    });
+
+  }
+
+  function onSetGameType(event) {
+    const value = event.target.getAttribute("data-value");
+    console.log("Button clicked with value:", value);
+
+    sessionStorage.setItem("gameType", value);
+    if(value) {
+      $("#dashboard").hide();
+      $("#school").show();
+    }
+  }
+
+  function selectGameType() {
 
     if (!userName || userName.indexOf("@") == -1) {
       return;
@@ -106,7 +133,7 @@
 
     login({
       email: userName,
-      password: "@Tester2",
+      password: password,
     });
 
   }
@@ -120,6 +147,7 @@
     if (data && data.gameState && data.gameState == "lobby") {
       $("#gameroom #scoreboard").remove();
       $("#leaveGameBtn").show();
+      //window.location.href = "/components/sections/dashboard/dashboard.html";
       // Load lobby
       myID = data.userUniqueId;
 
@@ -137,7 +165,8 @@
       // rejoin concept
     } else {
       $("#gameroom #scoreboard").remove();
-      $("#start").show();
+      //$("#start").show();
+      $("#dashboard").show();
     }
   }
 
@@ -148,6 +177,7 @@
     $("#rollbutton").bind("click", onRollDice);
     $("#placebet").bind("click", onPlaceBet);
     $("#skip").bind("click", onSkipBet);
+    $("#dashboardActionButton").bind("click", onSetGameType);
   }
 
   // Button Events
@@ -274,8 +304,38 @@
             };
             sessionStorage.setItem("userData", JSON.stringify(data));
           }
-
+         // initSocketIO();
+          //window.location.href = "/components/sections/dashboard/dashboard.html";
           navigateTo(data);
+        });
+      })
+      .then((result) => {
+        // console.log('login result' , result)
+
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
+  function getSchools() {
+    const apiUrl =  baseAPIUrl + "api/Dashboard/get-dashboard";
+    console.log("apiUrl:", apiUrl);
+
+    fetch(apiUrl, {
+      method: "GET", // Specify the HTTP method
+      headers: {
+        "Content-Type": "application/json", // Set the content type
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        response.json().then((data) => {
+          console.log("promise data schools:", data);
+          schools = data;
         });
       })
       .then((result) => {

@@ -1,4 +1,11 @@
-<div id="dashboard" class="min-h-screen  flex items-center justify-center" style="background-image: url('../images/room5.jpg'); background-size: cover; background-position: center;">
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  
+
+
+<div id="dashboard" class="min-h-screen  flex items-center justify-center" style="background-image: url('../../../images/room-5.jpg'); background-size: cover; background-position: center;">
     <div class="max-w-5xl w-full ">
         <h1 class="text-3xl font-bold text-center text-zinc-200 mb-4">
             Select Your Game
@@ -7,7 +14,7 @@
             <!-- 2 Dice Game -->
             <div id="twoDiceGame"
                 class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
-                style="background-image: url('../images/15.jpg'); background-size: cover; background-position: center;"
+                style="background-image: url('../../../images/15.jpg'); background-size: cover; background-position: center;"
             >
                 
                 <div class="text-center">
@@ -24,7 +31,7 @@
                         <span class="text-2xl font-bold text-white">🎲</span>
                     </div>
                     
-                    <button id="btn-play-2-dice" class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                    <button id="actionButton" data-value="2" class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
                         Play Now
                     </button>
                 </div>
@@ -33,7 +40,7 @@
             <!-- 2 Dice Game -->
             <div id="threeDiceGame"
                 class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
-                style="background-image: url('../images/10.jpg'); background-size: cover; background-position: center;">
+                style="background-image: url('../../../images/10.jpg'); background-size: cover; background-position: center;">
             
                 <div class="text-center">
                     <h2 class="text-3xl font-extrabold mb-2">3 Dice <span class="text-zinc-400">Game</span></h2>
@@ -53,7 +60,7 @@
                     </div>
             
                     <button
-                        id="btn-play-3-dice"
+                        id="actionButton" data-value="3"
                         class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
                         Play Now
                     </button>
@@ -62,3 +69,6 @@
         </div>
     </div>
 </div>
+
+</body>
+</html>
