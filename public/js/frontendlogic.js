@@ -17,6 +17,16 @@
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       var forms = document.getElementsByClassName("needs-validation");
       iframe = document.getElementById("gameframe");
+      swiperWrapper = document.getElementById("swiper-wrapper");
+
+        // Add event listeners to all join-school buttons
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('join-school-btn')) {
+                const price = event.target.getAttribute('data-price');
+                onJoinSchool(price);
+            }
+        });
+
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function (form) {
         form.addEventListener(
@@ -40,8 +50,8 @@
     $("#loginBtn").bind("click", loginToApplication);
     $("#logoutBtn").bind("click", logOutFromApplication);
     $("#leaveGameBtn").bind("click", leaveGame);
- //   $("#actionButton").bind("click", setGameType);
-    
+    //   $("#actionButton").bind("click", setGameType);
+   
     if (sessionStorage) {
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       if (userData) {
@@ -56,7 +66,9 @@
         // Get user game details
         //var jqxhr = $.get("/user/" + userData._id, function (data) {
         var jqxhr = $.get(
-          baseAPIUrl + "api/Authentication/get-user?userId=" + userData.userDetails.id, 
+          baseAPIUrl +
+            "api/Authentication/get-user?userId=" +
+            userData.userDetails.id,
           function (data) {
             navigateTo(data);
           }
@@ -75,7 +87,9 @@
     $("#lobby,#gameroom").hide();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     var jqxhr = $.post(
-      baseAPIUrl + "api/Authentication/leave-game?userId=" +  userData.userDetails.id,
+      baseAPIUrl +
+        "api/Authentication/leave-game?userId=" +
+        userData.userDetails.id,
       function (data) {
         socket.emit("deletegame", { gameId: GameRoom });
         $("#lobby").empty();
@@ -111,7 +125,6 @@
       email: userName,
       password: password,
     });
-
   }
 
   function onSetGameType(event) {
@@ -119,14 +132,22 @@
     console.log("Button clicked with value:", value);
 
     sessionStorage.setItem("gameType", value);
-    if(value) {
-      $("#dashboard").hide();
-      $("#school").show();
+    if (value) {
+      loadSchool();
+    }
+  }
+
+  function onJoinSchool(school) {
+    const schoolValue = school;
+    console.log("Button clicked with value:", schoolValue);
+
+    sessionStorage.setItem("schoolValue", schoolValue);
+    if (schoolValue) {
+        
     }
   }
 
   function selectGameType() {
-
     if (!userName || userName.indexOf("@") == -1) {
       return;
     }
@@ -135,7 +156,78 @@
       email: userName,
       password: password,
     });
+  }
 
+  function loadSchool() {
+    try {
+      const apiUrl = baseAPIUrl + "api/Dashboard/get-dashboard";
+      // Fetch data from the API
+      fetch(apiUrl, {
+        method: "GET", // Specify the HTTP method
+        headers: {
+          "Content-Type": "application/json", // Set the content type
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          response.json().then((data) => {
+            if (data) {
+              data.forEach((slide) => {
+                const slideElement = document.createElement("swiper-slide");
+                slideElement.innerHTML = `
+                  <div class="flex flex-col mx-auto h-[60vh] bg-gray-700 text-white z-30 justify-start p-[5%] bg-blend-multiply rounded-xl border-blue-400 border border-2"
+                       style="background-image: url('${slide.image}'); background-size: cover; background-position: center;">
+                      <div class="flex flex-col p-6 mx-auto max-w-lg text-center">
+                          <h3 class="mb-4 text-2xl font-semibold">${slide.title}</h3>
+                          <p class="font-light text-gray-300">${slide.description}</p>
+                          <div class="flex justify-center items-baseline my-8">
+                              <span class="mr-2 text-5xl font-extrabold">${slide.price}</span>
+                              <span class="text-gray-500">/game</span>
+                          </div>
+                          <ul role="list" class="mb-8 space-y-4 text-left">
+                              <li class="flex items-center space-x-3">
+                                  <svg class="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                          clip-rule="evenodd"></path>
+                                  </svg>
+                                  <span>Players online: <span class="font-semibold">508</span></span>
+                              </li>
+                              <li class="flex items-center space-x-3">
+                                  <svg class="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"
+                                      xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                          clip-rule="evenodd"></path>
+                                  </svg>
+                                  <span>Max Players per session: <span class="font-semibold">${slide.maxPlayers}</span></span>
+                              </li>
+                          </ul>
+                          <button 
+                              class="join-school-btn text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"  data-price="${slide.price}">
+                              Join this school
+                          </button>
+                      </div>
+                  </div>
+              `;
+                swiperWrapper.appendChild(slideElement);
+              });
+            }
+          });
+         
+        })
+        .then((result) => {
+          $("#dashboard").hide();
+          $("#school").show();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } catch (error) {
+      console.error("Error fetching slides:", error);
+    }
   }
 
   function navigateTo(data) {
@@ -178,6 +270,7 @@
     $("#placebet").bind("click", onPlaceBet);
     $("#skip").bind("click", onSkipBet);
     $("#dashboardActionButton").bind("click", onSetGameType);
+    $("#joinSchool").bind("click", onJoinSchool);
   }
 
   // Button Events
@@ -194,10 +287,10 @@
         state: "idle",
         type: "member",
         activeRound: false,
-        _id:  userData.userDetails.id,
+        _id: userData.userDetails.id,
       },
       gameID: $("#roomid").val(),
-      _id:  userData.userDetails.id,
+      _id: userData.userDetails.id,
     });
   }
 
@@ -212,12 +305,12 @@
     var userData = JSON.parse(sessionStorage.getItem("userData"));
 
     socket.emit("creategame", {
-      name:  userData.userDetails.email,
+      name: userData.userDetails.email,
       score: 0,
       state: "ready",
       type: "room-admin",
-      betStatus : '',
-      _id:  userData.userDetails.id,
+      betStatus: "",
+      _id: userData.userDetails.id,
       activeRound: false,
       roundCount: 0,
     });
@@ -260,7 +353,10 @@
     $("#playertimer").text("0");
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     console.log("userData :", userData);
-    socket.emit("rolldice", { gameID: GameRoom, clientID:  userData.userDetails.id });
+    socket.emit("rolldice", {
+      gameID: GameRoom,
+      clientID: userData.userDetails.id,
+    });
     //makeDiceCall(GameRoom);
   }
 
@@ -281,7 +377,7 @@
   }
 
   function login(data) {
-    const apiUrl =  baseAPIUrl + "api/Authentication/login-user";
+    const apiUrl = baseAPIUrl + "api/Authentication/login-user";
     console.log("apiUrl:", apiUrl);
 
     fetch(apiUrl, {
@@ -304,7 +400,7 @@
             };
             sessionStorage.setItem("userData", JSON.stringify(data));
           }
-         // initSocketIO();
+          // initSocketIO();
           //window.location.href = "/components/sections/dashboard/dashboard.html";
           navigateTo(data);
         });
@@ -320,14 +416,14 @@
   }
 
   function getSchools() {
-    const apiUrl =  baseAPIUrl + "api/Dashboard/get-dashboard";
+    const apiUrl = baseAPIUrl + "api/Dashboard/get-dashboard";
     console.log("apiUrl:", apiUrl);
 
     fetch(apiUrl, {
       method: "GET", // Specify the HTTP method
       headers: {
         "Content-Type": "application/json", // Set the content type
-      }
+      },
     })
       .then((response) => {
         if (!response.ok) {
@@ -381,7 +477,7 @@
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       socket.emit("rejoingamelobby", {
         all: {
-          name:  userData.userDetails.email,
+          name: userData.userDetails.email,
           score: 0,
           state: data.state,
           type: data.type,
@@ -399,9 +495,8 @@
     });
 
     socket.on("GameWon", function (data) {
-
-      console.log('data : ' , data)
-      console.log('myID : ' , myID)
+      console.log("data : ", data);
+      console.log("myID : ", myID);
       if (data.result === "win") {
         if (myID == data.player.id) {
           $("#winnerResult").text("YOU WON");
@@ -449,29 +544,30 @@
 
     socket.on("requestBetApproval", function (data) {
       console.log("Trigger in requestBetApproval : ", data);
-    
+
       const { approver, bettor, bet } = data;
-     // const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
-     // console.log("Trigger in requestBetApproval : ", data);
+      // const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
+      // console.log("Trigger in requestBetApproval : ", data);
       // Prompt the current player to approve or skip the bet
       // const { approver, bettor, bet } = data;
-  
+
       // // Example UI logic
-      console.log('myID :' , myID)
-      console.log('approver :' , approver)
-      if(approver === myID) {
-        console.log('approver entered')
-       
-        const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
+      console.log("myID :", myID);
+      console.log("approver :", approver);
+      if (approver === myID) {
+        console.log("approver entered");
+
+        const approve = confirm(
+          `Player ${bettor} placed a bet of ${bet}. Do you approve?`
+        );
         socket.emit("approveBet", {
-            approverID: approver,
-            bettorID: bettor,
-            approve: approve,
-            gameId : GameRoom
+          approverID: approver,
+          bettorID: bettor,
+          approve: approve,
+          gameId: GameRoom,
         });
       }
-    
-  });
+    });
 
     socket.on("placebet", function (data) {
       console.log("placebet updated, player is ready", data);
