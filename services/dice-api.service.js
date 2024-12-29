@@ -2,7 +2,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const fetch = require('node-fetch');
 const crypto = require('crypto');
-var apiUrl = 'https://localhost:44382/api/';
+var apiUrl = 'https://www.bhakisystem.co.za:448/api/';
 
 const ENCRYPTION_KEY = 'abcdefghijklmnopqrstuvwx'; // 24 chars
 const IV_LENGTH = 16; // Initialization vector length

@@ -8,7 +8,7 @@
   var iframe;
   var _myID;
   var schools;
-  var baseAPIUrl = "https://localhost:44382/";
+  var baseAPIUrl = "https://www.bhakisystem.co.za:448/";
 
   ("use strict");
   window.addEventListener(
