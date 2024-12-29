@@ -194,14 +194,18 @@ canvas {
 }
 
 .ui-controls {
-	position: relative;
-	width: 100%;
+	position: absolute;
+	/* width: 100%; */
 	max-width: 500px;
 	font-family: inherit;
 	user-select: none;
 	line-height: 1.5;
 	padding: 10px;
 	pointer-events: none;
+	bottom: 20px;
+	left: 20%;
+	color: #fff;
+	display: none;
 }
 
 .score {
@@ -217,7 +221,8 @@ canvas {
 	content: "\200b";
 }
 .ui-controls #roll-btn {
-	background-color: #273e9a;
+	background-color: transparent;
+	border: 1px solid #ccc;
 	font-weight: bold;
 	color: #ffffff;
 	border: none;
@@ -234,5 +239,5 @@ canvas {
 	transform: translateY(2px);
 }
 .ui-controls #roll-btn:hover {
-	background-color: #3737af;
+	background-color: transparent;
 }

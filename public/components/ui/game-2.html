@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create an Account</title>
+        <script src="https://pay.google.com/gp/p/js/pay.js" async></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="js/tokens.js" defer></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+        <style>
+            svg path {
+                fill: #fff;
+            }
+        </style>
+    </head>
+
+    <body class="bg-gray-900 flex items-center justify-center min-h-screen"
+        style="background-image: url('../../images/room5.jpg'); background-size: cover; background-position: center;">
+        <section class="bg-white py-8 antialiased dark:bg-transparent md:py-16"
+            style="width: 100%; max-width: 1280px; padding: 20px;">
+            <swiper-container 
+                events-prefix="swiper-" 
+                navigation="true" 
+                pagination="true" 
+                scrollbar="true"
+                slides-per-view="8" 
+                keyboard="true" 
+                space-between="30"
+                class="absolute top-24 left-8 w-full">
+            >
+                <swiper-slide>
+                    <div class="h-12 bg-zinc-900"></div>
+                
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="h-12 bg-zinc-900"></div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="h-12 bg-zinc-900"></div>
+                </swiper-slide>
+
+                <swiper-slide>
+                    <div class="h-12 bg-zinc-900"></div>
+                </swiper-slide>
+
+            </swiper-container>
+        </section>
+
+        <!-- swiper -->
+        <script>
+            const swiperEl = document.querySelector('swiper-container');
+
+            swiperEl.addEventListener('swiper-progress', (event) => {
+                const [swiper, progress] = event.detail;
+            });
+
+            swiperEl.addEventListener('swiper-slidechange', (event) => {
+                console.log('slide changed');
+            });
+        </script>
+
+
+
+    </body>
+
+
+    <script>
+        // check if document is loaded
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const totalImages = 16; // Set the total number of images
+            const images = Array.from({ length: totalImages }, (_, i) => `game-${i + 1}.jpg`);
+            let currentIndex = 8;
+
+            function changeBackground() {
+                const body = document.querySelector('body');
+                body.style.backgroundImage = `url('../../images/${images[currentIndex]}')`;
+
+                currentIndex = (currentIndex + 1) % images.length;
+            }
+
+            changeBackground();
+            setInterval(changeBackground, 10000); // Change background every 5 seconds
+        });
+
+
+
+    </script>
+
+</html>
