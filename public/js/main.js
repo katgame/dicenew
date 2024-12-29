@@ -15,8 +15,8 @@ const socket = io.connect('http://localhost:8082/', {
 
 let renderer, scene, camera, diceMesh, physicsWorld;
 
-const params = {
-    numberOfDice: 2,
+let params = {
+    numberOfDice: 2, //default
     segments: 40,
     edgeRadius: .07,
     notchRadius: .12,
@@ -35,15 +35,9 @@ window.addEventListener('resize', updateSceneSize);
 window.addEventListener('dblclick', throwDice);
 rollBtn.addEventListener('click',()=> {
     throwDice()
-    //emitRollDice
 } );
 
-// const contentDiv = document.getElementById('content');
 
-// contentDiv.addEventListener('click', () => {
-//   const htmlContent = contentDiv.innerHTML;
-//   socket.emit('html_change', htmlContent);
-// });
 
 function initScene() {
 
@@ -404,6 +398,8 @@ function throwDicefromAPI(rotation1, rotation2,forceMath) {
 
 function initSocketIO(){
     RoomId = JSON.parse(sessionStorage.getItem("gameroom"));
+    gameType = JSON.parse(sessionStorage.getItem("gameType"));
+    params.numberOfDice = gameType;
     socket.on("throwdice",function (data) {
         gameID = data.gameID;
         if(RoomId === gameID) {

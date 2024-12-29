@@ -5,67 +5,33 @@
   
 
 
-<div id="dashboard" class="min-h-screen  flex items-center justify-center" style="background-image: url('../../../images/room-5.jpg'); background-size: cover; background-position: center;">
+  <!-- JoinGame -->
+  <div id="joinGame" class="min-h-screen  flex items-center justify-center" style="background-image: url('../../../images/room-5.jpg'); background-size: cover; background-position: center;">
     <div class="max-w-5xl w-full ">
         <h1 class="text-3xl font-bold text-center text-zinc-200 mb-4">
-            Select Your Game
+            Create or Join game
         </h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- 2 Dice Game -->
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+
             <div id="twoDiceGame"
                 class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
                 style="background-image: url('../../../images/15.jpg'); background-size: cover; background-position: center;"
             >
                 
-                <div class="text-center">
-                    <h2 class="text-3xl font-extrabold mb-2">2 Dice <span class="text-zinc-400">Game</span></h2>
-                    <p class="text-zinc-300 text-sm mb-4">
-                        Experience the thrill of rolling two dice and strategize your way to victory!
-                    </p>
-                </div>
+            
                 <div class="flex baseline justify-center gap-2">
                     <button id="btn-rules-2-dice" class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
-                       Rules
+                       Create Game
                     </button>
-                    <div class="flex items-center justify-center w-12 h-12 bg-zinc- rounded-full mb-4 border border-1 !border-zinc-700">
-                        <span class="text-2xl font-bold text-white">🎲</span>
-                    </div>
-                    
+                    <button id="btn-rules-2-dice" class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                       Join Game
+                     </button>
                     <button id="actionButton" data-value="2" class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
                         Play Now
                     </button>
                 </div>
             </div>
 
-            <!-- 2 Dice Game -->
-            <div id="threeDiceGame"
-                class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
-                style="background-image: url('../../../images/10.jpg'); background-size: cover; background-position: center;">
-            
-                <div class="text-center">
-                    <h2 class="text-3xl font-extrabold mb-2">3 Dice <span class="text-zinc-400">Game</span></h2>
-                    <p class="text-zinc-300 text-sm mb-4">
-                        Play with three dice for more excitement and higher stakes!
-                    </p>
-                </div>
-                <div class="flex baseline justify-center gap-2">
-                    <button
-                        id="btn-rules-3-dice"
-                        class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
-                        Rules
-                    </button>
-                    <div
-                        class="flex items-center justify-center w-12 h-12 bg-zinc- rounded-full mb-4 border border-1 !border-zinc-700">
-                        <span class="text-2xl font-bold text-white">🎲</span>
-                    </div>
-            
-                    <button
-                        id="actionButton" data-value="3"
-                        class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
-                        Play Now
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

@@ -75,7 +75,9 @@
         ).fail(function (err) {
           console.log("Fail data on Lofin: ", err);
           if (err && err.responseText) {
-            alert(err.responseText);
+            $("#logoutBtn").hide();
+            $("#loginFormContainer").show();
+           // alert(err.responseText);
           }
         });
       }
@@ -143,7 +145,8 @@
 
     sessionStorage.setItem("schoolValue", schoolValue);
     if (schoolValue) {
-        
+      $("#school").hide();
+      $("#joinGame").show();
     }
   }
 
@@ -206,7 +209,7 @@
                               </li>
                           </ul>
                           <button 
-                              class="join-school-btn text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"  data-price="${slide.price}">
+                              class="join-school-btn text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"  data-price="${slide.id}">
                               Join this school
                           </button>
                       </div>
@@ -400,55 +403,23 @@
             };
             sessionStorage.setItem("userData", JSON.stringify(data));
           }
-          // initSocketIO();
-          //window.location.href = "/components/sections/dashboard/dashboard.html";
           navigateTo(data);
         });
       })
-      .then((result) => {
-        // console.log('login result' , result)
-
-        console.log("Success:", result);
-      })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
 
-  function getSchools() {
-    const apiUrl = baseAPIUrl + "api/Dashboard/get-dashboard";
-    console.log("apiUrl:", apiUrl);
 
-    fetch(apiUrl, {
-      method: "GET", // Specify the HTTP method
-      headers: {
-        "Content-Type": "application/json", // Set the content type
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        response.json().then((data) => {
-          console.log("promise data schools:", data);
-          schools = data;
-        });
-      })
-      .then((result) => {
-        // console.log('login result' , result)
-
-        console.log("Success:", result);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
 
   function onGameStart(obj, evtName, data) {
     //oGamePlay = new gameroom();
     console.log("GameRoom", GameRoom);
     //oGamePlay.update();
     $("#leaveGameBtn").show();
+    $("#joinGame").hide();
+    $("#jumbotron").show();
     socket.emit("startgame", { gameID: GameRoom });
     $("#rollbutton").find("button").prop("disabled", true);
     //  $("#placebet").find("button").prop("disabled", false);
@@ -546,11 +517,6 @@
       console.log("Trigger in requestBetApproval : ", data);
 
       const { approver, bettor, bet } = data;
-      // const approve = confirm(`Player ${bettor} placed a bet of ${bet}. Do you approve?`);
-      // console.log("Trigger in requestBetApproval : ", data);
-      // Prompt the current player to approve or skip the bet
-      // const { approver, bettor, bet } = data;
-
       // // Example UI logic
       console.log("myID :", myID);
       console.log("approver :", approver);
