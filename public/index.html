@@ -24,6 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+    
     <script>
         // check if document is loaded
         document.addEventListener("DOMContentLoaded", () => {
@@ -35,6 +36,8 @@
             function changeBackground() {
                 const body = document.querySelector('body');
                 body.style.backgroundImage = `url('../../images/${images[currentIndex]}')`;
+                body.style.backgroundSize = 'cover';
+                body.style.backgroundBlendMode = 'multiply';
 
                 currentIndex = (currentIndex + 1) % images.length;
             }
@@ -63,18 +66,18 @@
                 }
             }
 
-            const timerInterval = setInterval(updateTimer, 100); // Update every 100ms
+            // const timerInterval = setInterval(updateTimer, 100); // Update every 100ms
 
             // swipER
              const swiperEl = document.querySelector('swiper-container');
 
-      swiperEl.addEventListener('swiper-progress', (event) => {
-        const [swiper, progress] = event.detail;
-      });
+    //   swiperEl.addEventListener('swiper-progress', (event) => {
+    //     const [swiper, progress] = event.detail;
+    //   });
 
-      swiperEl.addEventListener('swiper-slidechange', (event) => {
-        console.log('slide changed');
-      });
+    //   swiperEl.addEventListener('swiper-slidechange', (event) => {
+    //     console.log('slide changed');
+    //   });
 
     </script>
     <!-- swiper -->
@@ -98,84 +101,94 @@
         iframe {
             background-color: transparent;
         }
+        .text-shadow {
+            text-shadow: 2px 2px 4px #000000;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="jumbotron" >
-            <h1>Multi-Player Dice Game</h1>
-            <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button>
-            <button class="btn btn-primary btn-lg" style="display: none;" id="leaveGameBtn" type="button">Leave
-                Game</button>
+        <div class="absolute top-2 flex gap-4" >
+            <!-- <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button> -->
+            <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
+                id="logoutBtn" type="button"
+                style="background-color: rgba(24, 24, 27, 0.4);">
+            <svg height="60%" width="60%" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path
+                        d="M11.75 9.874C11.75 10.2882 12.0858 10.624 12.5 10.624C12.9142 10.624 13.25 10.2882 13.25 9.874H11.75ZM13.25 4C13.25 3.58579 12.9142 3.25 12.5 3.25C12.0858 3.25 11.75 3.58579 11.75 4H13.25ZM9.81082 6.66156C10.1878 6.48991 10.3542 6.04515 10.1826 5.66818C10.0109 5.29121 9.56615 5.12478 9.18918 5.29644L9.81082 6.66156ZM5.5 12.16L4.7499 12.1561L4.75005 12.1687L5.5 12.16ZM12.5 19L12.5086 18.25C12.5029 18.25 12.4971 18.25 12.4914 18.25L12.5 19ZM19.5 12.16L20.2501 12.1687L20.25 12.1561L19.5 12.16ZM15.8108 5.29644C15.4338 5.12478 14.9891 5.29121 14.8174 5.66818C14.6458 6.04515 14.8122 6.48991 15.1892 6.66156L15.8108 5.29644ZM13.25 9.874V4H11.75V9.874H13.25ZM9.18918 5.29644C6.49843 6.52171 4.7655 9.19951 4.75001 12.1561L6.24999 12.1639C6.26242 9.79237 7.65246 7.6444 9.81082 6.66156L9.18918 5.29644ZM4.75005 12.1687C4.79935 16.4046 8.27278 19.7986 12.5086 19.75L12.4914 18.25C9.08384 18.2892 6.28961 15.5588 6.24995 12.1513L4.75005 12.1687ZM12.4914 19.75C16.7272 19.7986 20.2007 16.4046 20.2499 12.1687L18.7501 12.1513C18.7104 15.5588 15.9162 18.2892 12.5086 18.25L12.4914 19.75ZM20.25 12.1561C20.2345 9.19951 18.5016 6.52171 15.8108 5.29644L15.1892 6.66156C17.3475 7.6444 18.7376 9.79237 18.75 12.1639L20.25 12.1561Z"
+                        fill="#ffffff"></path>
+                </g>
+            </svg>
+                <span class="absolute -bottom-5 text-zinc-50 text-xs">Logout</span>
+            </button>
+            <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative" style="display: block;" id="leaveGameBtn" type="button">
+                <svg height="60%" width="60%" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z">
+                        </path>
+                    </g>
+                </svg>
+                <span class="absolute -bottom-4 text-zinc-50 text-xs">Leave</span>
+            </button>
         </div>
 
         <!-- login -->
-        <div id="loginFormContainer">
-
-            <body class="bg-gray-900 flex items-center justify-center min-h-screen"
-                style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;">
-                <section class="bg-white py-8 antialiased dark:bg-transparent md:py-16"
+        <div id="loginFormContainer"  class="h-screen flex flex-col justify-center">
+                <section class="py-8 antialiased md:py-16"
                     style="width: 100%; max-width: 1280px; padding: 20px;">
                     <section class="bg-transparent dark:bg-transparent">
-                        <div id="loginFormContainer" class="-mt-20">
                             <section class="bg-transparent dark:bg-transparent">
                                 <div
                                     class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                                     <!-- <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                                     🎲 Dice Game
                                 </a> -->
-                                    <div class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-                                        style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;">
-                                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                                            <h1
-                                                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                                Sign in to your account
-                                            </h1>
-                                            <form method="POST" class="space-y-4 md:space-y-6" id="loginForm"
-                                                class="needs-validation" novalidate>
-                                                <div>
-                                                    <label for="email"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                                        email</label>
-                                                    <input type="email" name="email" id="emailId"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="name@company.com" required />
-                                                </div>
-                                                <div>
-                                                    <label for="password"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                                    <input type="password" name="password" id="password"
-                                                        placeholder="••••••••"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        required />
-                                                </div>
-                                                <div class="flex items-center justify-between">
-                                                    <div class="flex items-start">
-                                                        <div class="flex items-center h-5">
-                                                            <input id="remember" aria-describedby="remember"
-                                                                type="checkbox"
-                                                                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
-                                                        </div>
-                                                        <div class="ml-3 text-sm">
-                                                            <label for="remember"
-                                                                class="text-gray-500 dark:text-gray-300">Remember
-                                                                me</label>
-                                                        </div>
+                                    <!-- <div class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+                                        style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;"> -->
+                                        <div class="p-6 flex gap-8">
+                                            <div class="">
+                                                <h1 class="text-xl font-extrabold leading-tight tracking-tight text-yellow-300 text-shadow mb-4">
+                                                    Sign in to your account
+                                                </h1>
+                                                <form method="POST" class="space-y-4 md:space-y-6" id="loginForm" class="needs-validation" novalidate>
+                                                    <div>
+                                                        <input type="email" name="email" id="emailId"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            placeholder="email address" required />
                                                     </div>
-                                                    <a href="/reset-password"
-                                                        class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
-                                                        password?</a>
-                                                </div>
-                                                <button id="loginBtn" type="button"
-                                                    class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                    Sign in
-                                                </button>
-                                                <div class="flex items-center justify-center space-x-4 mt-4">
+                                                    <div>
+                                                        <input type="password" name="password" id="password" placeholder="password"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            required />
+                                                    </div>
+                                                
+                                                    <button id="loginBtn" type="button"
+                                                        class="w-full text-zinc-800 bg-yellow-300 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-300 dark:focus:ring-yellow-300">
+                                                        Sign in
+                                                    </button>
+                                                
+                                                    <p class="text-sm font-light text-gray-400 dark:text-gray-400">
+                                                        Don’t have an account yet?
+                                                        <a href="/signup" class="font-medium text-yellow-300 hover:underline dark:text-yellow-300">Sign
+                                                            up</a>
+                                                    </p>
+                                                </form>
+                                            </div>
+                                            
+
+                                            <div class="">
+                                                <div class="flex flex-col justify-center items-center h-[60vh] gap-4">
 
                                                     <button
-                                                        class="flex items-center justify-center w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                                        <svg class="w-8" viewBox="0 0 20 20" version="1.1"
+                                                        class="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                        <svg class="w-4 mr-1" viewBox="0 0 20 20" version="1.1"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
                                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -203,8 +216,8 @@
                                                         Continue with Google
                                                     </button>
                                                     <button
-                                                        class="facebook-login flex items-center justify-center w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-900">
-                                                        <svg class="w-8" viewBox="-5 0 20 20" version="1.1"
+                                                        class="facebook-login flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                        <svg class="w-4 mr-1" viewBox="-5 0 20 20" version="1.1"
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
                                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -232,15 +245,10 @@
                                                         Continue with Facebook
                                                     </button>
                                                 </div>
-                                                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                                                    Don’t have an account yet?
-                                                    <a href="/signup"
-                                                        class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign
-                                                        up</a>
-                                                </p>
-                                            </form>
+                                            </div>
+
                                         </div>
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                             </section>
                         </div>
@@ -301,61 +309,36 @@
 
 
 
-            </body>
-            <!-- <div class="col-sm-12">
-                <h2>Login to application</h2>
-                <form id="loginForm" class="needs-validation" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-4 mb-3">
-                            <label for="emailId">Email:</label>
-                            <input id="emailId" type="email" class="form-control" placeholder="Email" value="" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Looks incorrect.
-                            </div>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-lg" id="loginBtn" type="button">Login</button>
-                </form>
-            </div> -->
-
-
         </div>
 
         <!-- dashboard -->
-        <div id="dashboard" class="col-sm-12" style="display: none;">
-            <div class="row">
-                <div class="max-w-5xl w-full ">
-                    <h1 class="text-3xl font-bold text-center text-zinc-200 mb-4">
+        <div id="dashboard" class="flex justify-center items-center h-[100vh]" style="display: none;">
+            <div class="flex items-center justify-center">
+                <div class="max-w-2xl w-full ">
+                    <h1 class="text-3xl font-extrabold text-center text-yellow-300 mb-4 text-shadow">
                         Select Your Game
                     </h1>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- 2 Dice Game -->
                         <div id="twoDiceGame"
-                            class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
+                            class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[16rem] border-2 border-zinc-300 bg-blend-multiply opacity-[0.95]"
                             style="background-image: url('../../../images/15.jpg'); background-size: cover; background-position: center;">
 
                             <div class="text-center">
-                                <h2 class="text-3xl font-extrabold mb-2">2 Dice <span class="text-zinc-400">Game</span>
+                                <h2 class="text-3xl text-yellow-300 font-extrabold mb-2">2 Dice <span class="text-zinc-400">Game</span>
                                 </h2>
-                                <p class="text-zinc-300 text-sm mb-4">
+                                <p class="text-zinc-200 text-xs mb-4">
                                     Experience the thrill of rolling two dice and strategize your way to victory!
                                 </p>
                             </div>
                             <div class="flex baseline justify-center gap-2">
                                 <button id="btn-rules-2-dice"
-                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white text-xs rounded-lg font-bold shadow-md h-10 border border-1 !border-zinc-500 text-xs">
                                     Rules
                                 </button>
-                                <div
-                                    class="flex items-center justify-center w-12 h-12 bg-zinc- rounded-full mb-4 border border-1 !border-zinc-700">
-                                    <span class="text-2xl font-bold text-white">🎲</span>
-                                </div>
 
                                 <button id="dashboardActionButton" data-value="2"
-                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                    class="py-2 px-6 bg-yellow-300 hover:bg-zinc-900 text-zinc-950 rounded-lg font-bold shadow-md h-10 border border-1 !border-yellow-300 text-xs">
                                     Play Now
                                 </button>
                             </div>
@@ -363,28 +346,24 @@
 
                         <!-- 2 Dice Game -->
                         <div id="threeDiceGame"
-                            class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
-                            style="background-image: url('../../../images/10.jpg'); background-size: cover; background-position: center;">
+                            class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[16rem] border-2 border-zinc-300 bg-blend-multiply opacity-[0.95]"
+                            style="background-image: url('../../../images/12.jpg'); background-size: cover;">
 
                             <div class="text-center">
-                                <h2 class="text-3xl font-extrabold mb-2">3 Dice <span class="text-zinc-400">Game</span>
+                                <h2 class="text-3xl text-yellow-300 font-extrabold mb-2">3 Dice <span class="text-zinc-400">Game</span>
                                 </h2>
-                                <p class="text-zinc-300 text-sm mb-4">
+                                <p class="text-zinc-200 text-xs mb-4">
                                     Play with three dice for more excitement and higher stakes!
                                 </p>
                             </div>
                             <div class="flex baseline justify-center gap-2">
                                 <button id="btn-rules-3-dice"
-                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-bold shadow-md h-10 border border-1 !border-zinc-500 text-xs">
                                     Rules
                                 </button>
-                                <div
-                                    class="flex items-center justify-center w-12 h-12 bg-zinc- rounded-full mb-4 border border-1 !border-zinc-700">
-                                    <span class="text-2xl font-bold text-white">🎲</span>
-                                </div>
 
                                 <button id="dashboardActionButton" data-value="3"
-                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                    class="py-2 px-6 bg-yellow-300 hover:bg-zinc-900 text-zinc-950 rounded-lg font-bold shadow-md h-10 border border-1 !border-yellow-300 text-xs">
                                     Play Now
                                 </button>
                             </div>
@@ -397,21 +376,15 @@
         </div>
 
         <!-- school -->
-        <div id="school" class="col-sm-12" style="display: none;">
+        <div id="school" class="w-full flex flex-col h-[100vh] items-center justify-center" style="display: none;">
 
-            <div class="bg-gray-900 flex items-center justify-center min-h-screen"
-                style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;">
-                <section class="bg-white py-8 antialiased dark:bg-transparent md:py-16"
-                    style="width: 100%; max-width: 1280px; padding: 20px;">
-                    <swiper-container events-prefix="swiper-" navigation="true" pagination="true" scrollbar="true"
-                        slides-per-view="3" keyboard="true" space-between="30">
-                        <swiper-slide id="swiper-wrapper">
-                        </swiper-slide>
+          
+               
+                    <swiper-container class="w-[90%] relative top-[1.5rem]" events-prefix="swiper-" navigation="true" pagination="true" scrollbar="true"
+                        slides-per-view="3" keyboard="true" space-between="30" id="swiper-wrapper">
+                     
                     </swiper-container>
-                </section>
-
-
-            </div>
+            
         </div>
 
         <!-- JoinGame -->
@@ -423,7 +396,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
                     <div id="twoDiceGame"
-                        class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[36rem] border-8 border-zinc-800 bg-blend-multiply"
+                        class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[16rem] border-8 border-zinc-800 bg-blend-multiply"
                         style="background-image: url('../../../images/15.jpg'); background-size: cover; background-position: center;">
                         <div id="joinroomcontrols" class="col-sm-12" style="display: none; top: 5rem;">
                             <div>

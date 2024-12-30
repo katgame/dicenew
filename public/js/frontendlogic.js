@@ -181,36 +181,24 @@
               data.forEach((slide) => {
                 const slideElement = document.createElement("swiper-slide");
                 slideElement.innerHTML = `
-                  <div class="flex flex-col mx-auto h-[60vh] bg-gray-700 text-white z-30 justify-start p-[5%] bg-blend-multiply rounded-xl border-blue-400 border border-2"
+                  <div class="flex flex-col mx-auto h-[75vh] bg-gray-700 text-white z-30 justify-center p-[5%] bg-blend-multiply rounded-xl border-blue-400 border border-2 opacity-[0.95]"
                        style="background-image: url('${slide.image}'); background-size: cover; background-position: center;">
-                      <div class="flex flex-col p-6 mx-auto max-w-lg text-center">
-                          <h3 class="mb-4 text-2xl font-semibold">${slide.title}</h3>
-                          <p class="font-light text-gray-300">${slide.description}</p>
-                          <div class="flex justify-center items-baseline my-8">
-                              <span class="mr-2 text-5xl font-extrabold">${slide.price}</span>
-                              <span class="text-gray-500">/game</span>
+                      <div class="flex flex-col p-2 mx-auto text-center">
+                          <h3 class="mb-2 text-xl font-extrabold text-zinc-400">School <span class="text-yellow-300">${slide.title}</span></h3>
+                          <p class="font-light text-gray-300 text-xs">${slide.description.substring(0, 62)}</p>
+                          <div class="flex justify-center items-baseline my-2 text-xs">
+                              <span class="mr-1 text-xl font-extrabold text-yellow-300">${slide.title}</span>
+                              <span class="text-gray-400 font-extrabold">/ game</span>
                           </div>
-                          <ul role="list" class="mb-8 space-y-4 text-left">
-                              <li class="flex items-center space-x-3">
-                                  <svg class="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"
-                                      xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                          clip-rule="evenodd"></path>
-                                  </svg>
-                                  <span>Players online: <span class="font-semibold">508</span></span>
-                              </li>
-                              <li class="flex items-center space-x-3">
-                                  <svg class="flex-shrink-0 w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"
-                                      xmlns="http://www.w3.org/2000/svg">
-                                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                          clip-rule="evenodd"></path>
-                                  </svg>
+                          <ul role="list" class="mb-4 text-left text-xs">
+                              
+                              <li class="flex items-center">
                                   <span>Max Players per session: <span class="font-semibold">${slide.maxPlayers}</span></span>
                               </li>
                           </ul>
                           <button 
-                              class="join-school-btn text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"  data-price="${slide.id}">
-                              Join this school
+                              class="join-school-btn text-zinc-950 bg-yellow-300 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-lg text-xs px-5 py-2 text-center"  data-price="${slide.id}">
+                              Join school
                           </button>
                       </div>
                   </div>
