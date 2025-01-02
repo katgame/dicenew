@@ -1,6 +1,6 @@
 var gameroom = function(){
 
-    var _html = $(`<table id="scoreboard" class="display" cellspacing="0" width="100%">
+    var _html = $(`<table id="scoreboard" class="display text-xs" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th data-field="turn">Turn</th>

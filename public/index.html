@@ -96,6 +96,9 @@
         svg path {
             fill: #fff;
         }
+        p {
+            text-indent: 0;
+        }
 
         iframe body,
         iframe {
@@ -104,210 +107,219 @@
         .text-shadow {
             text-shadow: 2px 2px 4px #000000;
         }
+        #gameroom .bootstrap-table {
+            position:absolute;
+            top: 0.5rem;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="absolute top-2 flex gap-4" >
-            <!-- <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button> -->
-            <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
-                id="logoutBtn" type="button"
-                style="background-color: rgba(24, 24, 27, 0.4);">
-            <svg height="60%" width="60%" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                    <path
-                        d="M11.75 9.874C11.75 10.2882 12.0858 10.624 12.5 10.624C12.9142 10.624 13.25 10.2882 13.25 9.874H11.75ZM13.25 4C13.25 3.58579 12.9142 3.25 12.5 3.25C12.0858 3.25 11.75 3.58579 11.75 4H13.25ZM9.81082 6.66156C10.1878 6.48991 10.3542 6.04515 10.1826 5.66818C10.0109 5.29121 9.56615 5.12478 9.18918 5.29644L9.81082 6.66156ZM5.5 12.16L4.7499 12.1561L4.75005 12.1687L5.5 12.16ZM12.5 19L12.5086 18.25C12.5029 18.25 12.4971 18.25 12.4914 18.25L12.5 19ZM19.5 12.16L20.2501 12.1687L20.25 12.1561L19.5 12.16ZM15.8108 5.29644C15.4338 5.12478 14.9891 5.29121 14.8174 5.66818C14.6458 6.04515 14.8122 6.48991 15.1892 6.66156L15.8108 5.29644ZM13.25 9.874V4H11.75V9.874H13.25ZM9.18918 5.29644C6.49843 6.52171 4.7655 9.19951 4.75001 12.1561L6.24999 12.1639C6.26242 9.79237 7.65246 7.6444 9.81082 6.66156L9.18918 5.29644ZM4.75005 12.1687C4.79935 16.4046 8.27278 19.7986 12.5086 19.75L12.4914 18.25C9.08384 18.2892 6.28961 15.5588 6.24995 12.1513L4.75005 12.1687ZM12.4914 19.75C16.7272 19.7986 20.2007 16.4046 20.2499 12.1687L18.7501 12.1513C18.7104 15.5588 15.9162 18.2892 12.5086 18.25L12.4914 19.75ZM20.25 12.1561C20.2345 9.19951 18.5016 6.52171 15.8108 5.29644L15.1892 6.66156C17.3475 7.6444 18.7376 9.79237 18.75 12.1639L20.25 12.1561Z"
-                        fill="#ffffff"></path>
-                </g>
-            </svg>
-                <span class="absolute -bottom-5 text-zinc-50 text-xs">Logout</span>
-            </button>
-            <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative" style="display: block;" id="leaveGameBtn" type="button">
-                <svg height="60%" width="60%" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div class="absolute top-2 flex gap-4 justify-between w-[91%] z-[9999]" >
+
+            <div class="flex gap-4">
+                <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
+                    id="logoutBtn" type="button"
+                    style="background-color: rgba(24, 24, 27, 0.4);">
+                <svg height="60%" width="60%" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
                         <path
-                            d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z">
-                        </path>
+                            d="M11.75 9.874C11.75 10.2882 12.0858 10.624 12.5 10.624C12.9142 10.624 13.25 10.2882 13.25 9.874H11.75ZM13.25 4C13.25 3.58579 12.9142 3.25 12.5 3.25C12.0858 3.25 11.75 3.58579 11.75 4H13.25ZM9.81082 6.66156C10.1878 6.48991 10.3542 6.04515 10.1826 5.66818C10.0109 5.29121 9.56615 5.12478 9.18918 5.29644L9.81082 6.66156ZM5.5 12.16L4.7499 12.1561L4.75005 12.1687L5.5 12.16ZM12.5 19L12.5086 18.25C12.5029 18.25 12.4971 18.25 12.4914 18.25L12.5 19ZM19.5 12.16L20.2501 12.1687L20.25 12.1561L19.5 12.16ZM15.8108 5.29644C15.4338 5.12478 14.9891 5.29121 14.8174 5.66818C14.6458 6.04515 14.8122 6.48991 15.1892 6.66156L15.8108 5.29644ZM13.25 9.874V4H11.75V9.874H13.25ZM9.18918 5.29644C6.49843 6.52171 4.7655 9.19951 4.75001 12.1561L6.24999 12.1639C6.26242 9.79237 7.65246 7.6444 9.81082 6.66156L9.18918 5.29644ZM4.75005 12.1687C4.79935 16.4046 8.27278 19.7986 12.5086 19.75L12.4914 18.25C9.08384 18.2892 6.28961 15.5588 6.24995 12.1513L4.75005 12.1687ZM12.4914 19.75C16.7272 19.7986 20.2007 16.4046 20.2499 12.1687L18.7501 12.1513C18.7104 15.5588 15.9162 18.2892 12.5086 18.25L12.4914 19.75ZM20.25 12.1561C20.2345 9.19951 18.5016 6.52171 15.8108 5.29644L15.1892 6.66156C17.3475 7.6444 18.7376 9.79237 18.75 12.1639L20.25 12.1561Z"
+                            fill="#ffffff"></path>
                     </g>
                 </svg>
-                <span class="absolute -bottom-4 text-zinc-50 text-xs">Leave</span>
-            </button>
+                    <span class="absolute -bottom-5 text-zinc-50 text-xs">Logout</span>
+                </button>
+                <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative" style="display: block;" id="leaveGameBtn" type="button">
+                    <svg height="60%" width="60%" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z">
+                            </path>
+                        </g>
+                    </svg>
+                    <span class="absolute -bottom-5 text-zinc-50 text-xs">Leave</span>
+                </button>
+            </div>
+
+            <div class="flex">
+                <button class="bg-zinc-800 border border-yellow-300 w-8 h-8 rounded-full flex items-center justify-center relative"
+                    style="display: block; font-size:0.6rem" type="button">
+                    1500
+                    <span class="absolute -bottom-5 left-0 text-zinc-50 text-xs">Tokens</span>
+                </button>
+                
+            </div>
+
         </div>
 
         <!-- login -->
         <div id="loginFormContainer"  class="h-screen flex flex-col justify-center">
-                <section class="py-8 antialiased md:py-16"
-                    style="width: 100%; max-width: 1280px; padding: 20px;">
+            <section 
+                class="py-8 antialiased md:py-16"
+                style="width: 100%; max-width: 1280px; padding: 20px;"
+            >
+                <section class="bg-transparent dark:bg-transparent">
                     <section class="bg-transparent dark:bg-transparent">
-                            <section class="bg-transparent dark:bg-transparent">
-                                <div
-                                    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                                    <!-- <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                                    🎲 Dice Game
-                                </a> -->
-                                    <!-- <div class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-                                        style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;"> -->
-                                        <div class="p-6 flex gap-8">
-                                            <div class="">
-                                                <h1 class="text-xl font-extrabold leading-tight tracking-tight text-yellow-300 text-shadow mb-4">
-                                                    Sign in to your account
-                                                </h1>
-                                                <form method="POST" class="space-y-4 md:space-y-6" id="loginForm" class="needs-validation" novalidate>
-                                                    <div>
-                                                        <input type="email" name="email" id="emailId"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                            placeholder="email address" required />
-                                                    </div>
-                                                    <div>
-                                                        <input type="password" name="password" id="password" placeholder="password"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                            required />
-                                                    </div>
-                                                
-                                                    <button id="loginBtn" type="button"
-                                                        class="w-full text-zinc-800 bg-yellow-300 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-300 dark:focus:ring-yellow-300">
-                                                        Sign in
-                                                    </button>
-                                                
-                                                    <p class="text-sm font-light text-gray-400 dark:text-gray-400">
-                                                        Don’t have an account yet?
-                                                        <a href="/signup" class="font-medium text-yellow-300 hover:underline dark:text-yellow-300">Sign
-                                                            up</a>
-                                                    </p>
-                                                </form>
+                        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+
+                                <div class="p-6 flex gap-8">
+
+                                    <div class="">
+                                        <h1 class="text-xl font-extrabold leading-tight tracking-tight text-yellow-300 text-shadow mb-4">
+                                            Sign in to your account
+                                        </h1>
+                                        <form method="POST" class="space-y-4 md:space-y-6" id="loginForm" class="needs-validation" novalidate>
+                                            <div>
+                                                <input type="email" name="email" id="emailId"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    placeholder="email address" required />
                                             </div>
-                                            
+                                            <div>
+                                                <input type="password" name="password" id="password" placeholder="password"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    required />
+                                            </div>
+                                        
+                                            <button id="loginBtn" type="button"
+                                                class="w-full text-zinc-800 bg-yellow-300 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-300 dark:focus:ring-yellow-300">
+                                                Sign in
+                                            </button>
+                                        
+                                            <p class="text-sm font-light text-gray-400 dark:text-gray-400">
+                                                Don’t have an account yet?
+                                                <a href="/signup" class="font-medium text-yellow-300 hover:underline dark:text-yellow-300">Sign
+                                                    up</a>
+                                            </p>
+                                        </form>
+                                    </div>
+                                    
 
-                                            <div class="">
-                                                <div class="flex flex-col justify-center items-center h-[60vh] gap-4">
+                                    <div class="">
+                                        <div class="flex flex-col justify-center items-center h-[60vh] gap-4">
 
-                                                    <button
-                                                        class="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
-                                                        <svg class="w-4 mr-1" viewBox="0 0 20 20" version="1.1"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                                stroke-linejoin="round"></g>
-                                                            <g id="SVGRepo_iconCarrier">
-                                                                <title>google [#178]</title>
-                                                                <desc>Created with Sketch.</desc>
-                                                                <defs> </defs>
-                                                                <g id="Page-1" stroke="none" stroke-width="1"
-                                                                    fill="none" fill-rule="evenodd">
-                                                                    <g id="Dribbble-Light-Preview"
-                                                                        transform="translate(-300.000000, -7399.000000)"
-                                                                        fill="#000000">
-                                                                        <g id="icons"
-                                                                            transform="translate(56.000000, 160.000000)">
-                                                                            <path
-                                                                                d="M263.821537,7247.00386 L254.211298,7247.00386 C254.211298,7248.0033 254.211298,7250.00218 254.205172,7251.00161 L259.774046,7251.00161 C259.560644,7252.00105 258.804036,7253.40026 257.734984,7254.10487 C257.733963,7254.10387 257.732942,7254.11086 257.7309,7254.10986 C256.309581,7255.04834 254.43389,7255.26122 253.041161,7254.98137 C250.85813,7254.54762 249.130492,7252.96451 248.429023,7250.95364 C248.433107,7250.95064 248.43617,7250.92266 248.439233,7250.92066 C248.000176,7249.67336 248.000176,7248.0033 248.439233,7247.00386 L248.438212,7247.00386 C249.003881,7245.1669 250.783592,7243.49084 252.969687,7243.0321 C254.727956,7242.65931 256.71188,7243.06308 258.170978,7244.42831 C258.36498,7244.23842 260.856372,7241.80579 261.043226,7241.6079 C256.0584,7237.09344 248.076756,7238.68155 245.090149,7244.51127 L245.089128,7244.51127 C245.089128,7244.51127 245.090149,7244.51127 245.084023,7244.52226 L245.084023,7244.52226 C243.606545,7247.38565 243.667809,7250.75975 245.094233,7253.48622 C245.090149,7253.48921 245.087086,7253.49121 245.084023,7253.49421 C246.376687,7256.0028 248.729215,7257.92672 251.563684,7258.6593 C254.574796,7259.44886 258.406843,7258.90916 260.973794,7256.58747 C260.974815,7256.58847 260.975836,7256.58947 260.976857,7256.59047 C263.15172,7254.63157 264.505648,7251.29445 263.821537,7247.00386"
-                                                                                id="google-[#178]"> </path>
-                                                                        </g>
-                                                                    </g>
+                                            <button
+                                                class="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                <svg class="w-4 mr-1" viewBox="0 0 20 20" version="1.1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <title>google [#178]</title>
+                                                        <desc>Created with Sketch.</desc>
+                                                        <defs> </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1"
+                                                            fill="none" fill-rule="evenodd">
+                                                            <g id="Dribbble-Light-Preview"
+                                                                transform="translate(-300.000000, -7399.000000)"
+                                                                fill="#000000">
+                                                                <g id="icons"
+                                                                    transform="translate(56.000000, 160.000000)">
+                                                                    <path
+                                                                        d="M263.821537,7247.00386 L254.211298,7247.00386 C254.211298,7248.0033 254.211298,7250.00218 254.205172,7251.00161 L259.774046,7251.00161 C259.560644,7252.00105 258.804036,7253.40026 257.734984,7254.10487 C257.733963,7254.10387 257.732942,7254.11086 257.7309,7254.10986 C256.309581,7255.04834 254.43389,7255.26122 253.041161,7254.98137 C250.85813,7254.54762 249.130492,7252.96451 248.429023,7250.95364 C248.433107,7250.95064 248.43617,7250.92266 248.439233,7250.92066 C248.000176,7249.67336 248.000176,7248.0033 248.439233,7247.00386 L248.438212,7247.00386 C249.003881,7245.1669 250.783592,7243.49084 252.969687,7243.0321 C254.727956,7242.65931 256.71188,7243.06308 258.170978,7244.42831 C258.36498,7244.23842 260.856372,7241.80579 261.043226,7241.6079 C256.0584,7237.09344 248.076756,7238.68155 245.090149,7244.51127 L245.089128,7244.51127 C245.089128,7244.51127 245.090149,7244.51127 245.084023,7244.52226 L245.084023,7244.52226 C243.606545,7247.38565 243.667809,7250.75975 245.094233,7253.48622 C245.090149,7253.48921 245.087086,7253.49121 245.084023,7253.49421 C246.376687,7256.0028 248.729215,7257.92672 251.563684,7258.6593 C254.574796,7259.44886 258.406843,7258.90916 260.973794,7256.58747 C260.974815,7256.58847 260.975836,7256.58947 260.976857,7256.59047 C263.15172,7254.63157 264.505648,7251.29445 263.821537,7247.00386"
+                                                                        id="google-[#178]"> </path>
                                                                 </g>
                                                             </g>
-                                                        </svg>
-                                                        Continue with Google
-                                                    </button>
-                                                    <button
-                                                        class="facebook-login flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
-                                                        <svg class="w-4 mr-1" viewBox="-5 0 20 20" version="1.1"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                                stroke-linejoin="round"></g>
-                                                            <g id="SVGRepo_iconCarrier">
-                                                                <title>facebook [#176]</title>
-                                                                <desc>Created with Sketch.</desc>
-                                                                <defs> </defs>
-                                                                <g id="Page-1" stroke="none" stroke-width="1"
-                                                                    fill="none" fill-rule="evenodd">
-                                                                    <g id="Dribbble-Light-Preview"
-                                                                        transform="translate(-385.000000, -7399.000000)"
-                                                                        fill="#000000">
-                                                                        <g id="icons"
-                                                                            transform="translate(56.000000, 160.000000)">
-                                                                            <path
-                                                                                d="M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z"
-                                                                                id="facebook-[#176]"> </path>
-                                                                        </g>
-                                                                    </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Continue with Google
+                                            </button>
+                                            <button
+                                                class="facebook-login flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                <svg class="w-4 mr-1" viewBox="-5 0 20 20" version="1.1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <title>facebook [#176]</title>
+                                                        <desc>Created with Sketch.</desc>
+                                                        <defs> </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1"
+                                                            fill="none" fill-rule="evenodd">
+                                                            <g id="Dribbble-Light-Preview"
+                                                                transform="translate(-385.000000, -7399.000000)"
+                                                                fill="#000000">
+                                                                <g id="icons"
+                                                                    transform="translate(56.000000, 160.000000)">
+                                                                    <path
+                                                                        d="M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z"
+                                                                        id="facebook-[#176]"> </path>
                                                                 </g>
                                                             </g>
-                                                        </svg>
-                                                        Continue with Facebook
-                                                    </button>
-                                                </div>
-                                            </div>
-
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Continue with Facebook
+                                            </button>
                                         </div>
-                                    <!-- </div> -->
-                                </div>
-                            </section>
-                        </div>
+                                    </div>
 
+                                </div>
+                        </div>
                     </section>
                 </section>
+            </section>
 
-                <!-- GOOGLE LOGIN -->
+            <!-- GOOGLE LOGIN -->
 
-                <!-- FACEBOOK LOGIN -->
-                <script>
+            <!-- FACEBOOK LOGIN -->
+            <script>
 
-                    document.addEventListener("DOMContentLoaded", () => {
-                        const appId = "1795552171255237"; // Replace with your Facebook App ID
+                document.addEventListener("DOMContentLoaded", () => {
+                    const appId = "1795552171255237"; // Replace with your Facebook App ID
 
-                        window.fbAsyncInit = function () {
-                            FB.init({
-                                appId: appId,
-                                cookie: true,
-                                xfbml: true,
-                                version: "v13.0",
-                            });
-
-                            FB.AppEvents.logPageView();
-                        };
-
-                        document.querySelector(".facebook-login").addEventListener("click", () => {
-                            FB.login(
-                                (response) => {
-                                    if (response.authResponse) {
-                                        console.log("Facebook token:", response.authResponse.accessToken);
-
-                                        // Send the token to your server for verification
-                                        fetch("/api/facebook-login", {
-                                            method: "POST",
-                                            headers: {
-                                                "Content-Type": "application/json",
-                                            },
-                                            body: JSON.stringify({ token: response.authResponse.accessToken }),
-                                        })
-                                            .then((res) => res.json())
-                                            .then((data) => {
-                                                console.log("User authenticated:", data);
-                                                // Redirect or update UI based on successful login
-                                            })
-                                            .catch((error) => console.error("Error:", error));
-                                    } else {
-                                        console.error("User cancelled login or did not fully authorize.");
-                                    }
-                                },
-                                { scope: "email,public_profile" }
-                            );
+                    window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: appId,
+                            cookie: true,
+                            xfbml: true,
+                            version: "v13.0",
                         });
+
+                        FB.AppEvents.logPageView();
+                    };
+
+                    document.querySelector(".facebook-login").addEventListener("click", () => {
+                        FB.login(
+                            (response) => {
+                                if (response.authResponse) {
+                                    console.log("Facebook token:", response.authResponse.accessToken);
+
+                                    // Send the token to your server for verification
+                                    fetch("/api/facebook-login", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({ token: response.authResponse.accessToken }),
+                                    })
+                                        .then((res) => res.json())
+                                        .then((data) => {
+                                            console.log("User authenticated:", data);
+                                            // Redirect or update UI based on successful login
+                                        })
+                                        .catch((error) => console.error("Error:", error));
+                                } else {
+                                    console.error("User cancelled login or did not fully authorize.");
+                                }
+                            },
+                            { scope: "email,public_profile" }
+                        );
                     });
+                });
 
 
-                </script>
-
-
+            </script>
 
         </div>
 
@@ -376,41 +388,110 @@
         </div>
 
         <!-- school -->
-        <div id="school" class="w-full flex flex-col h-[100vh] items-center justify-center" style="display: none;">
-
-          
-               
-                    <swiper-container class="w-[90%] relative top-[1.5rem]" events-prefix="swiper-" navigation="true" pagination="true" scrollbar="true"
-                        slides-per-view="3" keyboard="true" space-between="30" id="swiper-wrapper">
-                     
-                    </swiper-container>
-            
+        <div id="school" class="w-full flex flex-col h-[100vh] items-center justify-center" style="display: none;">        
+            <swiper-container 
+                class="w-[90%] relative top-[1.5rem]" 
+                events-prefix="swiper-" 
+                navigation="true" 
+                pagination="true" 
+                scrollbar="true"
+                slides-per-view="3" 
+                keyboard="true" 
+                space-between="30" 
+                id="swiper-wrapper"
+            >
+                
+            </swiper-container>
+    
         </div>
 
         <!-- JoinGame -->
-        <div id="joinGame" class="col-sm-12" style="display: none;">
-            <div class="max-w-5xl w-full ">
-                <h1 class="text-3xl font-bold text-center text-zinc-200 mb-4">
+        <div id="joinGame" class="" style="display: none;">
+            <div class="max-w-5xl w-full mt-10">
+                <h1 class="text-3xl font-extrabold text-center text-yellow-300 mb-4 text-shadow">
                     Create or Join game
                 </h1>
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
-                    <div id="twoDiceGame"
-                        class="bg-zinc-800 text-zinc-100 rounded-lg shadow-lg p-6 flex flex-col items-center justify-end hover:bg-zinc-700 transition duration-300 cursor-pointer h-[16rem] border-8 border-zinc-800 bg-blend-multiply"
-                        style="background-image: url('../../../images/15.jpg'); background-size: cover; background-position: center;">
-                        <div id="joinroomcontrols" class="col-sm-12" style="display: none; top: 5rem;">
-                            <div>
-                                <label for="roomid">Room:</label>
-                                <input id="roomid" class="form-control" placeholder="Enter Room name" required=""
-                                    autofocus="">
-                                <a href="#" id="joinbutton"><button
-                                        class="btn btn-primary btn-lg mt-3">Join</button></a>
+                    <div id="twoDiceGame" class="flex w-full justify-center">
+                        <!-- Join Room Modal -->
+                        <div id="joinRoomModal" tabindex="-1" aria-hidden="true"
+                            class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div class="relative p-4 rounded-lg shadow border border-zinc-300" style="background-color: rgba(24, 24, 27, 0.9);">
+                                    <!-- Modal header -->
+                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                        <div class="text-lg text-gray-900 md:text-xl dark:text-white">
+                                            
+                                            <!-- Join Room Controls -->
+                                            <div id="joinroomcontrols" class="" style="display: none; top: 5rem;">
+                                                <div>
+                                                    <h3 class="font-semibold mb-2">
+                                                        Join a room
+                                                    </h3>
+                                                
+                                                    <!-- <label for="roomid">Room:</label> -->
+                                                    <input id="roomid" class="form-control mb-4 bg-zinc-300 border border-yellow-300" placeholder="Enter Room ID" required="" autofocus="">
+                                                    <a href="#" id="joinbutton">
+                                                        <button  class="py-2 px-6 bg-yellow-300 hover:bg-zinc-900 text-zinc-950 rounded-lg font-bold shadow-md h-10 border border-1 !border-yellow-300 text-xs">Join</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="close-modal"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="joinRoomModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                        
+                                </div>
                             </div>
                         </div>
+                        <!-- Create Game Modal -->
+                        <div id="createGameModal" tabindex="-1" aria-hidden="true"
+                            class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div class="relative p-4 rounded-lg shadow border border-zinc-300" style="background-color: rgba(24, 24, 27, 0.9);">
+                                    <!-- Modal header -->
+                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                        <div class="w-full">
+                                            <!-- Lobby -->
+                                            <div id="lobby" class="w-full">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="close-modal-create-game"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="joinRoomModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
 
-                        <!-- <div id="lobby" class="col-sm-12"> -->
-
-                        <div class="baseline justify-center gap-2" style="position: absolute;">
+                        </div>
+                       
+                        <!-- Create Game Buttons -->
+                        <div class="flex flex-col justify-center gap-2" style="position: absolute;">
                             <button id="creategame"
                                 class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
                                 Create Game
@@ -425,8 +506,7 @@
                                 Join online game
                             </button>
                         </div>
-                        <div id="lobby" class="col-sm-12">
-                        </div>
+                        
 
                     </div>
                 </div>
@@ -441,7 +521,7 @@
               ></iframe>
             <section class="bg-transparent w-full h-screen flex items-end justify-end absolute">
                 <!-- Top Menu -->
-                <div class="absolute top-4 right-10 bg-transparent h-screen flex flex-col px-6 gap-8">
+                <div class="absolute left-[2rem] bottom-[5rem] bg-transparent flex flex-col px-6 gap-8 z-[9999]">
                     <button
                         class="bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center relative"
                         style="background-color: rgba(24, 24, 27, 0.4);">
@@ -552,17 +632,17 @@
                     </swiper-container>
                 </div>
                 <!-- Top Menu Balance Tokens -->
-                <div class="absolute bottom-4 left-4 w-full bg-transparent h-24 flex px-6 gap-8 text-gray-50 items-start">
+                <!-- <div class="absolute bottom-4 left-4 w-full bg-transparent h-24 flex px-6 gap-8 text-gray-50 items-start">
                     <button
                         class="bg-zinc-800 border border-4 border-yellow-300 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xs relative"
                         style="background-color: rgba(24, 24, 27, 0.5);">
                         1500
                         <span class="absolute -bottom-6">Tokens</span>
-                    </button>
+                    </button> -->
             
-                </div>
+                <!-- </div> -->
                 <!-- Top Menu Balance Tokens -->
-                <div class="absolute bottom-28 left-4 w-full bg-transparent h-24 flex px-6 gap-2 text-gray-50 items-start">
+                <div class="absolute top-24 left-4 w-full bg-transparent h-24 flex px-6 gap-2 text-gray-50 items-center justify-center">
                     <button class="bg-zinc-800  w-8 h-8  flex items-center justify-center font-bold text-xs relative"
                         style="background-color: rgba(24, 24, 27, 0.5);">
                         <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -614,7 +694,7 @@
                 </div>
             
                 <!-- Bottom Menu -->
-                <div class="absolute right-14 bottom-14">
+                <div class="absolute right-14 bottom-14 z-[9999]">
                     <!-- Roll Button (Main Action Button) -->
                     <button
                         class="absolute bg-transparent border border-zinc-800 w-16 h-16 rounded-full flex items-center justify-center bottom-0 right-0 bg-zinc-800 "
@@ -788,6 +868,96 @@
 
 
         </div>
+
+        <!-- MODALS -->
+
+        <!-- 
+            NAme: Join Room Modal
+        -->
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                // JOIN ROOM MODAL
+
+                const joinButton = document.getElementById('joinroom');
+                const joinRoomModal = document.getElementById('joinRoomModal');
+                const joinRoomcloseModalButton = document.getElementById('close-modal');
+
+                // Function to toggle modal visibility
+                const toggleModal = () => {
+                    if (joinRoomModal.classList.contains('hidden')) {
+                        joinRoomModal.classList.remove('hidden');
+                        joinRoomModal.classList.add('flex');
+                    } else {
+                        joinRoomModal.classList.add('hidden');
+                        joinRoomModal.classList.remove('flex');
+                    }
+                };
+
+                // Show the modal when the success button is clicked
+                if (joinButton) {
+                    joinButton.addEventListener('click', () => {
+                        toggleModal();
+                    });
+                }
+
+                // Close the modal when any close button is clicked
+                // joinRoomcloseModalButton.forEach(button => {
+                joinRoomcloseModalButton.addEventListener('click', () => {
+                    toggleModal();
+                });
+                // });
+
+                // Programmatically trigger the success button for testing purposes
+                // Remove the `hidden` class for visibility during development
+                joinButton.classList.remove('hidden');
+                joinButton.click();
+            });
+
+            // CREATE ROOM MODAL
+
+            const createButton = document.getElementById('creategame');
+            const createRoomModal = document.getElementById('createGameModal');
+            const createRoomcloseModalButton = document.getElementById('close-modal-create-game');
+
+            // Function to toggle modal visibility
+            const toggleModalCreateGame = () => {
+                if (createRoomModal.classList.contains('hidden')) {
+                    createRoomModal.classList.remove('hidden');
+                    createRoomModal.classList.add('flex');
+                } else {
+                    createRoomModal.classList.add('hidden');
+                    createRoomModal.classList.remove('flex');
+                }
+            };
+
+            // Show the modal when the success button is clicked
+            if (createButton) {
+                createButton.addEventListener('click', () => {
+                    toggleModalCreateGame();
+                });
+            }
+
+            // Close the modal when any close button is clicked
+            // createRoomcloseModalButton.forEach(button => {
+            createRoomcloseModalButton.addEventListener('click', () => {
+                toggleModalCreateGame();
+            });
+            // });  
+
+            // Programmatically trigger the success button for testing purposes
+            // Remove the `hidden` class for visibility during development
+            createButton.classList.remove('hidden');
+            createButton.click();
+
+
+
+        </script>
+
+
+
+
         <!--    <div class="row" >
 
             <div id="start" class="col-sm-12" style="display: none;">
