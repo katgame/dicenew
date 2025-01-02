@@ -96,6 +96,9 @@
         svg path {
             fill: #fff;
         }
+        p {
+            text-indent: 0;
+        }
 
         iframe body,
         iframe {
@@ -105,50 +108,21 @@
         .text-shadow {
             text-shadow: 2px 2px 4px #000000;
         }
+        #gameroom .bootstrap-table {
+            position:absolute;
+            top: 0.5rem;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="absolute top-2 flex gap-4">
+        <div class="absolute top-2 flex gap-4 justify-between w-[91%] z-[9999]" >
 
-            <button
-                class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
-                id="backBtn" type="button" style="background-color: rgba(24, 24, 27, 0.4);">
-                <svg fill="#000000" height="64px" width="64px" version="1.1" id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 26.676 26.676" xml:space="preserve">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <g>
-                            <path
-                                d="M26.105,21.891c-0.229,0-0.439-0.131-0.529-0.346l0,0c-0.066-0.156-1.716-3.857-7.885-4.59 c-1.285-0.156-2.824-0.236-4.693-0.25v4.613c0,0.213-0.115,0.406-0.304,0.508c-0.188,0.098-0.413,0.084-0.588-0.033L0.254,13.815 C0.094,13.708,0,13.528,0,13.339c0-0.191,0.094-0.365,0.254-0.477l11.857-7.979c0.175-0.121,0.398-0.129,0.588-0.029 c0.19,0.102,0.303,0.295,0.303,0.502v4.293c2.578,0.336,13.674,2.33,13.674,11.674c0,0.271-0.191,0.508-0.459,0.562 C26.18,21.891,26.141,21.891,26.105,21.891z">
-                            </path>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                            <g> </g>
-                        </g>
-                    </g>
-                </svg>
-                <span class="absolute -bottom-5 text-zinc-50 text-xs">Back</span>
-            </button>
-            <!-- <button class="btn btn-primary btn-lg" id="logoutBtn" type="button">Logout</button> -->
-            <button
-                class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
-                id="logoutBtn" type="button" style="background-color: rgba(24, 24, 27, 0.4);">
+            <div class="flex gap-4">
+                <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
+                    id="logoutBtn" type="button"
+                    style="background-color: rgba(24, 24, 27, 0.4);">
                 <svg height="60%" width="60%" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -158,192 +132,197 @@
                             fill="#ffffff"></path>
                     </g>
                 </svg>
-                <span class="absolute -bottom-5 text-zinc-50 text-xs">Logout</span>
-            </button>
-            <button
-                class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
-                style="display: block; " id="leaveGameBtn" type="button">
-                <svg height="60%" width="60%" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z">
-                        </path>
-                    </g>
-                </svg>
-                <span class="absolute -bottom-4 text-zinc-50 text-xs">Leave</span>
-            </button>
+                    <span class="absolute -bottom-5 text-zinc-50 text-xs">Logout</span>
+                </button>
+                <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative" style="display: block;" id="leaveGameBtn" type="button">
+                    <svg height="60%" width="60%" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z">
+                            </path>
+                        </g>
+                    </svg>
+                    <span class="absolute -bottom-5 text-zinc-50 text-xs">Leave</span>
+                </button>
+            </div>
+
+            <div class="flex">
+                <button class="bg-zinc-800 border border-yellow-300 w-8 h-8 rounded-full flex items-center justify-center relative"
+                    style="display: block; font-size:0.6rem" type="button">
+                    1500
+                    <span class="absolute -bottom-5 left-0 text-zinc-50 text-xs">Tokens</span>
+                </button>
+                
+            </div>
+
         </div>
 
         <!-- login -->
-        <div id="loginFormContainer" class="h-screen flex flex-col justify-center">
-            <section class="py-8 antialiased md:py-16" style="width: 100%; max-width: 1280px; padding: 20px;">
+        <div id="loginFormContainer"  class="h-screen flex flex-col justify-center">
+            <section 
+                class="py-8 antialiased md:py-16"
+                style="width: 100%; max-width: 1280px; padding: 20px;"
+            >
                 <section class="bg-transparent dark:bg-transparent">
                     <section class="bg-transparent dark:bg-transparent">
                         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                            <!-- <a class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                                    🎲 Dice Game
-                                </a> -->
-                            <!-- <div class="w-full bg-gray-800 rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-                                        style="background-image: url('../../images/room-5.jpg'); background-size: cover; background-position: center;"> -->
-                            <div class="p-6 flex gap-8">
-                                <div class="">
-                                    <h1
-                                        class="text-xl font-extrabold leading-tight tracking-tight text-yellow-300 text-shadow mb-4">
-                                        Sign in to your account
-                                    </h1>
-                                    <form method="POST" class="space-y-4 md:space-y-6" id="loginForm"
-                                        class="needs-validation" novalidate>
-                                        <div>
-                                            <input type="email" name="email" id="emailId"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="email address" required />
-                                        </div>
-                                        <div>
-                                            <input type="password" name="password" id="password" placeholder="password"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                required />
-                                        </div>
 
-                                        <button id="loginBtn" type="button"
-                                            class="w-full text-zinc-800 bg-yellow-300 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-300 dark:focus:ring-yellow-300">
-                                            Sign in
-                                        </button>
+                                <div class="p-6 flex gap-8">
 
-                                        <p class="text-sm font-light text-gray-400 dark:text-gray-400">
-                                            Don’t have an account yet?
-                                            <a href="/signup"
-                                                class="font-medium text-yellow-300 hover:underline dark:text-yellow-300">Sign
-                                                up</a>
-                                        </p>
-                                    </form>
-                                </div>
-
-
-                                <div class="">
-                                    <div class="flex flex-col justify-center items-center h-[60vh] gap-4">
-
-                                        <button
-                                            class="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
-                                            <svg class="w-4 mr-1" viewBox="0 0 20 20" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                    stroke-linejoin="round"></g>
-                                                <g id="SVGRepo_iconCarrier">
-                                                    <title>google [#178]</title>
-                                                    <desc>Created with Sketch.</desc>
-                                                    <defs> </defs>
-                                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none"
-                                                        fill-rule="evenodd">
-                                                        <g id="Dribbble-Light-Preview"
-                                                            transform="translate(-300.000000, -7399.000000)"
-                                                            fill="#000000">
-                                                            <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                                <path
-                                                                    d="M263.821537,7247.00386 L254.211298,7247.00386 C254.211298,7248.0033 254.211298,7250.00218 254.205172,7251.00161 L259.774046,7251.00161 C259.560644,7252.00105 258.804036,7253.40026 257.734984,7254.10487 C257.733963,7254.10387 257.732942,7254.11086 257.7309,7254.10986 C256.309581,7255.04834 254.43389,7255.26122 253.041161,7254.98137 C250.85813,7254.54762 249.130492,7252.96451 248.429023,7250.95364 C248.433107,7250.95064 248.43617,7250.92266 248.439233,7250.92066 C248.000176,7249.67336 248.000176,7248.0033 248.439233,7247.00386 L248.438212,7247.00386 C249.003881,7245.1669 250.783592,7243.49084 252.969687,7243.0321 C254.727956,7242.65931 256.71188,7243.06308 258.170978,7244.42831 C258.36498,7244.23842 260.856372,7241.80579 261.043226,7241.6079 C256.0584,7237.09344 248.076756,7238.68155 245.090149,7244.51127 L245.089128,7244.51127 C245.089128,7244.51127 245.090149,7244.51127 245.084023,7244.52226 L245.084023,7244.52226 C243.606545,7247.38565 243.667809,7250.75975 245.094233,7253.48622 C245.090149,7253.48921 245.087086,7253.49121 245.084023,7253.49421 C246.376687,7256.0028 248.729215,7257.92672 251.563684,7258.6593 C254.574796,7259.44886 258.406843,7258.90916 260.973794,7256.58747 C260.974815,7256.58847 260.975836,7256.58947 260.976857,7256.59047 C263.15172,7254.63157 264.505648,7251.29445 263.821537,7247.00386"
-                                                                    id="google-[#178]"> </path>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                            Continue with Google
-                                        </button>
-                                        <button
-                                            class="facebook-login flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
-                                            <svg class="w-4 mr-1" viewBox="-5 0 20 20" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
-                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                    stroke-linejoin="round"></g>
-                                                <g id="SVGRepo_iconCarrier">
-                                                    <title>facebook [#176]</title>
-                                                    <desc>Created with Sketch.</desc>
-                                                    <defs> </defs>
-                                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none"
-                                                        fill-rule="evenodd">
-                                                        <g id="Dribbble-Light-Preview"
-                                                            transform="translate(-385.000000, -7399.000000)"
-                                                            fill="#000000">
-                                                            <g id="icons" transform="translate(56.000000, 160.000000)">
-                                                                <path
-                                                                    d="M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z"
-                                                                    id="facebook-[#176]"> </path>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                            Continue with Facebook
-                                        </button>
+                                    <div class="">
+                                        <h1 class="text-xl font-extrabold leading-tight tracking-tight text-yellow-300 text-shadow mb-4">
+                                            Sign in to your account
+                                        </h1>
+                                        <form method="POST" class="space-y-4 md:space-y-6" id="loginForm" class="needs-validation" novalidate>
+                                            <div>
+                                                <input type="email" name="email" id="emailId"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    placeholder="email address" required />
+                                            </div>
+                                            <div>
+                                                <input type="password" name="password" id="password" placeholder="password"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    required />
+                                            </div>
+                                        
+                                            <button id="loginBtn" type="button"
+                                                class="w-full text-zinc-800 bg-yellow-300 hover:bg-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-300 dark:focus:ring-yellow-300">
+                                                Sign in
+                                            </button>
+                                        
+                                            <p class="text-sm font-light text-gray-400 dark:text-gray-400">
+                                                Don’t have an account yet?
+                                                <a href="/signup" class="font-medium text-yellow-300 hover:underline dark:text-yellow-300">Sign
+                                                    up</a>
+                                            </p>
+                                        </form>
                                     </div>
-                                </div>
+                                    
 
-                            </div>
-                            <!-- </div> -->
+                                    <div class="">
+                                        <div class="flex flex-col justify-center items-center h-[60vh] gap-4">
+
+                                            <button
+                                                class="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                <svg class="w-4 mr-1" viewBox="0 0 20 20" version="1.1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <title>google [#178]</title>
+                                                        <desc>Created with Sketch.</desc>
+                                                        <defs> </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1"
+                                                            fill="none" fill-rule="evenodd">
+                                                            <g id="Dribbble-Light-Preview"
+                                                                transform="translate(-300.000000, -7399.000000)"
+                                                                fill="#000000">
+                                                                <g id="icons"
+                                                                    transform="translate(56.000000, 160.000000)">
+                                                                    <path
+                                                                        d="M263.821537,7247.00386 L254.211298,7247.00386 C254.211298,7248.0033 254.211298,7250.00218 254.205172,7251.00161 L259.774046,7251.00161 C259.560644,7252.00105 258.804036,7253.40026 257.734984,7254.10487 C257.733963,7254.10387 257.732942,7254.11086 257.7309,7254.10986 C256.309581,7255.04834 254.43389,7255.26122 253.041161,7254.98137 C250.85813,7254.54762 249.130492,7252.96451 248.429023,7250.95364 C248.433107,7250.95064 248.43617,7250.92266 248.439233,7250.92066 C248.000176,7249.67336 248.000176,7248.0033 248.439233,7247.00386 L248.438212,7247.00386 C249.003881,7245.1669 250.783592,7243.49084 252.969687,7243.0321 C254.727956,7242.65931 256.71188,7243.06308 258.170978,7244.42831 C258.36498,7244.23842 260.856372,7241.80579 261.043226,7241.6079 C256.0584,7237.09344 248.076756,7238.68155 245.090149,7244.51127 L245.089128,7244.51127 C245.089128,7244.51127 245.090149,7244.51127 245.084023,7244.52226 L245.084023,7244.52226 C243.606545,7247.38565 243.667809,7250.75975 245.094233,7253.48622 C245.090149,7253.48921 245.087086,7253.49121 245.084023,7253.49421 C246.376687,7256.0028 248.729215,7257.92672 251.563684,7258.6593 C254.574796,7259.44886 258.406843,7258.90916 260.973794,7256.58747 C260.974815,7256.58847 260.975836,7256.58947 260.976857,7256.59047 C263.15172,7254.63157 264.505648,7251.29445 263.821537,7247.00386"
+                                                                        id="google-[#178]"> </path>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Continue with Google
+                                            </button>
+                                            <button
+                                                class="facebook-login flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center w-full">
+                                                <svg class="w-4 mr-1" viewBox="-5 0 20 20" version="1.1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <title>facebook [#176]</title>
+                                                        <desc>Created with Sketch.</desc>
+                                                        <defs> </defs>
+                                                        <g id="Page-1" stroke="none" stroke-width="1"
+                                                            fill="none" fill-rule="evenodd">
+                                                            <g id="Dribbble-Light-Preview"
+                                                                transform="translate(-385.000000, -7399.000000)"
+                                                                fill="#000000">
+                                                                <g id="icons"
+                                                                    transform="translate(56.000000, 160.000000)">
+                                                                    <path
+                                                                        d="M335.821282,7259 L335.821282,7250 L338.553693,7250 L339,7246 L335.821282,7246 L335.821282,7244.052 C335.821282,7243.022 335.847593,7242 337.286884,7242 L338.744689,7242 L338.744689,7239.14 C338.744689,7239.097 337.492497,7239 336.225687,7239 C333.580004,7239 331.923407,7240.657 331.923407,7243.7 L331.923407,7246 L329,7246 L329,7250 L331.923407,7250 L331.923407,7259 L335.821282,7259 Z"
+                                                                        id="facebook-[#176]"> </path>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Continue with Facebook
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
                         </div>
                     </section>
-        </div>
+                </section>
+            </section>
 
-        </section>
-        </section>
+            <!-- GOOGLE LOGIN -->
 
-        <!-- GOOGLE LOGIN -->
+            <!-- FACEBOOK LOGIN -->
+            <script>
 
-        <!-- FACEBOOK LOGIN -->
-        <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const appId = "1795552171255237"; // Replace with your Facebook App ID
 
-            document.addEventListener("DOMContentLoaded", () => {
-                const appId = "1795552171255237"; // Replace with your Facebook App ID
+                    window.fbAsyncInit = function () {
+                        FB.init({
+                            appId: appId,
+                            cookie: true,
+                            xfbml: true,
+                            version: "v13.0",
+                        });
 
-                window.fbAsyncInit = function () {
-                    FB.init({
-                        appId: appId,
-                        cookie: true,
-                        xfbml: true,
-                        version: "v13.0",
+                        FB.AppEvents.logPageView();
+                    };
+
+                    document.querySelector(".facebook-login").addEventListener("click", () => {
+                        FB.login(
+                            (response) => {
+                                if (response.authResponse) {
+                                    console.log("Facebook token:", response.authResponse.accessToken);
+
+                                    // Send the token to your server for verification
+                                    fetch("/api/facebook-login", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({ token: response.authResponse.accessToken }),
+                                    })
+                                        .then((res) => res.json())
+                                        .then((data) => {
+                                            console.log("User authenticated:", data);
+                                            // Redirect or update UI based on successful login
+                                        })
+                                        .catch((error) => console.error("Error:", error));
+                                } else {
+                                    console.error("User cancelled login or did not fully authorize.");
+                                }
+                            },
+                            { scope: "email,public_profile" }
+                        );
                     });
+                });
 
                     FB.AppEvents.logPageView();
                 };
 
-                document.querySelector(".facebook-login").addEventListener("click", () => {
-                    FB.login(
-                        (response) => {
-                            if (response.authResponse) {
-                                console.log("Facebook token:", response.authResponse.accessToken);
-
-                                // Send the token to your server for verification
-                                fetch("/api/facebook-login", {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({ token: response.authResponse.accessToken }),
-                                })
-                                    .then((res) => res.json())
-                                    .then((data) => {
-                                        console.log("User authenticated:", data);
-                                        // Redirect or update UI based on successful login
-                                    })
-                                    .catch((error) => console.error("Error:", error));
-                            } else {
-                                console.error("User cancelled login or did not fully authorize.");
-                            }
-                        },
-                        { scope: "email,public_profile" }
-                    );
-                });
-            });
-
-
-        </script>
-
-
+            </script>
 
     </div>
 
@@ -420,38 +399,127 @@
             </div>
         </div>
 
+        <!-- school -->
+        <div id="school" class="w-full flex flex-col h-[100vh] items-center justify-center" style="display: none;">        
+            <swiper-container 
+                class="w-[90%] relative top-[1.5rem]" 
+                events-prefix="swiper-" 
+                navigation="true" 
+                pagination="true" 
+                scrollbar="true"
+                slides-per-view="3" 
+                keyboard="true" 
+                space-between="30" 
+                id="swiper-wrapper"
+            >
+                
+            </swiper-container>
+    
+        </div>
 
-    </div>
-
-    <!-- school -->
-    <div id="school" class="w-full flex flex-col h-[100vh] items-center justify-center" style="display: none;">
-
-
-
-        <swiper-container class="w-[90%] relative top-[1.5rem]" events-prefix="swiper-" navigation="true"
-            pagination="true" scrollbar="true" slides-per-view="3" keyboard="true" space-between="30"
-            id="swiper-wrapper">
-
-        </swiper-container>
-
-    </div>
-
-    <!-- JoinGame -->
-
-    <div id="joinGame" class="flex justify-center items-center h-[100vh]" style="display: none;">
-        <div class="flex items-center justify-center">
-            <div class="max-w-2xl w-full ">
+        <!-- JoinGame -->
+        <div id="joinGame" class="" style="display: none;">
+            <div class="max-w-5xl w-full mt-10">
                 <h1 class="text-3xl font-extrabold text-center text-yellow-300 mb-4 text-shadow">
                     Create or Join game
                 </h1>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div id="joinroomcontrols" class="col-sm-12" style="display: none; top: 5rem;">
-                        <div>
-                            <label for="roomid">Room:</label>
-                            <input id="roomid" class="form-control" placeholder="Enter Room name" required="" autofocus="">
-                            <a href="#" id="joinbutton"><button
-                                    class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">Join</button></a>
+                <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+
+                    <div id="twoDiceGame" class="flex w-full justify-center">
+                        <!-- Join Room Modal -->
+                        <div id="joinRoomModal" tabindex="-1" aria-hidden="true"
+                            class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div class="relative p-4 rounded-lg shadow border border-zinc-300" style="background-color: rgba(24, 24, 27, 0.9);">
+                                    <!-- Modal header -->
+                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                        <div class="text-lg text-gray-900 md:text-xl dark:text-white">
+                                            
+                                            <!-- Join Room Controls -->
+                                            <div id="joinroomcontrols" class="" style="display: none; top: 5rem;">
+                                                <div>
+                                                    <h3 class="font-semibold mb-2">
+                                                        Join a room
+                                                    </h3>
+                                                
+                                                    <!-- <label for="roomid">Room:</label> -->
+                                                    <input id="roomid" class="form-control mb-4 bg-zinc-300 border border-yellow-300" placeholder="Enter Room ID" required="" autofocus="">
+                                                    <a href="#" id="joinbutton">
+                                                        <button  class="py-2 px-6 bg-yellow-300 hover:bg-zinc-900 text-zinc-950 rounded-lg font-bold shadow-md h-10 border border-1 !border-yellow-300 text-xs">Join</button>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="close-modal"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="joinRoomModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                            </div>
                         </div>
+                        <!-- Create Game Modal -->
+                        <div id="createGameModal" tabindex="-1" aria-hidden="true"
+                            class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
+                            <div class="relative p-4 w-full max-w-xl h-full md:h-auto">
+                                <!-- Modal content -->
+                                <div class="relative p-4 rounded-lg shadow border border-zinc-300" style="background-color: rgba(24, 24, 27, 0.9);">
+                                    <!-- Modal header -->
+                                    <div class="flex justify-between mb-4 rounded-t sm:mb-5">
+                                        <div class="w-full">
+                                            <!-- Lobby -->
+                                            <div id="lobby" class="w-full">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="button" id="close-modal-create-game"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-toggle="joinRoomModal">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd"
+                                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                       
+                        <!-- Create Game Buttons -->
+                        <div class="flex flex-col justify-center gap-2" style="position: absolute;">
+                            <button id="creategame"
+                                class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                Create Game
+                            </button>
+                            <button id="joinroom"
+                                class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                Join Game with link
+                            </button>
+
+                            <button id="searchGame" data-value="2"
+                                class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">
+                                Join online game
+                            </button>
+                        </div>
+                        
+
                     </div>
 
                     <div class="baseline justify-center gap-2" style="position: absolute; z-index: 1;">
@@ -477,28 +545,24 @@
             </div>
         </div>
 
-
-    </div>
-
-
-    <!-- GameRoom -->
-    <div id="gameroom" class="flex items-center justify-center min-h-screen"
-        style=" z-index: -1; background-image: url('images/room-5.jpg'); background-size: cover; background-position: center; display: none;">
-        <iframe id="gameframe" style="z-index: -1;"
-            class="w-full min-h-screen border border-transparent rounded-lg bg-transparent absolute z-20"></iframe>
-        <section class="bg-transparent w-full h-screen flex items-end justify-end absolute">
-            <!-- Top Menu -->
-            <div class="absolute top-4 right-10 bg-transparent h-screen flex flex-col px-6 gap-8">
-                <button
-                    class="bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center relative"
-                    style="background-color: rgba(24, 24, 27, 0.4);">
-                    <svg height="60%" width="60%" fill="#ffffff" version="1.1" id="Layer_1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                        viewBox="0 0 512.001 512.001" xml:space="preserve" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <g>
+        <!-- GameRoom -->
+        <div id="gameroom" class="flex items-center justify-center min-h-screen" 
+            style="background-image: url('images/room5.jpg'); background-size: cover; background-position: center; display: none;">
+            <iframe id="gameframe"
+                class="w-full min-h-screen border border-transparent rounded-lg bg-transparent absolute z-20"
+              ></iframe>
+            <section class="bg-transparent w-full h-screen flex items-end justify-end absolute">
+                <!-- Top Menu -->
+                <div class="absolute left-[2rem] bottom-[5rem] bg-transparent flex flex-col px-6 gap-8 z-[9999]">
+                    <button
+                        class="bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center relative"
+                        style="background-color: rgba(24, 24, 27, 0.4);">
+                        <svg height="60%" width="60%" fill="#ffffff" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512.001 512.001" xml:space="preserve"
+                            stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
                                 <g>
                                     <path
                                         d="M287.807,286.211c-2.398-3.607-7.265-4.589-10.873-2.191c-2.879,1.914-10.657,3.973-20.933,3.973 c-10.276,0-18.055-2.06-20.935-3.974c-3.608-2.396-8.477-1.416-10.872,2.191c-2.398,3.608-1.416,8.476,2.191,10.874 c6.214,4.13,17.286,6.595,29.616,6.595s23.401-2.465,29.615-6.594C289.223,294.686,290.205,289.818,287.807,286.211z">
@@ -593,40 +657,38 @@
                             <div class="avatar"
                                 style="background-image: url('images/4.jpg'); background-size: cover; background-position: center;">
                             </div>
-                            <div class="timer" id=""></div>
-                        </div>
-                    </swiper-slide>
-                </swiper-container>
-            </div>
-            <!-- Top Menu Balance Tokens -->
-            <div class="absolute bottom-4 left-4 w-full bg-transparent h-24 flex px-6 gap-8 text-gray-50 items-start">
-                <button
-                    class="bg-zinc-800 border border-4 border-yellow-300 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xs relative"
-                    style="background-color: rgba(24, 24, 27, 0.5);">
-                    1500
-                    <span class="absolute -bottom-6">Tokens</span>
-                </button>
-
-            </div>
-            <!-- Top Menu Balance Tokens -->
-            <div class="absolute bottom-28 left-4 w-full bg-transparent h-24 flex px-6 gap-2 text-gray-50 items-start">
-                <button class="bg-zinc-800  w-8 h-8  flex items-center justify-center font-bold text-xs relative"
-                    style="background-color: rgba(24, 24, 27, 0.5);">
-                    <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff00" stroke="#ffff00">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <title>dice [#23]</title>
-                            <desc>Created with Sketch.</desc>
-                            <defs> </defs>
-                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <g id="Dribbble-Light-Preview" transform="translate(-260.000000, -8079.000000)"
-                                    fill="#ffea00">
-                                    <g id="icons" transform="translate(56.000000, 160.000000)">
-                                        <path
-                                            d="M216,7929.1047 C216,7930.2097 215.104,7931.1047 214,7931.1047 C212.896,7931.1047 212,7930.2097 212,7929.1047 C212,7927.9997 212.896,7927.1047 214,7927.1047 C215.104,7927.1047 216,7927.9997 216,7929.1047 L216,7929.1047 Z M222,7935.9997 C222,7936.5527 221.552,7936.9997 221,7936.9997 L207,7936.9997 C206.448,7936.9997 206,7936.5527 206,7935.9997 L206,7921.9997 C206,7921.4477 206.448,7920.9997 207,7920.9997 L221,7920.9997 C221.552,7920.9997 222,7921.4477 222,7921.9997 L222,7935.9997 Z M222,7918.9997 L206,7918.9997 C204.896,7918.9997 204,7919.8957 204,7920.9997 L204,7936.9997 C204,7938.1047 204.896,7938.9997 206,7938.9997 L222,7938.9997 C223.105,7938.9997 224,7938.1047 224,7936.9997 L224,7920.9997 C224,7919.8957 223.105,7918.9997 222,7918.9997 L222,7918.9997 Z"
-                                            id="dice-[#23]"> </path>
+                        </swiper-slide>
+                    </swiper-container>
+                </div>
+                <!-- Top Menu Balance Tokens -->
+                <!-- <div class="absolute bottom-4 left-4 w-full bg-transparent h-24 flex px-6 gap-8 text-gray-50 items-start">
+                    <button
+                        class="bg-zinc-800 border border-4 border-yellow-300 w-12 h-12 rounded-full flex items-center justify-center font-bold text-xs relative"
+                        style="background-color: rgba(24, 24, 27, 0.5);">
+                        1500
+                        <span class="absolute -bottom-6">Tokens</span>
+                    </button> -->
+            
+                <!-- </div> -->
+                <!-- Top Menu Balance Tokens -->
+                <div class="absolute top-24 left-4 w-full bg-transparent h-24 flex px-6 gap-2 text-gray-50 items-center justify-center">
+                    <button class="bg-zinc-800  w-8 h-8  flex items-center justify-center font-bold text-xs relative"
+                        style="background-color: rgba(24, 24, 27, 0.5);">
+                        <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff00" stroke="#ffff00">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <title>dice [#23]</title>
+                                <desc>Created with Sketch.</desc>
+                                <defs> </defs>
+                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g id="Dribbble-Light-Preview" transform="translate(-260.000000, -8079.000000)" fill="#ffea00">
+                                        <g id="icons" transform="translate(56.000000, 160.000000)">
+                                            <path
+                                                d="M216,7929.1047 C216,7930.2097 215.104,7931.1047 214,7931.1047 C212.896,7931.1047 212,7930.2097 212,7929.1047 C212,7927.9997 212.896,7927.1047 214,7927.1047 C215.104,7927.1047 216,7927.9997 216,7929.1047 L216,7929.1047 Z M222,7935.9997 C222,7936.5527 221.552,7936.9997 221,7936.9997 L207,7936.9997 C206.448,7936.9997 206,7936.5527 206,7935.9997 L206,7921.9997 C206,7921.4477 206.448,7920.9997 207,7920.9997 L221,7920.9997 C221.552,7920.9997 222,7921.4477 222,7921.9997 L222,7935.9997 Z M222,7918.9997 L206,7918.9997 C204.896,7918.9997 204,7919.8957 204,7920.9997 L204,7936.9997 C204,7938.1047 204.896,7938.9997 206,7938.9997 L222,7938.9997 C223.105,7938.9997 224,7938.1047 224,7936.9997 L224,7920.9997 C224,7919.8957 223.105,7918.9997 222,7918.9997 L222,7918.9997 Z"
+                                                id="dice-[#23]"> </path>
+                                        </g>
                                     </g>
                                 </g>
                             </g>
@@ -655,81 +717,77 @@
                                     </g>
                                 </g>
                             </g>
-                        </g>
-                    </svg>
-                    <!-- <span class="absolute -bottom-4">1</span> -->
-                </button>
-
-            </div>
-            <label>Timer: </label>
-            <div id="playertimer">00:00</div>
-            <div id="totalBet">R0</div>
-            <div id="roundResult"></div>
-            <div id="winnerResult"></div>
-            <!-- Bottom Menu -->
-            <div class="absolute right-14 bottom-14">
-                <!-- Roll Button (Main Action Button) -->
-                <button id="rollbutton"
-                    class="absolute bg-transparent border border-zinc-800 w-16 h-16 rounded-full flex items-center justify-center bottom-0 right-0 bg-zinc-800 "
-                    style="background-color: rgba(24, 24, 27, 0.3);">
-                    <!-- <img src="https://cdn-icons-png.flaticon.com/128/633/633600.png" alt="Roll" class="w-8 h-8">-->
-                    <svg height="60%" width="60%" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
-                        fill="#ffffff" stroke="#ffffff">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <style type="text/css">
-                                .st0 {
-                                    fill: #fff;
-                                }
-                            </style>
-                            <g>
-                                <path class="st0"
-                                    d="M449.532,105.602L288.463,8.989C278.474,2.994,267.235,0,256.011,0c-11.239,0-22.483,2.994-32.467,8.989 L62.475,105.602c-19.012,11.406-30.647,31.95-30.647,54.117v192.562c0,22.168,11.635,42.711,30.647,54.117l161.069,96.613 c9.984,5.988,21.228,8.989,32.467,8.989c11.225,0,22.463-3.001,32.452-8.989l161.069-96.613 c19.012-11.406,30.64-31.949,30.64-54.117V159.719C480.172,137.552,468.544,117.008,449.532,105.602z M250.599,492.733 c-6.029-0.745-11.93-2.719-17.32-5.948L72.21,390.172c-13.306-7.989-21.456-22.369-21.456-37.891V159.719 c0-6.022,1.236-11.862,3.518-17.233l196.328,117.76V492.733z M59.669,133.114c3.364-4.464,7.593-8.318,12.541-11.285 l161.069-96.613c6.995-4.196,14.85-6.291,22.732-6.291c7.868,0,15.723,2.095,22.718,6.291l161.069,96.613 c4.941,2.967,9.184,6.821,12.54,11.285L256.011,250.881L59.669,133.114z M461.254,352.281c0,15.522-8.15,29.902-21.456,37.891 l-161.069,96.613c-5.398,3.229-11.292,5.203-17.321,5.948V260.246l196.328-117.76c2.283,5.37,3.518,11.211,3.518,17.233V352.281z">
-                                </path>
-                                <path class="st0"
-                                    d="M160.209,119.875c-9.828-7.278-26.021-7.465-36.165-0.41c-10.144,7.056-10.399,18.67-0.57,25.947 c9.828,7.277,26.022,7.459,36.159,0.41C169.783,138.766,170.038,127.152,160.209,119.875z">
-                                </path>
-                                <path class="st0"
-                                    d="M279.159,48.686c-9.829-7.277-26.022-7.458-36.172-0.403c-10.137,7.049-10.393,18.664-0.564,25.941 c9.829,7.284,26.022,7.458,36.159,0.416C288.732,67.578,288.987,55.963,279.159,48.686z">
-                                </path>
-                                <path class="st0"
-                                    d="M220.59,82.024c-9.834-7.27-26.028-7.458-36.172-0.403c-10.15,7.049-10.406,18.664-0.571,25.941 c9.829,7.284,26.022,7.458,36.166,0.416C230.151,100.916,230.412,89.302,220.59,82.024z">
-                                </path>
-                                <path class="st0"
-                                    d="M267.437,184.754c-9.828-7.277-26.015-7.459-36.159-0.41c-10.15,7.056-10.405,18.671-0.577,25.947 c9.828,7.284,26.021,7.459,36.172,0.41C277.01,203.645,277.265,192.031,267.437,184.754z">
-                                </path>
-                                <path class="st0"
-                                    d="M386.385,113.564c-9.828-7.271-26.021-7.458-36.158-0.403c-10.151,7.049-10.406,18.664-0.577,25.941 c9.828,7.284,26.02,7.458,36.172,0.416C395.959,132.456,396.214,120.842,386.385,113.564z">
-                                </path>
-                                <path class="st0"
-                                    d="M327.817,146.903c-9.829-7.27-26.022-7.458-36.172-0.403c-10.137,7.049-10.392,18.664-0.564,25.941 c9.828,7.284,26.021,7.465,36.158,0.416C337.391,165.795,337.646,154.188,327.817,146.903z">
-                                </path>
-                                <path class="st0"
-                                    d="M89.289,248.303c11.158,6.083,20.194,1.961,20.194-9.19c0-11.158-9.036-25.128-20.194-31.21 c-11.157-6.083-20.207-1.967-20.207,9.19C69.081,228.244,78.131,242.221,89.289,248.303z">
-                                </path>
-                                <path class="st0"
-                                    d="M202.061,309.771c11.158,6.082,20.208,1.967,20.208-9.184c0-11.157-9.05-25.135-20.208-31.217 c-11.15-6.076-20.194-1.961-20.194,9.198C181.867,289.719,190.911,303.689,202.061,309.771z">
-                                </path>
-                                <path class="st0"
-                                    d="M89.289,361.082c11.158,6.076,20.194,1.967,20.194-9.19c0-11.158-9.036-25.129-20.194-31.21 c-11.157-6.083-20.207-1.968-20.207,9.19C69.081,341.029,78.131,355,89.289,361.082z">
-                                </path>
-                                <path class="st0"
-                                    d="M202.061,422.55c11.158,6.082,20.208,1.967,20.208-9.191c0-11.151-9.05-25.128-20.208-31.21 c-11.15-6.076-20.194-1.961-20.194,9.19C181.867,402.497,190.911,416.468,202.061,422.55z">
-                                </path>
-                                <path class="st0"
-                                    d="M145.675,335.424c11.158,6.082,20.201,1.967,20.201-9.191c0-11.151-9.044-25.128-20.201-31.204 c-11.158-6.082-20.201-1.967-20.201,9.185C125.474,315.37,134.517,329.341,145.675,335.424z">
-                                </path>
-                                <path class="st0"
-                                    d="M418.341,207.902c-11.158,6.082-20.208,20.053-20.208,31.21c0,11.151,9.05,15.273,20.208,9.19 c11.144-6.082,20.194-20.059,20.194-31.21C438.535,205.935,429.486,201.819,418.341,207.902z">
-                                </path>
-                                <path class="st0"
-                                    d="M305.555,382.149c-11.158,6.082-20.194,20.059-20.194,31.21c0,11.158,9.036,15.273,20.194,9.191 c11.158-6.082,20.194-20.053,20.194-31.211C325.749,380.188,316.714,376.074,305.555,382.149z">
-                                </path>
-                                <path class="st0"
-                                    d="M361.948,295.028c-11.158,6.076-20.207,20.053-20.207,31.204c0,11.158,9.05,15.273,20.207,9.191 c11.158-6.083,20.194-20.053,20.194-31.21C382.142,293.062,373.106,288.947,361.948,295.028z">
-                                </path>
+                        </svg>
+                        <!-- <span class="absolute -bottom-4">1</span> -->
+                    </button>
+            
+                </div>
+            
+                <!-- Bottom Menu -->
+                <div class="absolute right-14 bottom-14 z-[9999]">
+                    <!-- Roll Button (Main Action Button) -->
+                    <button
+                        class="absolute bg-transparent border border-zinc-800 w-16 h-16 rounded-full flex items-center justify-center bottom-0 right-0 bg-zinc-800 "
+                        style="background-color: rgba(24, 24, 27, 0.3);">
+                        <!-- <img src="https://cdn-icons-png.flaticon.com/128/633/633600.png" alt="Roll" class="w-8 h-8">-->
+                        <svg height="60%" width="60%" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#ffffff"
+                            stroke="#ffffff">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <style type="text/css">
+                                    .st0 {
+                                        fill: #fff;
+                                    }
+                                </style>
+                                <g>
+                                    <path class="st0"
+                                        d="M449.532,105.602L288.463,8.989C278.474,2.994,267.235,0,256.011,0c-11.239,0-22.483,2.994-32.467,8.989 L62.475,105.602c-19.012,11.406-30.647,31.95-30.647,54.117v192.562c0,22.168,11.635,42.711,30.647,54.117l161.069,96.613 c9.984,5.988,21.228,8.989,32.467,8.989c11.225,0,22.463-3.001,32.452-8.989l161.069-96.613 c19.012-11.406,30.64-31.949,30.64-54.117V159.719C480.172,137.552,468.544,117.008,449.532,105.602z M250.599,492.733 c-6.029-0.745-11.93-2.719-17.32-5.948L72.21,390.172c-13.306-7.989-21.456-22.369-21.456-37.891V159.719 c0-6.022,1.236-11.862,3.518-17.233l196.328,117.76V492.733z M59.669,133.114c3.364-4.464,7.593-8.318,12.541-11.285 l161.069-96.613c6.995-4.196,14.85-6.291,22.732-6.291c7.868,0,15.723,2.095,22.718,6.291l161.069,96.613 c4.941,2.967,9.184,6.821,12.54,11.285L256.011,250.881L59.669,133.114z M461.254,352.281c0,15.522-8.15,29.902-21.456,37.891 l-161.069,96.613c-5.398,3.229-11.292,5.203-17.321,5.948V260.246l196.328-117.76c2.283,5.37,3.518,11.211,3.518,17.233V352.281z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M160.209,119.875c-9.828-7.278-26.021-7.465-36.165-0.41c-10.144,7.056-10.399,18.67-0.57,25.947 c9.828,7.277,26.022,7.459,36.159,0.41C169.783,138.766,170.038,127.152,160.209,119.875z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M279.159,48.686c-9.829-7.277-26.022-7.458-36.172-0.403c-10.137,7.049-10.393,18.664-0.564,25.941 c9.829,7.284,26.022,7.458,36.159,0.416C288.732,67.578,288.987,55.963,279.159,48.686z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M220.59,82.024c-9.834-7.27-26.028-7.458-36.172-0.403c-10.15,7.049-10.406,18.664-0.571,25.941 c9.829,7.284,26.022,7.458,36.166,0.416C230.151,100.916,230.412,89.302,220.59,82.024z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M267.437,184.754c-9.828-7.277-26.015-7.459-36.159-0.41c-10.15,7.056-10.405,18.671-0.577,25.947 c9.828,7.284,26.021,7.459,36.172,0.41C277.01,203.645,277.265,192.031,267.437,184.754z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M386.385,113.564c-9.828-7.271-26.021-7.458-36.158-0.403c-10.151,7.049-10.406,18.664-0.577,25.941 c9.828,7.284,26.02,7.458,36.172,0.416C395.959,132.456,396.214,120.842,386.385,113.564z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M327.817,146.903c-9.829-7.27-26.022-7.458-36.172-0.403c-10.137,7.049-10.392,18.664-0.564,25.941 c9.828,7.284,26.021,7.465,36.158,0.416C337.391,165.795,337.646,154.188,327.817,146.903z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M89.289,248.303c11.158,6.083,20.194,1.961,20.194-9.19c0-11.158-9.036-25.128-20.194-31.21 c-11.157-6.083-20.207-1.967-20.207,9.19C69.081,228.244,78.131,242.221,89.289,248.303z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M202.061,309.771c11.158,6.082,20.208,1.967,20.208-9.184c0-11.157-9.05-25.135-20.208-31.217 c-11.15-6.076-20.194-1.961-20.194,9.198C181.867,289.719,190.911,303.689,202.061,309.771z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M89.289,361.082c11.158,6.076,20.194,1.967,20.194-9.19c0-11.158-9.036-25.129-20.194-31.21 c-11.157-6.083-20.207-1.968-20.207,9.19C69.081,341.029,78.131,355,89.289,361.082z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M202.061,422.55c11.158,6.082,20.208,1.967,20.208-9.191c0-11.151-9.05-25.128-20.208-31.21 c-11.15-6.076-20.194-1.961-20.194,9.19C181.867,402.497,190.911,416.468,202.061,422.55z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M145.675,335.424c11.158,6.082,20.201,1.967,20.201-9.191c0-11.151-9.044-25.128-20.201-31.204 c-11.158-6.082-20.201-1.967-20.201,9.185C125.474,315.37,134.517,329.341,145.675,335.424z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M418.341,207.902c-11.158,6.082-20.208,20.053-20.208,31.21c0,11.151,9.05,15.273,20.208,9.19 c11.144-6.082,20.194-20.059,20.194-31.21C438.535,205.935,429.486,201.819,418.341,207.902z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M305.555,382.149c-11.158,6.082-20.194,20.059-20.194,31.21c0,11.158,9.036,15.273,20.194,9.191 c11.158-6.082,20.194-20.053,20.194-31.211C325.749,380.188,316.714,376.074,305.555,382.149z">
+                                    </path>
+                                    <path class="st0"
+                                        d="M361.948,295.028c-11.158,6.076-20.207,20.053-20.207,31.204c0,11.158,9.05,15.273,20.207,9.191 c11.158-6.083,20.194-20.053,20.194-31.21C382.142,293.062,373.106,288.947,361.948,295.028z">
+                                    </path>
+                                </g>
                             </g>
                         </g>
                     </svg>
@@ -841,8 +899,98 @@
 
 
 
-    </div>
-    <!--    <div class="row" >
+        </div>
+
+        <!-- MODALS -->
+
+        <!-- 
+            NAme: Join Room Modal
+        -->
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                // JOIN ROOM MODAL
+
+                const joinButton = document.getElementById('joinroom');
+                const joinRoomModal = document.getElementById('joinRoomModal');
+                const joinRoomcloseModalButton = document.getElementById('close-modal');
+
+                // Function to toggle modal visibility
+                const toggleModal = () => {
+                    if (joinRoomModal.classList.contains('hidden')) {
+                        joinRoomModal.classList.remove('hidden');
+                        joinRoomModal.classList.add('flex');
+                    } else {
+                        joinRoomModal.classList.add('hidden');
+                        joinRoomModal.classList.remove('flex');
+                    }
+                };
+
+                // Show the modal when the success button is clicked
+                if (joinButton) {
+                    joinButton.addEventListener('click', () => {
+                        toggleModal();
+                    });
+                }
+
+                // Close the modal when any close button is clicked
+                // joinRoomcloseModalButton.forEach(button => {
+                joinRoomcloseModalButton.addEventListener('click', () => {
+                    toggleModal();
+                });
+                // });
+
+                // Programmatically trigger the success button for testing purposes
+                // Remove the `hidden` class for visibility during development
+                joinButton.classList.remove('hidden');
+                joinButton.click();
+            });
+
+            // CREATE ROOM MODAL
+
+            const createButton = document.getElementById('creategame');
+            const createRoomModal = document.getElementById('createGameModal');
+            const createRoomcloseModalButton = document.getElementById('close-modal-create-game');
+
+            // Function to toggle modal visibility
+            const toggleModalCreateGame = () => {
+                if (createRoomModal.classList.contains('hidden')) {
+                    createRoomModal.classList.remove('hidden');
+                    createRoomModal.classList.add('flex');
+                } else {
+                    createRoomModal.classList.add('hidden');
+                    createRoomModal.classList.remove('flex');
+                }
+            };
+
+            // Show the modal when the success button is clicked
+            if (createButton) {
+                createButton.addEventListener('click', () => {
+                    toggleModalCreateGame();
+                });
+            }
+
+            // Close the modal when any close button is clicked
+            // createRoomcloseModalButton.forEach(button => {
+            createRoomcloseModalButton.addEventListener('click', () => {
+                toggleModalCreateGame();
+            });
+            // });  
+
+            // Programmatically trigger the success button for testing purposes
+            // Remove the `hidden` class for visibility during development
+            createButton.classList.remove('hidden');
+            createButton.click();
+
+
+
+        </script>
+
+
+
+
+        <!--    <div class="row" >
 
             <div id="start" class="col-sm-12" style="display: none;">
                 <div class="row">

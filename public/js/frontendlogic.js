@@ -249,7 +249,7 @@
     if (data && data.gameState && data.gameState == "lobby") {
       currentPageName = "lobby";
       $("#gameroom #scoreboard").remove();
-      $("#leaveGameBtn").show();
+      $("#leaveGameBtn").css("display", "flex").show();
       //window.location.href = "/components/sections/dashboard/dashboard.html";
       // Load lobby
       myID = data.userUniqueId;
@@ -259,7 +259,7 @@
     } else if (data && data.gameState && data.gameState == "gamePlay") {
       currentPageName = "gameroom";
       // Load gamePlay
-      $("#leaveGameBtn").show();
+      $("#leaveGameBtn").css("display", "flex").show();
       $("#gameroom #scoreboard").remove();
       myID = data.userUniqueId;
       GameRoom = data.gameId;
@@ -293,7 +293,7 @@
   function onJoinButtonClicked() {
     $("#lobby").empty();
     $("#joinroomcontrols").hide();
-    $("#leaveGameBtn").show();
+    $("#leaveGameBtn").css("display", "flex").show();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
 
     socket.emit("joingame", {
@@ -328,7 +328,7 @@
   }
   function onCreateGame() {
     $("#start").hide();
-    $("#leaveGameBtn").show();
+    $("#leaveGameBtn").css("display", "flex").show();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
 
     socket.emit("creategame", {
@@ -441,7 +441,7 @@
     //oGamePlay = new gameroom();
     console.log("GameRoom", GameRoom);
     //oGamePlay.update();
-    $("#leaveGameBtn").show();
+    $("#leaveGameBtn").css("display", "flex").show();
     $("#joinGame").hide();
     $("#jumbotron").show();
     $("#leaveGameBtn").find("button").prop("disabled", true);
