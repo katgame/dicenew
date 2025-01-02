@@ -119,6 +119,40 @@
         <div class="absolute top-2 flex gap-4 justify-between w-[91%] z-[9999]" >
 
             <div class="flex gap-4">
+
+                <button
+                class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
+                id="backBtn" type="button" style="background-color: rgba(24, 24, 27, 0.4);">
+                <svg fill="#000000" height="64px" width="64px" version="1.1" id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 26.676 26.676" xml:space="preserve">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <g>
+                            <path
+                                d="M26.105,21.891c-0.229,0-0.439-0.131-0.529-0.346l0,0c-0.066-0.156-1.716-3.857-7.885-4.59 c-1.285-0.156-2.824-0.236-4.693-0.25v4.613c0,0.213-0.115,0.406-0.304,0.508c-0.188,0.098-0.413,0.084-0.588-0.033L0.254,13.815 C0.094,13.708,0,13.528,0,13.339c0-0.191,0.094-0.365,0.254-0.477l11.857-7.979c0.175-0.121,0.398-0.129,0.588-0.029 c0.19,0.102,0.303,0.295,0.303,0.502v4.293c2.578,0.336,13.674,2.33,13.674,11.674c0,0.271-0.191,0.508-0.459,0.562 C26.18,21.891,26.141,21.891,26.105,21.891z">
+                            </path>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                            <g> </g>
+                        </g>
+                    </g>
+                </svg>
+                <span class="absolute -bottom-5 text-zinc-50 text-xs">Back</span>
+            </button>
                 <button class="bg-zinc-800 border border-zinc-800 w-8 h-8 rounded-full flex items-center justify-center relative"
                     id="logoutBtn" type="button"
                     style="background-color: rgba(24, 24, 27, 0.4);">
@@ -381,6 +415,13 @@
                             </div>
                         </div>
                     </div>
+                    <div class="flex baseline justify-center gap-2" style="top: 1rem; position: relative;">
+                        <button id="joingamefromdashboard" data-value="3"
+                            class="py-2 px-6 bg-yellow-300 hover:bg-zinc-900 text-zinc-950 rounded-lg font-bold shadow-md h-10 border border-1 !border-yellow-300 text-xs">
+                            Join Game with link
+                        </button>
+                      
+                    </div>
                 </div>
             </div>
 
@@ -413,7 +454,7 @@
                 </h1>
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
-                    <div id="twoDiceGame" class="flex w-full justify-center">
+                    <div  class="flex w-full justify-center">
                         <!-- Join Room Modal -->
                         <div id="joinRoomModal" tabindex="-1" aria-hidden="true"
                             class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
@@ -696,7 +737,7 @@
                 <!-- Bottom Menu -->
                 <div class="absolute right-14 bottom-14 z-[9999]">
                     <!-- Roll Button (Main Action Button) -->
-                    <button
+                    <button id="rollbutton"
                         class="absolute bg-transparent border border-zinc-800 w-16 h-16 rounded-full flex items-center justify-center bottom-0 right-0 bg-zinc-800 "
                         style="background-color: rgba(24, 24, 27, 0.3);">
                         <!-- <img src="https://cdn-icons-png.flaticon.com/128/633/633600.png" alt="Roll" class="w-8 h-8">-->
@@ -764,7 +805,7 @@
                     </button>
             
                     <!-- Skip Button -->
-                    <button
+                    <button id="skip"
                         class="absolute bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center bottom-16 right-16 opacity-30"
                         style="background-color: rgba(24, 24, 27, 0.4);">
                         <!-- <img src="https://cdn-icons-png.flaticon.com/128/753/753345.png" alt="Skip" class="w-6 h-6"> -->
@@ -795,7 +836,7 @@
                     </button>
             
                     <!-- Bet Button -->
-                    <button
+                    <button id="placebet"
                         class="absolute bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center bottom-24 right-0  opacity-30"
                         style="background-color: rgba(24, 24, 27, 0.4);">
                         <!-- <img src="https://cdn-icons-png.flaticon.com/128/3523/3523063.png" alt="Bet" class="w-6 h-6"> -->
@@ -831,7 +872,7 @@
                     </button>
             
                     <!-- Exit Button -->
-                    <button
+                    <button id="exitButton"
                         class="absolute bg-zinc-800 border border-zinc-800 w-12 h-12 rounded-full flex items-center justify-center bottom-0 right-24 opacity-30"
                         style="background-color: rgba(24, 24, 27, 0.4);">
                         <!-- <img src="https://cdn-icons-png.flaticon.com/128/1828/1828479.png" alt="Exit" class="w-6 h-6"> -->

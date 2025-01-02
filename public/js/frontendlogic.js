@@ -8,6 +8,7 @@
   var iframe;
   var _myID;
   var schools;
+  var currentPageName;
   var baseAPIUrl = "https://www.bhakisystem.co.za:448/";
 
   ("use strict");
@@ -16,16 +17,19 @@
     function () {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       var forms = document.getElementsByClassName("needs-validation");
+      
       iframe = document.getElementById("gameframe");
       swiperWrapper = document.getElementById("swiper-wrapper");
 
-        // Add event listeners to all join-school buttons
-        document.addEventListener('click', (event) => {
-            if (event.target.classList.contains('join-school-btn')) {
-                const price = event.target.getAttribute('data-price');
-                onJoinSchool(price);
-            }
-        });
+      // Add event listeners to all join-school buttons
+      document.addEventListener("click", (event) => {
+        if (event.target.classList.contains("join-school-btn")) {
+          const price = event.target.getAttribute("data-price");
+          onJoinSchool(price);
+        }
+      });
+
+      
 
       // Loop over them and prevent submission
       var validation = Array.prototype.filter.call(forms, function (form) {
@@ -51,7 +55,7 @@
     $("#logoutBtn").bind("click", logOutFromApplication);
     $("#leaveGameBtn").bind("click", leaveGame);
     //   $("#actionButton").bind("click", setGameType);
-   
+
     if (sessionStorage) {
       var userData = JSON.parse(sessionStorage.getItem("userData"));
       if (userData) {
@@ -77,7 +81,7 @@
           if (err && err.responseText) {
             $("#logoutBtn").hide();
             $("#loginFormContainer").show();
-           // alert(err.responseText);
+            // alert(err.responseText);
           }
         });
       }
@@ -147,6 +151,26 @@
     if (schoolValue) {
       $("#school").hide();
       $("#joinGame").show();
+      currentPageName = "joinGame";
+    }
+  }
+
+  function onBackBtn() {
+    console.log("currentopage", currentPageName);
+    if (currentPageName === "dashboard") {
+      logOutFromApplication();
+    } else if (currentPageName === "school") {
+      $("#dashboard").show();
+      $("#school").hide();
+      currentPageName = "dashboard";
+    } else if (currentPageName === "joinGame") {
+      $("#school").show();
+      $("#joinGame").hide();
+      currentPageName = "school";
+    } else if(currentPageName = "joinfromdash") {
+      $("#joinGame").hide();
+      $("#dashboard").show();
+    
     }
   }
 
@@ -169,7 +193,7 @@
         method: "GET", // Specify the HTTP method
         headers: {
           "Content-Type": "application/json", // Set the content type
-        }
+        },
       })
         .then((response) => {
           if (!response.ok) {
@@ -182,22 +206,35 @@
                 const slideElement = document.createElement("swiper-slide");
                 slideElement.innerHTML = `
                   <div class="flex flex-col mx-auto h-[75vh] bg-gray-700 text-white z-30 justify-center p-[5%] bg-blend-multiply rounded-xl border-blue-400 border border-2 opacity-[0.95]"
-                       style="background-image: url('${slide.image}'); background-size: cover; background-position: center;">
+                       style="background-image: url('${
+                         slide.image
+                       }'); background-size: cover; background-position: center;">
                       <div class="flex flex-col p-2 mx-auto text-center">
-                          <h3 class="mb-2 text-xl font-extrabold text-zinc-400">School <span class="text-yellow-300">${slide.title}</span></h3>
-                          <p class="font-light text-gray-300 text-xs">${slide.description.substring(0, 62)}</p>
+                          <h3 class="mb-2 text-xl font-extrabold text-zinc-400">School <span class="text-yellow-300">${
+                            slide.title
+                          }</span></h3>
+                          <p class="font-light text-gray-300 text-xs">${slide.description.substring(
+                            0,
+                            62
+                          )}</p>
                           <div class="flex justify-center items-baseline my-2 text-xs">
-                              <span class="mr-1 text-xl font-extrabold text-yellow-300">${slide.title}</span>
+                              <span class="mr-1 text-xl font-extrabold text-yellow-300">${
+                                slide.title
+                              }</span>
                               <span class="text-gray-400 font-extrabold">/ game</span>
                           </div>
                           <ul role="list" class="mb-4 text-left text-xs">
                               
                               <li class="flex items-center">
-                                  <span>Max Players per session: <span class="font-semibold">${slide.maxPlayers}</span></span>
+                                  <span>Max Players per session: <span class="font-semibold">${
+                                    slide.maxPlayers
+                                  }</span></span>
                               </li>
                           </ul>
                           <button 
-                              class="join-school-btn text-zinc-950 bg-yellow-300 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-lg text-xs px-5 py-2 text-center"  data-price="${slide.id}">
+                              class="join-school-btn text-zinc-950 bg-yellow-300 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-bold rounded-lg text-xs px-5 py-2 text-center"  data-price="${
+                                slide.id
+                              }">
                               Join school
                           </button>
                       </div>
@@ -207,11 +244,11 @@
               });
             }
           });
-         
         })
         .then((result) => {
           $("#dashboard").hide();
           $("#school").show();
+          currentPageName = "school";
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -228,6 +265,7 @@
 
     initSocketIO();
     if (data && data.gameState && data.gameState == "lobby") {
+      currentPageName = "lobby";
       $("#gameroom #scoreboard").remove();
       $("#leaveGameBtn").css("display", "flex").show();
       //window.location.href = "/components/sections/dashboard/dashboard.html";
@@ -238,6 +276,7 @@
       socket.emit("getplayerdata", { gameId: GameRoom, userUniqueId: myID });
     } else if (data && data.gameState && data.gameState == "gamePlay") {
       // Load gamePlay
+      currentPageName = "gameroom";
       $("#leaveGameBtn").css("display", "flex").show();
       $("#gameroom #scoreboard").remove();
       myID = data.userUniqueId;
@@ -250,6 +289,7 @@
       $("#gameroom #scoreboard").remove();
       //$("#start").show();
       $("#dashboard").show();
+      currentPageName = "dashboard";
     }
   }
 
@@ -262,6 +302,9 @@
     $("#skip").bind("click", onSkipBet);
     $("#dashboardActionButton").bind("click", onSetGameType);
     $("#joinSchool").bind("click", onJoinSchool);
+    $("#backBtn").bind("click", onBackBtn);
+    $("#exitButton").bind("click", onExitBtn);
+    $("#joingamefromdashboard").bind("click", onJoinFromDashBtn);
   }
 
   // Button Events
@@ -284,10 +327,25 @@
       _id: userData.userDetails.id,
     });
   }
-
+  function onExitBtn() {
+    leaveGame();
+  }
+  function onJoinFromDashBtn() {
+    $("#start").hide();
+    $("#joinroomcontrols").show();
+    $("#dashboard").hide();
+    $("#joinGame").show();
+    currentPageName = "joinfromdash"
+    openModel();
+  }
   function onJoinRoom() {
     $("#start").hide();
     $("#joinroomcontrols").show();
+  }
+
+  function openModel() {
+    joinButton = document.getElementById('joinroom');
+    joinButton.click();
   }
 
   function onCreateGame() {
@@ -398,8 +456,6 @@
         console.error("Error:", error);
       });
   }
-
-
 
   function onGameStart(obj, evtName, data) {
     //oGamePlay = new gameroom();
@@ -564,6 +620,7 @@
       $(
         "#start,#joinroomcontrols,#lobby,#gameroom,#loginFormContainer,#lobby"
       ).hide();
+      currentPageName = "gameroom";
       $("#gameroom").show();
       oGamePlay = new gameroom();
       $("#gameroom").prepend(oGamePlay.getHtml()).show();
