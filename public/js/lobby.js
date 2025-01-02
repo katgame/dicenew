@@ -4,9 +4,9 @@ var lobby = function (bAdmin, players, GameRoom) {
   var _html = $("<div></div>");
   var _header = $("<h2>Game lobby</h2>");
   var _playerlist = $('<div id="player_list"></div>');
-  var _footer = $('<button class="btn-primary btn-lg mt-3">Ready</button>');
+  var _footer = $('<button  class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">Ready</button>');
   var _shareButton = $(
-    '<button class="btn-primary btn-lg mt-3">Share Room</button>'
+    '<button  class="py-2 px-6 bg-zinc-950 hover:bg-zinc-900 text-white rounded-lg font-medium shadow-md h-10 border border-1 !border-zinc-500">Share Room</button>'
   ); // Share button
   var _playerState = false;
   var Evts = new Events();

@@ -8,6 +8,7 @@
   var iframe;
   var _myID;
   var schools;
+  var currentPageName;
   var baseAPIUrl = "https://www.bhakisystem.co.za:448/";
 
   ("use strict");
@@ -86,7 +87,7 @@
 
   function leaveGame() {
     $("#dashboard").hide();
-    $("#lobby,#gameroom").hide();
+    $("#lobby,#gameroom,#joinGame").hide();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
     var jqxhr = $.post(
       baseAPIUrl +
@@ -147,7 +148,24 @@
     if (schoolValue) {
       $("#school").hide();
       $("#joinGame").show();
+      currentPageName = "joinGame";
     }
+  }
+
+  function onBackBtn() {
+      console.log('currentopage' , currentPageName);
+      if(currentPageName === 'dashboard') {
+        logOutFromApplication();
+      } else if(currentPageName === 'school') {
+        $("#dashboard").show();
+        $("#school").hide();
+        currentPageName = "dashboard";
+      }
+      else if(currentPageName === 'joinGame') {
+        $("#school").show();
+        $("#joinGame").hide();
+        currentPageName = "school";
+      }
   }
 
   function selectGameType() {
@@ -212,6 +230,7 @@
         .then((result) => {
           $("#dashboard").hide();
           $("#school").show();
+          currentPageName = "school";
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -228,6 +247,7 @@
 
     initSocketIO();
     if (data && data.gameState && data.gameState == "lobby") {
+      currentPageName = "lobby";
       $("#gameroom #scoreboard").remove();
       $("#leaveGameBtn").show();
       //window.location.href = "/components/sections/dashboard/dashboard.html";
@@ -237,6 +257,7 @@
       GameRoom = data.gameId;
       socket.emit("getplayerdata", { gameId: GameRoom, userUniqueId: myID });
     } else if (data && data.gameState && data.gameState == "gamePlay") {
+      currentPageName = "gameroom";
       // Load gamePlay
       $("#leaveGameBtn").show();
       $("#gameroom #scoreboard").remove();
@@ -250,6 +271,7 @@
       $("#gameroom #scoreboard").remove();
       //$("#start").show();
       $("#dashboard").show();
+      currentPageName = "dashboard";
     }
   }
 
@@ -262,6 +284,9 @@
     $("#skip").bind("click", onSkipBet);
     $("#dashboardActionButton").bind("click", onSetGameType);
     $("#joinSchool").bind("click", onJoinSchool);
+    $("#backBtn").bind("click", onBackBtn);
+    $("#exitButton").bind("click", onExitBtn);
+    $("#joingamefromdashboard").bind("click", onJoinFromDashBtn);
   }
 
   // Button Events
@@ -285,11 +310,22 @@
     });
   }
 
+  function onExitBtn() {
+   leaveGame();
+  }
+
   function onJoinRoom() {
     $("#start").hide();
     $("#joinroomcontrols").show();
   }
 
+  function onJoinFromDashBtn() {
+    $("#start").hide();
+    $("#joinroomcontrols").show();
+    $("#dashboard").hide();
+    $("#joinGame").show();
+    onJoinRoom();
+  }
   function onCreateGame() {
     $("#start").hide();
     $("#leaveGameBtn").show();
@@ -408,6 +444,7 @@
     $("#leaveGameBtn").show();
     $("#joinGame").hide();
     $("#jumbotron").show();
+    $("#leaveGameBtn").find("button").prop("disabled", true);
     socket.emit("startgame", { gameID: GameRoom });
     $("#rollbutton").find("button").prop("disabled", true);
     //  $("#placebet").find("button").prop("disabled", false);
@@ -556,7 +593,7 @@
     socket.on("startgame", function (data) {
       sessionStorage.setItem("gameroom", JSON.stringify(GameRoom));
       // show gameplay screen and hide all other screens
-
+      $("#joinGame").hide();
       console.log("startgame  hit just for testing");
       $("#totalBet").text("0");
       $("#playertimer").text("0.00");
@@ -564,6 +601,7 @@
       $(
         "#start,#joinroomcontrols,#lobby,#gameroom,#loginFormContainer,#lobby"
       ).hide();
+      currentPageName = "gameroom";
       $("#gameroom").show();
       oGamePlay = new gameroom();
       $("#gameroom").prepend(oGamePlay.getHtml()).show();

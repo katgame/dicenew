@@ -32,7 +32,7 @@ initPhysics();
 initScene();
 
 window.addEventListener('resize', updateSceneSize);
-window.addEventListener('dblclick', throwDice);
+//window.addEventListener('dblclick', throwDice);
 rollBtn.addEventListener('click',()=> {
     throwDice()
 } );
