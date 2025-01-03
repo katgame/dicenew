@@ -217,16 +217,31 @@ async function leaveGame(userId) {
 
 }
 
-// async function gameComplete(gameId) {
-//     console.log("gameComplete service called")
-//     let users = await User.find({gameId:gameId});
-//     for(let i=0;i<users.length;i++){
-//         users[i].gameId = undefined;
-//         users[i].gameState = undefined;
-//         users[i].userUniqueId = undefined;
-//         await users[i].save();
-//     }
-// }
+async function gameComplete(gameId) {
+
+
+    url = apiUrl + 'Authentication/complete-game?gameId=' + gameId;
+    fetch(url, {
+      method: 'POST', // Specify the HTTP method
+      headers: {
+        'Content-Type': 'application/json', // Set the content type
+      },
+     // body: JSON.stringify(data), // Convert the data to JSON string
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then(result => {
+        console.log('Success:', result);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
+}
 
 // async function updateGameStatsToGamePlay(gameId) {
 //     let users = await User.find({gameId:gameId});

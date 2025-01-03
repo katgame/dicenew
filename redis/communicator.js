@@ -1,6 +1,5 @@
 var oModel = require("../model");
 var shortid = require("shortid");
-var userService = require("../services/user.service");
 var diceService = require("../services/dice-api.service");
 var Game = require("./creategame");
 const https = require("https");

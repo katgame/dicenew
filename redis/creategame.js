@@ -1,5 +1,4 @@
 var oModel = require("../model");
-var userService = require("../services/user.service");
 var diceService = require("../services/dice-api.service");
 class Game {
   sName = "";
@@ -602,7 +601,7 @@ class Game {
       console.log("ACTIVE State ..", this.oGameData.gameState);
       this.oIO.to(this.oGameID).emit("forceGameEnd", removedPlayer);
       clearInterval(this.nTimer);
-      userService.gameComplete(this.oGameID);
+      diceService.gameComplete(this.oGameID);
     } else {
       console.log("ELSE State ..", this.oGameData.gameState);
     }

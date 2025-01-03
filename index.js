@@ -16,7 +16,6 @@ const { fileURLToPath } = require("url");
 
 
 //var routes = require('./routes/templateroutes');
-var userRoutes = require("./routes/users.controller");
 var redisClient = redis.createClient(config.redisport, config.redishost);
 var redisAdapter = require("socket.io-redis");
 io.adapter(redisAdapter({ host: config.redishost, port: config.redisport }));
@@ -86,7 +85,7 @@ app.get('/rooms', (req, res) => {
   return  JSON.parse(oModel);
 });
 
-app.use("/user", userRoutes);
+// app.use("/user", userRoutes);
 
 
 function initServer() {
