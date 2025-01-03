@@ -27,6 +27,7 @@ const diceArray = [];
 var gameID = '0';
 var RoomId = ''; 
 var userID = '';
+var gameType = '';
 
 initPhysics();
 initScene();
@@ -401,8 +402,12 @@ function initSocketIO(){
     gameType = JSON.parse(sessionStorage.getItem("gameType"));
     params.numberOfDice = gameType;
     socket.on("throwdice",function (data) {
-        gameID = data.gameID;
+        console.log('trhow dice hit from main')
+        gameID = data.gameID.toString();
+        console.log('gameID : ', gameID)
+        console.log('RoomId : ', RoomId)
         if(RoomId === gameID) {
+            console.log('RoomId === gameID hit : ')
             throwDicefromAPI(data.rotation1,data.rotation2, data.force);
         }
     });

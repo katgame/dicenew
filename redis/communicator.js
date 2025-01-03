@@ -102,18 +102,23 @@ class Communication {
             isAdmin: true,
             activeRound: false,
             roundCount: 0,
+            schoolId : data.schoolId,
+            gameType : data.gameType
           });
           //socket.emit('roomcreated', { 'room': gameID })
           socket.to(gameID).emit("playerjoined", data);
 
           // save gameID, RoomID, PlayerFrontendID in mongoDB per USER
+
+        
           let userObj = {
             _id: data._id,
             gameId: gameID,
+            gameType : data.gameType,
+            schoolId : data.schoolId,
             gameState: "lobby",
             userUniqueId: data.id,
           };
-          //userService.updateGameStats(userObj);
           diceService.updateGameStats(userObj);
         });
       });
@@ -149,8 +154,10 @@ class Communication {
             gameId: data.gameID,
             gameState: "lobby",
             userUniqueId: data.all.id,
+            gameType : data.gameType,
+            schoolId : data.schoolId,
+
           };
-         // userService.updateGameStats(userObj);
           diceService.updateGameStats(userObj);
         });
 
@@ -218,6 +225,7 @@ class Communication {
       });
 
       socket.on("deletegame", (data) => {
+        console.log('delete game hit');
         var oGame = this.findAndGetGame(data.gameId);
         oGame.deleteGame();
       });

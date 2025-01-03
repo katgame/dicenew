@@ -147,7 +147,7 @@
     const schoolValue = school;
     console.log("Button clicked with value:", schoolValue);
 
-    sessionStorage.setItem("schoolValue", schoolValue);
+    sessionStorage.setItem("schoolId", schoolValue);
     if (schoolValue) {
       $("#school").hide();
       $("#joinGame").show();
@@ -309,23 +309,51 @@
 
   // Button Events
   function onJoinButtonClicked() {
-    $("#lobby").empty();
-    $("#joinroomcontrols").hide();
-    $("#leaveGameBtn").css("display", "flex").show();
-    var userData = JSON.parse(sessionStorage.getItem("userData"));
+    var gameID = $("#roomid").val();
+    const apiUrl = baseAPIUrl + "api/Authentication/get-game-info?gameId=" + gameID;
+    console.log("apiUrl:", apiUrl);
 
-    socket.emit("joingame", {
-      all: {
-        name: userData.userDetails.email,
-        score: 0,
-        state: "idle",
-        type: "member",
-        activeRound: false,
-        _id: userData.userDetails.id,
-      },
-      gameID: $("#roomid").val(),
-      _id: userData.userDetails.id,
-    });
+    fetch(apiUrl, {
+      method: "GET", // Specify the HTTP method
+      headers: {
+        "Content-Type": "application/json", // Set the content type
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        response.json().then((data) => {
+          console.log("promise data :", data);
+          if (sessionStorage) {
+            sessionStorage.setItem("schoolId", data.schoolId);
+            sessionStorage.setItem("gameType", data.gameType);
+          }
+          $("#lobby").empty();
+          $("#joinGame").hide();
+          $("#leaveGameBtn").css("display", "flex").show();
+          var userData = JSON.parse(sessionStorage.getItem("userData"));
+          socket.emit("joingame", {
+            all: {
+              name: userData.userDetails.email,
+              score: 0,
+              state: "idle",
+              type: "member",
+              activeRound: false,
+              _id: userData.userDetails.id,
+              schoolId : data.schoolId,
+              gameType : data.gameType
+            },
+            gameID: $("#roomid").val(),
+            _id: userData.userDetails.id,
+          });
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+   
   }
   function onExitBtn() {
     leaveGame();
@@ -352,7 +380,8 @@
     $("#start").hide();
     $("#leaveGameBtn").css("display", "flex").show();
     var userData = JSON.parse(sessionStorage.getItem("userData"));
-
+    var schoolId =  sessionStorage.getItem("schoolId");
+    var gameType =  sessionStorage.getItem("gameType");
     socket.emit("creategame", {
       name: userData.userDetails.email,
       score: 0,
@@ -362,6 +391,8 @@
       _id: userData.userDetails.id,
       activeRound: false,
       roundCount: 0,
+      schoolId : schoolId,
+      gameType : gameType
     });
   }
   function initApplication() {

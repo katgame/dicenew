@@ -48,7 +48,7 @@ console.log('views path' +  + app.get("views"))
 //app.use('/', routes);
 
 app.get('/throwdice/:gameId/:clientId', async (req, res) => {
-  const gameId = req.params.gameId;
+  var gameId = req.params.gameId;
   const clientId = req.params.clientId;
   // Wait for Redis data to be fetched or initialized
   // let gameData = await redisClient.get(`game:${gameId}`);
